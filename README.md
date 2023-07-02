@@ -1,5 +1,5 @@
 # FavoriteShopApp
-Udemyで学習したTypeScript、Git、Dockerのアウトプットとして、ポートフォリオ2作品目を作成
+Udemyで新たに学習したTypeScript、Git、Dockerのアウトプットとして、ポートフォリオ2作品目を作成
 
 ## コンセプト
 + 飲食店、カフェ、美容院、温泉、図書館など、多ジャンルのお気に入りのお店や施設の情報を包括的に管理するアプリ
