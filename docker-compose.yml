@@ -1,19 +1,52 @@
 version: '3'
 services:
-    app:
-        # 起動イメージ
-        image: node:18.16.0
-        # 環境変数
-        environment:
-            - DEBUG=app:*
-        tty: true
-        # ホスト側のポート：コンテナのポート
-        ports:
-            - '3000:3000'
-        # ホスト側のsrcをコンテナのappにマウント
-        volumes:
-            - .:/app
-        # 起動時のカレントフォルダ
-        working_dir: /app
-        # 起動後に実行するコマンド
-        command: sh -c 'npx tsc; npm run dev'
+  mysql:
+    image: mysql:8.0.32
+    container_name: favorite_shop_db_container
+    env_file: ./mysql/mysql.env
+    #環境変数設定。タイムゾーンを日本時間に設定。
+    environment:
+      - TZ=Asia/Tokyo
+    ports:
+      - '3306:3306'
+    restart: always
+    volumes:
+      #mysqlのデフォルト設定ファイルを上書き。:roでコンテナ側からは読み取り専用設定。
+      - ./mysql/conf:/etc/mysql/conf.d/:ro
+      #mysqldataにマウントすることで、コンテナを削除してもデーターは残るように設定。
+      - mysqldata:/var/lib/mysql
+    networks:
+      - container-link
+
+  app:
+    build: .
+    container_name: favorite_shop_app_container
+    env_file: ./app.env
+    #環境変数設定。タイムゾーンを日本時間に設定。
+    environment:
+      - TZ=Asia/Tokyo
+      - DEBUG=app:*
+    tty: true
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./src:/app
+    working_dir: /app
+    command: sh -c 'npx tsc; npm run dev'
+    networks:
+      - container-link
+    #mysqlに依存しているので、mysqlコンテナ作成後、appコンテナが作られる。
+    depends_on:
+      - mysql
+
+#使用するネットワークを作成。docker-composeの場合service以下の名前を使って名前解決されるため、appとmysqlが自動的に接続される。
+networks:
+  default:
+    external: true
+    name: bridge
+  container-link:
+    # これが作成されるネットワーク名（同名がなければ自動生成される）
+    name: docker.internal
+
+volumes:
+  mysqldata:
