@@ -1,16 +1,25 @@
-import { Sequelize, Model, DataTypes } from "sequelize";
-import { UserFavoriteShops } from "./userFavoriteShops";
+import {
+  Sequelize,
+  Model,
+  DataTypes,
+  HasManyCreateAssociationMixin,
+} from "sequelize";
+import UserFavoriteShops from "./userFavoriteShops";
 
 const TABLE_NAME = "users";
 
-class Users extends Model {
+export default class Users extends Model {
   public id!: number;
-  public nick_name!: string;
-  public email!: string;
-  public created_at!: Date;
-  public updated_at!: Date;
+  public user_name!: string;
+  public user_email!: string;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 
-  public static attach(sequelize: Sequelize): void {
+  // 作成したuserのuser_idをもつuserFavoriteShopsを作成するメソッド
+  public createUserFavoriteShop!: HasManyCreateAssociationMixin<UserFavoriteShops>;
+
+  // 初期化
+  public static initialize(sequelize: Sequelize) {
     this.init(
       {
         id: {
@@ -19,23 +28,23 @@ class Users extends Model {
           allowNull: false,
           primaryKey: true,
         },
-        nick_name: {
+        user_name: {
           type: DataTypes.STRING,
           allowNull: false,
         },
-        email: {
+        user_email: {
           type: DataTypes.STRING,
           allowNull: false,
           defaultValue: "",
         },
-        created_at: {
-          type: DataTypes.DATE,
-          allowNull: false,
-        },
-        updated_at: {
-          type: DataTypes.DATE,
-          allowNull: false,
-        },
+        // created_at: {
+        //   type: DataTypes.DATE,
+        //   allowNull: false,
+        // },
+        // updated_at: {
+        //   type: DataTypes.DATE,
+        //   allowNull: false,
+        // },,,
       },
       {
         tableName: TABLE_NAME,
@@ -43,13 +52,23 @@ class Users extends Model {
         sequelize: sequelize,
       }
     );
+    return Users;
+  }
+
+  // テーブル関係を記述
+  public static associate() {
+    this.hasMany(UserFavoriteShops, {
+      sourceKey: "id",
+      foreignKey: "user_id",
+      constraints: false, // 制約情報(外部キー)の有効化フラグ Project.sync({ force: true })を動作させるために false に設定。
+    });
   }
 }
 
-const factory = (sequelize: Sequelize) => {
-  Users.attach(sequelize);
+// const factory = (sequelize: Sequelize) => {
+//   Users.initialize(sequelize);
 
-  return Users;
-};
+//   return Users;
+// };
 
-export { Users, factory };
+// export default { Users };

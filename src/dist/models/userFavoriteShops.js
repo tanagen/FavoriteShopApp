@@ -1,10 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.factory = exports.UserFavoriteShops = void 0;
 const sequelize_1 = require("sequelize");
+const users_1 = __importDefault(require("./users"));
 const TABLE_NAME = "user_favorite_shops";
 class UserFavoriteShops extends sequelize_1.Model {
-    static attach(sequelize) {
+    static initialize(sequelize) {
         this.init({
             id: {
                 type: sequelize_1.DataTypes.INTEGER,
@@ -16,29 +19,33 @@ class UserFavoriteShops extends sequelize_1.Model {
                 type: sequelize_1.DataTypes.INTEGER,
                 allowNull: false,
             },
-            shop_info: {
+            favorite_shop: {
                 type: sequelize_1.DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",
             },
-            created_at: {
-                type: sequelize_1.DataTypes.DATE,
-                allowNull: false,
-            },
-            updated_at: {
-                type: sequelize_1.DataTypes.DATE,
-                allowNull: false,
-            },
+            // created_at: {
+            //   type: DataTypes.DATE,
+            //   allowNull: false,
+            // },
+            // updated_at: {
+            //   type: DataTypes.DATE,
+            //   allowNull: false,
+            // },
         }, {
             tableName: TABLE_NAME,
             underscored: true,
             sequelize: sequelize,
         });
+        return UserFavoriteShops;
+    }
+    static associate() {
+        this.belongsTo(users_1.default, { foreignKey: "user_id", constraints: false });
     }
 }
-exports.UserFavoriteShops = UserFavoriteShops;
-const factory = (sequelize) => {
-    UserFavoriteShops.attach(sequelize);
-    return UserFavoriteShops;
-};
-exports.factory = factory;
+exports.default = UserFavoriteShops;
+// const factory = (sequelize: Sequelize) => {
+//   UserFavoriteShops.initialize(sequelize);
+//   return UserFavoriteShops;
+// };
+// export default { UserFavoriteShops };

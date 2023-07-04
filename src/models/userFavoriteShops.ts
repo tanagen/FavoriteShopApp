@@ -1,16 +1,16 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
-import { Users } from "./users";
+import Users from "./users";
 
 const TABLE_NAME = "user_favorite_shops";
 
-class UserFavoriteShops extends Model {
+export default class UserFavoriteShops extends Model {
   public id!: number;
   public user_id!: number;
-  public shop_info!: string;
-  public created_at!: Date;
-  public updated_at!: Date;
+  public favorite_shop!: string;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 
-  public static attach(sequelize: Sequelize): void {
+  public static initialize(sequelize: Sequelize) {
     this.init(
       {
         id: {
@@ -23,19 +23,19 @@ class UserFavoriteShops extends Model {
           type: DataTypes.INTEGER,
           allowNull: false,
         },
-        shop_info: {
+        favorite_shop: {
           type: DataTypes.STRING,
           allowNull: true,
           defaultValue: "",
         },
-        created_at: {
-          type: DataTypes.DATE,
-          allowNull: false,
-        },
-        updated_at: {
-          type: DataTypes.DATE,
-          allowNull: false,
-        },
+        // created_at: {
+        //   type: DataTypes.DATE,
+        //   allowNull: false,
+        // },
+        // updated_at: {
+        //   type: DataTypes.DATE,
+        //   allowNull: false,
+        // },
       },
       {
         tableName: TABLE_NAME,
@@ -43,13 +43,19 @@ class UserFavoriteShops extends Model {
         sequelize: sequelize,
       }
     );
+
+    return UserFavoriteShops;
+  }
+
+  public static associate() {
+    this.belongsTo(Users, { foreignKey: "user_id", constraints: false });
   }
 }
 
-const factory = (sequelize: Sequelize) => {
-  UserFavoriteShops.attach(sequelize);
+// const factory = (sequelize: Sequelize) => {
+//   UserFavoriteShops.initialize(sequelize);
 
-  return UserFavoriteShops;
-};
+//   return UserFavoriteShops;
+// };
 
-export { UserFavoriteShops, factory };
+// export default { UserFavoriteShops };
