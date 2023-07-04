@@ -9,6 +9,32 @@ var usersRouter = require("./routes/users");
 
 var app = express();
 
+import models from "./models";
+
+(async () => {
+  // Users, UsersFavoriteShopsテーブルをDrop & Create
+  await models.Users.sync({ force: true });
+  await models.UserFavoriteShops.sync({ force: true });
+
+  // userインスタンス作成
+  const user = models.Users.build({
+    user_name: "gen",
+    user_email: "gen@mail.com",
+  });
+
+  // userのinsert
+  const registerdUser = await user.save();
+
+  // insertされたuserに紐づくuserFavoriteShopを作成
+  await registerdUser.createUserFavoriteShop({ favorite_shop: "ABCマート" });
+
+  // usersのselect
+  const users = await models.Users.findAll({
+    include: [models.UserFavoriteShops],
+  });
+  console.log(users.map((d) => d.toJSON()));
+})();
+
 // view engine setup
 app.set("views", path.join("views"));
 app.set("view engine", "ejs");

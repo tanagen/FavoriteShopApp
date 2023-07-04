@@ -1,10 +1,14 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.factory = exports.Users = void 0;
 const sequelize_1 = require("sequelize");
+const userFavoriteShops_1 = __importDefault(require("./userFavoriteShops"));
 const TABLE_NAME = "users";
 class Users extends sequelize_1.Model {
-    static attach(sequelize) {
+    // 初期化
+    static initialize(sequelize) {
         this.init({
             id: {
                 type: sequelize_1.DataTypes.INTEGER,
@@ -12,33 +16,42 @@ class Users extends sequelize_1.Model {
                 allowNull: false,
                 primaryKey: true,
             },
-            nick_name: {
+            user_name: {
                 type: sequelize_1.DataTypes.STRING,
                 allowNull: false,
             },
-            email: {
+            user_email: {
                 type: sequelize_1.DataTypes.STRING,
                 allowNull: false,
                 defaultValue: "",
             },
-            created_at: {
-                type: sequelize_1.DataTypes.DATE,
-                allowNull: false,
-            },
-            updated_at: {
-                type: sequelize_1.DataTypes.DATE,
-                allowNull: false,
-            },
+            // created_at: {
+            //   type: DataTypes.DATE,
+            //   allowNull: false,
+            // },
+            // updated_at: {
+            //   type: DataTypes.DATE,
+            //   allowNull: false,
+            // },,,
         }, {
             tableName: TABLE_NAME,
             underscored: true,
             sequelize: sequelize,
         });
+        return Users;
+    }
+    // テーブル関係を記述
+    static associate() {
+        this.hasMany(userFavoriteShops_1.default, {
+            sourceKey: "id",
+            foreignKey: "user_id",
+            constraints: false, // 制約情報(外部キー)の有効化フラグ Project.sync({ force: true })を動作させるために false に設定。
+        });
     }
 }
-exports.Users = Users;
-const factory = (sequelize) => {
-    Users.attach(sequelize);
-    return Users;
-};
-exports.factory = factory;
+exports.default = Users;
+// const factory = (sequelize: Sequelize) => {
+//   Users.initialize(sequelize);
+//   return Users;
+// };
+// export default { Users };
