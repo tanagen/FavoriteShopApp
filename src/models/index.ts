@@ -1,26 +1,22 @@
 import { Sequelize, Model } from "sequelize";
 import Users from "./users";
 import UserFavoriteShops from "./userFavoriteShops";
-// const {
-//   database,
-//   username,
-//   userpassword,
-//   host,
-//   dialect,
-// } = require("../../mysql/mysqlConfig");
+import {
+  database,
+  username,
+  userpassword,
+  host,
+  dialect,
+  rootname,
+  rootpassword,
+} from "../mysqlConfig.js";
 
-// import {
-//   database,
-//   username,
-//   userpassword,
-//   host,
-//   dialect,
-// } from "../../mysql/mysqlConfig";
+console.log(host);
 
 // sequelizeインスタンスの作成
-const sequelize = new Sequelize("favorite_shop", "root", "root", {
-  host: "mysql",
-  dialect: "mysql",
+const sequelize = new Sequelize(database, username, userpassword, {
+  host: host,
+  dialect: dialect,
 });
 
 // モデルを一つのオブジェクトにまとめる

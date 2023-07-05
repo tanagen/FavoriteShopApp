@@ -15,12 +15,12 @@ var router = express.Router();
 const { Sequelize } = require("sequelize");
 // databaseやuser, passwordをdcoker-compose.ymlで設定したものを使う↓
 const sequelize = new Sequelize("favorite_shop", "root", "root", {
-  host: "mysql", // hostの名前をdocker-compose.ymlで設定したmy_mysqlに変更する
+  host: "mysql", // hostの名前をdocker-compose.ymlで設定したmysqlに変更
   dialect: "mysql",
 });
 
 /* GET users listing. */
-router.get("/", async (req, res, next) => {
+router.get("/", async (req: any, res: any, next: any) => {
   // 忘れずに上に"async"を追加する。
   // my_mysqlに接続されているかテスト
   try {

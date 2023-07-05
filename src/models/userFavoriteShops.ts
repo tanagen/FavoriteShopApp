@@ -28,14 +28,6 @@ export default class UserFavoriteShops extends Model {
           allowNull: true,
           defaultValue: "",
         },
-        // created_at: {
-        //   type: DataTypes.DATE,
-        //   allowNull: false,
-        // },
-        // updated_at: {
-        //   type: DataTypes.DATE,
-        //   allowNull: false,
-        // },
       },
       {
         tableName: TABLE_NAME,
@@ -51,11 +43,3 @@ export default class UserFavoriteShops extends Model {
     this.belongsTo(Users, { foreignKey: "user_id", constraints: false });
   }
 }
-
-// const factory = (sequelize: Sequelize) => {
-//   UserFavoriteShops.initialize(sequelize);
-
-//   return UserFavoriteShops;
-// };
-
-// export default { UserFavoriteShops };

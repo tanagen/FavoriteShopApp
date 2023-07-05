@@ -21,19 +21,45 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var app = express();
 const models_1 = __importDefault(require("./models"));
+// asyncは非同期処理関数を定義する演算子
 (() => __awaiter(void 0, void 0, void 0, function* () {
     // Users, UsersFavoriteShopsテーブルをDrop & Create
+    // awaitはPromise処理の結果が返ってくるまで一時停止する演算子(await Promise処理)
+    // { force:true }はすでに同じ名前のテーブルが存在する場合に、既存のものを削除して新たに再作成するオプション
     yield models_1.default.Users.sync({ force: true });
     yield models_1.default.UserFavoriteShops.sync({ force: true });
     // userインスタンス作成
+    // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
     const user = models_1.default.Users.build({
         user_name: "gen",
         user_email: "gen@mail.com",
     });
     // userのinsert
-    const registerdUser = yield user.save();
+    const registeredUser = yield user.save();
     // insertされたuserに紐づくuserFavoriteShopを作成
-    yield registerdUser.createUserFavoriteShop({ favorite_shop: "ABCマート" });
+    yield registeredUser.createUserFavoriteShop({ favorite_shop: "ABCマート" });
+    // usersのselect
+    // const users = await models.Users.findAll({
+    //   // belongsToの関係にあるモデルをリレーションを持った状態でDBから取り出してくれる
+    //   include: [models.UserFavoriteShops],
+    // });
+    // console.log(users.map((d) => d.toJSON()));
+}))();
+// mySQLへデータを追加
+(() => __awaiter(void 0, void 0, void 0, function* () {
+    // { alter: true }は既にあるテーブルと相違がある場合に追加や削除が行われる。
+    yield models_1.default.Users.sync({ force: true });
+    yield models_1.default.UserFavoriteShops.sync({ force: true });
+    // userインスタンス作成
+    // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
+    const newUser = models_1.default.Users.build({
+        user_name: "ai",
+        user_email: "ai@mail.com",
+    });
+    // userのinsert
+    const registeredNewUser = yield newUser.save();
+    // insertされたuserに紐づくuserFavoriteShopを作成
+    yield registeredNewUser.createUserFavoriteShop({ favorite_shop: "スタバ" });
     // usersのselect
     const users = yield models_1.default.Users.findAll({
         include: [models_1.default.UserFavoriteShops],

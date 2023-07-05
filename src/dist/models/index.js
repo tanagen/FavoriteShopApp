@@ -6,24 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const users_1 = __importDefault(require("./users"));
 const userFavoriteShops_1 = __importDefault(require("./userFavoriteShops"));
-// const {
-//   database,
-//   username,
-//   userpassword,
-//   host,
-//   dialect,
-// } = require("../../mysql/mysqlConfig");
-// import {
-//   database,
-//   username,
-//   userpassword,
-//   host,
-//   dialect,
-// } from "../../mysql/mysqlConfig";
+const mysqlConfig_js_1 = require("../mysqlConfig.js");
+console.log(mysqlConfig_js_1.host);
 // sequelizeインスタンスの作成
-const sequelize = new sequelize_1.Sequelize("favorite_shop", "root", "root", {
-    host: "mysql",
-    dialect: "mysql",
+const sequelize = new sequelize_1.Sequelize(mysqlConfig_js_1.database, mysqlConfig_js_1.username, mysqlConfig_js_1.userpassword, {
+    host: mysqlConfig_js_1.host,
+    dialect: mysqlConfig_js_1.dialect,
 });
 // モデルを一つのオブジェクトにまとめる
 const db = {
