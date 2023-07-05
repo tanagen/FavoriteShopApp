@@ -24,14 +24,6 @@ class UserFavoriteShops extends sequelize_1.Model {
                 allowNull: true,
                 defaultValue: "",
             },
-            // created_at: {
-            //   type: DataTypes.DATE,
-            //   allowNull: false,
-            // },
-            // updated_at: {
-            //   type: DataTypes.DATE,
-            //   allowNull: false,
-            // },
         }, {
             tableName: TABLE_NAME,
             underscored: true,
@@ -44,8 +36,3 @@ class UserFavoriteShops extends sequelize_1.Model {
     }
 }
 exports.default = UserFavoriteShops;
-// const factory = (sequelize: Sequelize) => {
-//   UserFavoriteShops.initialize(sequelize);
-//   return UserFavoriteShops;
-// };
-// export default { UserFavoriteShops };

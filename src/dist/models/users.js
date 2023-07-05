@@ -25,14 +25,6 @@ class Users extends sequelize_1.Model {
                 allowNull: false,
                 defaultValue: "",
             },
-            // created_at: {
-            //   type: DataTypes.DATE,
-            //   allowNull: false,
-            // },
-            // updated_at: {
-            //   type: DataTypes.DATE,
-            //   allowNull: false,
-            // },,,
         }, {
             tableName: TABLE_NAME,
             underscored: true,
@@ -42,7 +34,7 @@ class Users extends sequelize_1.Model {
     }
     // テーブル関係を記述
     static associate() {
-        this.hasMany(userFavoriteShops_1.default, {
+        this.hasOne(userFavoriteShops_1.default, {
             sourceKey: "id",
             foreignKey: "user_id",
             constraints: false, // 制約情報(外部キー)の有効化フラグ Project.sync({ force: true })を動作させるために false に設定。
@@ -50,8 +42,3 @@ class Users extends sequelize_1.Model {
     }
 }
 exports.default = Users;
-// const factory = (sequelize: Sequelize) => {
-//   Users.initialize(sequelize);
-//   return Users;
-// };
-// export default { Users };

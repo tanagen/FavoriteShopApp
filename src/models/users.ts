@@ -15,7 +15,7 @@ export default class Users extends Model {
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  // 作成したuserのuser_idをもつuserFavoriteShopsを作成するメソッド
+  // 作成したuserのuser_idをもつuserFavoriteShopを作成するメソッド
   public createUserFavoriteShop!: HasManyCreateAssociationMixin<UserFavoriteShops>;
 
   // 初期化
@@ -37,14 +37,6 @@ export default class Users extends Model {
           allowNull: false,
           defaultValue: "",
         },
-        // created_at: {
-        //   type: DataTypes.DATE,
-        //   allowNull: false,
-        // },
-        // updated_at: {
-        //   type: DataTypes.DATE,
-        //   allowNull: false,
-        // },,,
       },
       {
         tableName: TABLE_NAME,
@@ -57,18 +49,10 @@ export default class Users extends Model {
 
   // テーブル関係を記述
   public static associate() {
-    this.hasMany(UserFavoriteShops, {
+    this.hasOne(UserFavoriteShops, {
       sourceKey: "id",
       foreignKey: "user_id",
       constraints: false, // 制約情報(外部キー)の有効化フラグ Project.sync({ force: true })を動作させるために false に設定。
     });
   }
 }
-
-// const factory = (sequelize: Sequelize) => {
-//   Users.initialize(sequelize);
-
-//   return Users;
-// };
-
-// export default { Users };
