@@ -8,8 +8,8 @@
 
 // module.exports = router;
 
-var express = require("express");
-var router = express.Router();
+// const express = require("express");
+import { express, router } from "../app";
 
 // sequelizeの設定を追加
 const { Sequelize } = require("sequelize");

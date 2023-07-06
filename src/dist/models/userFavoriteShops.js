@@ -19,7 +19,12 @@ class UserFavoriteShops extends sequelize_1.Model {
                 type: sequelize_1.DataTypes.INTEGER,
                 allowNull: false,
             },
-            favorite_shop: {
+            shop_category: {
+                type: sequelize_1.DataTypes.STRING,
+                allowNull: true,
+                defaultValue: "",
+            },
+            shop_name: {
                 type: sequelize_1.DataTypes.STRING,
                 allowNull: true,
                 defaultValue: "",

@@ -6,7 +6,8 @@ const TABLE_NAME = "user_favorite_shops";
 export default class UserFavoriteShops extends Model {
   public id!: number;
   public user_id!: number;
-  public favorite_shop!: string;
+  public shop_category!: string;
+  public shop_name!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
@@ -23,7 +24,12 @@ export default class UserFavoriteShops extends Model {
           type: DataTypes.INTEGER,
           allowNull: false,
         },
-        favorite_shop: {
+        shop_category: {
+          type: DataTypes.STRING,
+          allowNull: true,
+          defaultValue: "",
+        },
+        shop_name: {
           type: DataTypes.STRING,
           allowNull: true,
           defaultValue: "",

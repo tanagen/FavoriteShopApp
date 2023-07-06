@@ -1,5 +1,4 @@
-var express = require("express");
-var router = express.Router();
+import { router } from "../app";
 
 /* GET home page. */
 router.get("/", function (req: any, res: any, next: any) {

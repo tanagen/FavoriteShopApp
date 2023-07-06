@@ -12,14 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.router = exports.express = void 0;
+exports.express = require("express");
+exports.router = exports.express.Router();
 var createError = require("http-errors");
-var express = require("express");
+// var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-var app = express();
+var topRouter = require("./routes/topRouter");
+var indexRouter = require("./routes/indexRouter");
+var usersRouter = require("./routes/usersRouter");
+var app = (0, exports.express)();
 const models_1 = __importDefault(require("./models"));
 // asyncは非同期処理関数を定義する演算子
 (() => __awaiter(void 0, void 0, void 0, function* () {
@@ -37,7 +41,10 @@ const models_1 = __importDefault(require("./models"));
     // userのinsert
     const registeredUser = yield user.save();
     // insertされたuserに紐づくuserFavoriteShopを作成
-    yield registeredUser.createUserFavoriteShop({ favorite_shop: "ABCマート" });
+    yield registeredUser.createUserFavoriteShop({
+        shop_category: "飲食",
+        shop_name: "天下一品",
+    });
     // usersのselect
     // const users = await models.Users.findAll({
     //   // belongsToの関係にあるモデルをリレーションを持った状態でDBから取り出してくれる
@@ -59,7 +66,10 @@ const models_1 = __importDefault(require("./models"));
     // userのinsert
     const registeredNewUser = yield newUser.save();
     // insertされたuserに紐づくuserFavoriteShopを作成
-    yield registeredNewUser.createUserFavoriteShop({ favorite_shop: "スタバ" });
+    yield registeredNewUser.createUserFavoriteShop({
+        shop_category: "飲食",
+        shop_name: "スタバ",
+    });
     // usersのselect
     const users = yield models_1.default.Users.findAll({
         include: [models_1.default.UserFavoriteShops],
@@ -70,11 +80,13 @@ const models_1 = __importDefault(require("./models"));
 app.set("views", path.join("views"));
 app.set("view engine", "ejs");
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(exports.express.json());
+app.use(exports.express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join("public")));
-app.use("/", indexRouter);
+app.use(exports.express.static(path.join("public")));
+// ルーティング
+app.use("/", topRouter);
+app.use("/index", indexRouter);
 app.use("/users", usersRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
