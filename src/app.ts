@@ -1,11 +1,15 @@
+export const express = require("express");
+export const router = express.Router();
+
 var createError = require("http-errors");
-var express = require("express");
+// var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+var topRouter = require("./routes/topRouter");
+var indexRouter = require("./routes/indexRouter");
+var usersRouter = require("./routes/usersRouter");
 
 var app = express();
 
@@ -30,7 +34,10 @@ import models from "./models";
   const registeredUser = await user.save();
 
   // insertされたuserに紐づくuserFavoriteShopを作成
-  await registeredUser.createUserFavoriteShop({ favorite_shop: "ABCマート" });
+  await registeredUser.createUserFavoriteShop({
+    shop_category: "飲食",
+    shop_name: "天下一品",
+  });
 
   // usersのselect
   // const users = await models.Users.findAll({
@@ -57,7 +64,10 @@ import models from "./models";
   const registeredNewUser = await newUser.save();
 
   // insertされたuserに紐づくuserFavoriteShopを作成
-  await registeredNewUser.createUserFavoriteShop({ favorite_shop: "スタバ" });
+  await registeredNewUser.createUserFavoriteShop({
+    shop_category: "飲食",
+    shop_name: "スタバ",
+  });
 
   // usersのselect
   const users = await models.Users.findAll({
@@ -76,7 +86,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join("public")));
 
-app.use("/", indexRouter);
+// ルーティング
+app.use("/", topRouter);
+app.use("/index", indexRouter);
 app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler

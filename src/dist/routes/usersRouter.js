@@ -10,13 +10,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 // /* GET users listing. */
 // router.get('/', function(req, res, next) {
 //   res.send('respond with a resource');
 // });
 // module.exports = router;
-var express = require("express");
-var router = express.Router();
+// const express = require("express");
+const app_1 = require("../app");
 // sequelizeの設定を追加
 const { Sequelize } = require("sequelize");
 // databaseやuser, passwordをdcoker-compose.ymlで設定したものを使う↓
@@ -25,7 +26,7 @@ const sequelize = new Sequelize("favorite_shop", "root", "root", {
     dialect: "mysql",
 });
 /* GET users listing. */
-router.get("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+app_1.router.get("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // 忘れずに上に"async"を追加する。
     // my_mysqlに接続されているかテスト
     try {
@@ -37,4 +38,4 @@ router.get("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
     }
     res.send("respond with a resource!!!");
 }));
-module.exports = router;
+module.exports = app_1.router;
