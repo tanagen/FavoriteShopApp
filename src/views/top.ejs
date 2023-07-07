@@ -10,7 +10,9 @@
     <header></header>
     <main>
       <h1>hello topages!</h1>
-      <h2><%= categories %></h2>
+      <% shopCategories.forEach(shopCategory => { %>
+      <h2><%= shopCategory %></h2>
+      <% }) %>
       <div class="main-header"></div>
       <div class="catogory-container"></div>
     </main>

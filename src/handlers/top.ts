@@ -1,30 +1,19 @@
 import models from "../models";
-
-// select
-const tst = async () => {
-  const rows = await models.UserFavoriteShops.findAll({
-    attributes: ["user_id", "shop_category"],
-  });
-  rows.forEach((row) => {
-    const user_id = row.user_id;
-    const shop_category = row.shop_category;
-
-    console.log(user_id, shop_category);
-    // return { user_id, shop_category };
-  });
-};
-
-tst;
-console.log(tst);
-
-// });
-// console.log(userFavoriteShops.user_id);
-
-// const categories = userFavoriteShops;
-
-const categories = ["飲食", "美容"];
-// const username = [""];
+import db from "../models/index";
 
 export const renderTopPage = (req: any, res: any) => {
-  res.render("top", { categories: categories });
+  // UserFavoriteShopsデータベースのshop_categoryデータを取得
+  db.UserFavoriteShops.findAll({ attributes: ["shop_category"] }).then(
+    (data) => {
+      // 取得データ(オブジェクト)の値を配列に格納した後に、重複を削除
+      const dataValues: string[] = [];
+      data.forEach((dataValue) => {
+        dataValues.push(dataValue.shop_category);
+      });
+      const setedDataValues: string[] = Array.from(new Set(dataValues));
+
+      // top.ejsをレンダリング
+      res.render("top.ejs", { shopCategories: setedDataValues });
+    }
+  );
 };
