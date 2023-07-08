@@ -34,7 +34,7 @@ class Users extends sequelize_1.Model {
     }
     // テーブル関係を記述
     static associate() {
-        this.hasOne(userFavoriteShops_1.default, {
+        this.hasMany(userFavoriteShops_1.default, {
             sourceKey: "id",
             foreignKey: "user_id",
             constraints: false, // 制約情報(外部キー)の有効化フラグ Project.sync({ force: true })を動作させるために false に設定。

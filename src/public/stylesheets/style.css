@@ -1,3 +1,8 @@
+/* 共通設定 ================================ */
+li {
+  list-style:none;
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
