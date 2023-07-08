@@ -4,18 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/stylesheets/style.css" />
-    <title>FavoriteShopApp</title>
+    <title>Create Category</title>
   </head>
   <body>
     <header></header>
     <main>
       <div class="main-header"></div>
-      <div class="catogory-container">
-        <h1><%= `${loginedUserName}'s favorite shop categories`%></h1>
-        <% shopCategories.forEach(shopCategory => { %>
-        <li><%= shopCategory %></li>
-        <% }) %>
-        <a href="/create-category">カテゴリー新規登録</a>
+      <div class="create-catogory">
+        <form action="/category"></form>
       </div>
     </main>
     <footer></footer>

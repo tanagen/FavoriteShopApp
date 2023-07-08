@@ -37,7 +37,11 @@ class UserFavoriteShops extends sequelize_1.Model {
         return UserFavoriteShops;
     }
     static associate() {
-        this.belongsTo(users_1.default, { foreignKey: "user_id", constraints: false });
+        this.belongsTo(users_1.default, {
+            foreignKey: "user_id",
+            targetKey: "id",
+            constraints: false,
+        });
     }
 }
 exports.default = UserFavoriteShops;

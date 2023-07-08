@@ -46,6 +46,10 @@ export default class UserFavoriteShops extends Model {
   }
 
   public static associate() {
-    this.belongsTo(Users, { foreignKey: "user_id", constraints: false });
+    this.belongsTo(Users, {
+      foreignKey: "user_id",
+      targetKey: "id",
+      constraints: false,
+    });
   }
 }

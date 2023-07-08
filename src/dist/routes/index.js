@@ -5,4 +5,4 @@ const app_1 = require("../app");
 app_1.router.get("/", function (req, res, next) {
     res.render("index", { title: "Express" });
 });
-module.exports = app_1.router;
+exports.default = app_1.router;

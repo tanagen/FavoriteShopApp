@@ -49,7 +49,7 @@ export default class Users extends Model {
 
   // テーブル関係を記述
   public static associate() {
-    this.hasOne(UserFavoriteShops, {
+    this.hasMany(UserFavoriteShops, {
       sourceKey: "id",
       foreignKey: "user_id",
       constraints: false, // 制約情報(外部キー)の有効化フラグ Project.sync({ force: true })を動作させるために false に設定。
