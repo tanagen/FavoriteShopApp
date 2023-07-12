@@ -8,8 +8,10 @@ export default class UserFavoriteShops extends Model {
   public user_id!: number;
   public shop_category!: string;
   public shop_name!: string;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+  public shop_location!: string;
+  public shop_description!: string;
+  public created_at!: Date;
+  public updated_at!: Date;
 
   public static initialize(sequelize: Sequelize) {
     this.init(
@@ -34,10 +36,33 @@ export default class UserFavoriteShops extends Model {
           allowNull: true,
           defaultValue: "",
         },
+        shop_location: {
+          type: DataTypes.STRING,
+          allowNull: true,
+          defaultValue: "",
+        },
+        shop_description: {
+          type: DataTypes.STRING,
+          allowNull: true,
+          defaultValue: "",
+        },
+        created_at: {
+          type: DataTypes.DATE,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+          allowNull: false,
+        },
+        updated_at: {
+          type: DataTypes.DATE,
+          defaultValue: Sequelize.literal(
+            "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+          ),
+          allowNull: false,
+        },
       },
       {
         tableName: TABLE_NAME,
         underscored: true,
+        timestamps: true,
         sequelize: sequelize,
       }
     );

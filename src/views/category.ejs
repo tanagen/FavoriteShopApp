@@ -15,7 +15,7 @@
         <% shopCategories.forEach(shopCategory => { %>
         <li><%= shopCategory %></li>
         <% }) %>
-        <a href="/create-category">カテゴリー新規登録</a>
+        <a href="/category/create/<%= loginedUserId %>">カテゴリー新規登録</a>
       </div>
     </main>
     <footer></footer>

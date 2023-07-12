@@ -29,9 +29,30 @@ class UserFavoriteShops extends sequelize_1.Model {
                 allowNull: true,
                 defaultValue: "",
             },
+            shop_location: {
+                type: sequelize_1.DataTypes.STRING,
+                allowNull: true,
+                defaultValue: "",
+            },
+            shop_description: {
+                type: sequelize_1.DataTypes.STRING,
+                allowNull: true,
+                defaultValue: "",
+            },
+            created_at: {
+                type: sequelize_1.DataTypes.DATE,
+                defaultValue: sequelize_1.Sequelize.literal("CURRENT_TIMESTAMP"),
+                allowNull: false,
+            },
+            updated_at: {
+                type: sequelize_1.DataTypes.DATE,
+                defaultValue: sequelize_1.Sequelize.literal("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+                allowNull: false,
+            },
         }, {
             tableName: TABLE_NAME,
             underscored: true,
+            timestamps: true,
             sequelize: sequelize,
         });
         return UserFavoriteShops;
