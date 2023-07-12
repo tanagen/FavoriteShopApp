@@ -1,6 +1,7 @@
 import { Sequelize, Model } from "sequelize";
 import Users from "./users";
 import UserFavoriteShops from "./userFavoriteShops";
+import ShopCategories from "./shopCategories";
 import {
   database,
   username,
@@ -23,11 +24,16 @@ const sequelize = new Sequelize(database, username, userpassword, {
 const db = {
   Users: Users.initialize(sequelize),
   UserFavoriteShops: UserFavoriteShops.initialize(sequelize),
+  ShopCategories: ShopCategories.initialize(sequelize),
 };
 
 // テーブル同士の関係を作成する
 Object.keys(db).forEach((tableName) => {
-  if (tableName === "Users" || tableName === "UserFavoriteShops") {
+  if (
+    tableName === "Users" ||
+    tableName === "UserFavoriteShops" ||
+    tableName === "ShopCategories"
+  ) {
     const model = db[tableName];
     if (model.associate) {
       model.associate();

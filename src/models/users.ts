@@ -5,6 +5,7 @@ import {
   HasManyCreateAssociationMixin,
 } from "sequelize";
 import UserFavoriteShops from "./userFavoriteShops";
+import ShopCategories from "./shopCategories";
 
 const TABLE_NAME = "users";
 
@@ -12,11 +13,12 @@ export default class Users extends Model {
   public id!: number;
   public user_name!: string;
   public user_email!: string;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+  public created_at!: Date;
+  public updated_at!: Date;
 
   // 作成したuserのuser_idをもつuserFavoriteShopを作成するメソッド
   public createUserFavoriteShop!: HasManyCreateAssociationMixin<UserFavoriteShops>;
+  public createShopCategory!: HasManyCreateAssociationMixin<ShopCategories>;
 
   // 初期化
   public static initialize(sequelize: Sequelize) {
@@ -36,10 +38,24 @@ export default class Users extends Model {
           type: DataTypes.STRING,
           allowNull: false,
           defaultValue: "",
+          unique: true,
+        },
+        created_at: {
+          type: DataTypes.DATE,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+          allowNull: false,
+        },
+        updated_at: {
+          type: DataTypes.DATE,
+          defaultValue: Sequelize.literal(
+            "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+          ),
+          allowNull: false,
         },
       },
       {
         tableName: TABLE_NAME,
+        timestamps: true,
         underscored: true,
         sequelize: sequelize,
       }
@@ -50,6 +66,11 @@ export default class Users extends Model {
   // テーブル関係を記述
   public static associate() {
     this.hasMany(UserFavoriteShops, {
+      sourceKey: "id",
+      foreignKey: "user_id",
+      constraints: false, // 制約情報(外部キー)の有効化フラグ Project.sync({ force: true })を動作させるために false に設定。
+    });
+    this.hasMany(ShopCategories, {
       sourceKey: "id",
       foreignKey: "user_id",
       constraints: false, // 制約情報(外部キー)の有効化フラグ Project.sync({ force: true })を動作させるために false に設定。

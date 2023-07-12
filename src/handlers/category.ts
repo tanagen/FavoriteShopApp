@@ -1,9 +1,10 @@
 import db from "../models/index";
+import { Request, Response } from "express";
 
 // loginしたuserのuser_idを変数に格納
 const loginedUserId: number = 1;
 
-export const renderCategoryPage = (req: any, res: any) => {
+export const renderCategoryPage = (req: Request, res: Response) => {
   // belongsToのリレーションを持った状態のDBから、loginedUserIdのデータ取り出す
   db.Users.findAll({
     include: [
@@ -26,9 +27,26 @@ export const renderCategoryPage = (req: any, res: any) => {
     const setedShopCategories: string[] = Array.from(new Set(shopCategories));
 
     // category.ejsをレンダリング
-    res.render("top.ejs", {
-      loginedUserName: [], // loginedUserName,
-      shopCategories: [], // setedShopCategories,
+    res.render("category.ejs", {
+      loginedUserId: loginedUserId,
+      loginedUserName: loginedUserName,
+      shopCategories: setedShopCategories,
     });
   });
+};
+
+export const renderCreateCategoryPage = (req: Request, res: Response) => {
+  res.render("createCategory.ejs", { loginedUserId: loginedUserId });
+};
+
+export const createCategory = (req: Request, res: Response) => {
+  // formでpostされたcateogryを取得
+  const createdCategory = req.body.category;
+
+  // 取得したcategoryをsessionに格納？
+
+  // redirect
+  console.log("posted!!!");
+  const redirectURL = "/category/" + loginedUserId;
+  res.redirect(redirectURL);
 };
