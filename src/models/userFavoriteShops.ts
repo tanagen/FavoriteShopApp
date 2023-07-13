@@ -73,7 +73,7 @@ export default class UserFavoriteShops extends Model {
   public static associate() {
     this.belongsTo(Users, {
       foreignKey: "user_id",
-      targetKey: "id",
+      targetKey: "id", // targetのUsersテーブルのカラム名を指定
       constraints: false,
     });
   }

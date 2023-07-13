@@ -10,6 +10,8 @@ export default class ShopCategories extends Model {
   public created_at!: Date;
   public updated_at!: Date;
 
+  // user_idとshop_categoryをunique keyに設定して複合ユニーク制約にすることで、
+  // 各カラムの値の組み合わせが同一のレコードを追加できなくする
   public static initialize(sequelize: Sequelize) {
     this.init(
       {
