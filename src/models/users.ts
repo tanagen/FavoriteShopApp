@@ -67,7 +67,7 @@ export default class Users extends Model {
   public static associate() {
     this.hasMany(UserFavoriteShops, {
       sourceKey: "id",
-      foreignKey: "user_id",
+      foreignKey: "user_id", // target(UserFavoriteShops)のカラム名を指定
       constraints: false, // 制約情報(外部キー)の有効化フラグ Project.sync({ force: true })を動作させるために false に設定。
     });
     this.hasMany(ShopCategories, {

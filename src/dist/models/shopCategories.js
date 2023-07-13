@@ -7,6 +7,8 @@ const sequelize_1 = require("sequelize");
 const users_1 = __importDefault(require("./users"));
 const TABLE_NAME = "shop_categories";
 class ShopCategories extends sequelize_1.Model {
+    // user_idとshop_categoryをunique keyに設定して複合ユニーク制約にすることで、
+    // 各カラムの値の組み合わせが同一のレコードを追加できなくする
     static initialize(sequelize) {
         this.init({
             id: {

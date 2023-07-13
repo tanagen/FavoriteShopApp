@@ -15,44 +15,45 @@ import db from "./models/index";
 
 const app = express();
 
-(async () => {
-  await db.Users.sync({ force: true });
-  await db.UserFavoriteShops.sync({ force: true });
+// (async () => {
+//   await db.Users.sync({ force: true });
+//   await db.UserFavoriteShops.sync({ force: true });
+//   await db.ShopCategories.sync({ force: true });
 
-  const t = await db.Users.sequelize?.transaction();
+//   const t = await db.Users.sequelize?.transaction();
 
-  try {
-    // userインスタンス作成
-    // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
-    const user = db.Users.build({
-      user_name: "gen",
-      user_email: "gen@mail.com",
-    });
+//   try {
+//     // userインスタンス作成
+//     // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
+//     const user = db.Users.build({
+//       user_name: "gen",
+//       user_email: "gen@mail.com",
+//     });
 
-    // userのinsert
-    const registeredUser = await user.save();
+//     // userのinsert
+//     const registeredUser = await user.save();
 
-    // insertされたuserに紐づくshopCategoriesを作成
-    await registeredUser.createShopCategory({
-      shop_category: "飲食",
-    });
+//     // insertされたuserに紐づくshopCategoriesを作成
+//     await registeredUser.createShopCategory({
+//       shop_category: "飲食",
+//     });
 
-    // insertされたuserに紐づくuserFavoriteShopを作成
-    await registeredUser.createUserFavoriteShop({
-      shop_category: "飲食",
-      shop_name: "餃子の王将",
-      shop_location: "小田原駅",
-      shop_description: "餃子だけでなく天津飯が美味しいお店",
-    });
+//     // insertされたuserに紐づくuserFavoriteShopを作成
+//     await registeredUser.createUserFavoriteShop({
+//       shop_category: "飲食",
+//       shop_name: "餃子の王将",
+//       shop_location: "小田原駅",
+//       shop_description: "餃子だけでなく天津飯が美味しいお店",
+//     });
 
-    await t?.commit;
-  } catch (error) {
-    await t?.rollback();
-    console.log(error);
-  }
+//     await t?.commit;
+//   } catch (error) {
+//     await t?.rollback();
+//     console.log(error);
+//   }
 
-  await db.Users.sequelize?.close();
-})();
+//   await db.Users.sequelize?.close();
+// })();
 
 // asyncは非同期処理関数を定義する演算
 // (async () => {

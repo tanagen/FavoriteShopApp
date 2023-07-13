@@ -1,12 +1,12 @@
 import { express, router } from "../app";
 import {
-  renderCategoryPage,
+  renderShopCategoryPage,
   renderCreateCategoryPage,
-  createCategory,
+  createShopCategory,
 } from "../handlers/category";
 
-router.get("/:id", renderCategoryPage);
-router.post("/:id", createCategory);
+router.get("/:id", renderShopCategoryPage);
+router.post("/:id", createShopCategory);
 router.get("/create/:id", renderCreateCategoryPage);
 
 module.exports = router;
