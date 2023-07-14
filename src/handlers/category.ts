@@ -6,8 +6,7 @@ const loginedUserId: number = 1;
 
 export const renderShopCategoryPage = (req: Request, res: Response) => {
   (async () => {
-    const t = await db.Users.sequelize!.transaction();
-    // belongsToのリレーションを持った状態のDBから、loginedUserIdのデータ取り出す
+    // belongsToのリレーションを持った状態のusersDBから、loginedUserIdのデータ取り出す
     await db.Users.findAll({
       include: [
         { model: db.ShopCategories, where: { user_id: loginedUserId } },
@@ -16,11 +15,11 @@ export const renderShopCategoryPage = (req: Request, res: Response) => {
       // user_nameを取得
       const loginedUserName: string = loginedUserData[0].dataValues.user_name;
 
-      // UserFavoriteShopsテーブルの全データを取得
+      // shopCategoriesテーブルの全データを取得
       const loginedUserShopCategories: any[] =
         loginedUserData[0].dataValues.ShopCategories;
 
-      // shop_categoryを配列に格納
+      // 各shop_categoryを配列に格納
       const shopCategories: string[] = [];
       loginedUserShopCategories.forEach((data) => {
         shopCategories.push(data.shop_category);
@@ -35,7 +34,6 @@ export const renderShopCategoryPage = (req: Request, res: Response) => {
         shopCategories: setedShopCategories,
       });
     });
-    await db.Users.sequelize?.close();
   })();
 };
 
@@ -61,15 +59,15 @@ export const createShopCategory = (req: Request, res: Response) => {
 
       await t?.commit;
     } catch (error) {
-      await t?.rollback();
       console.log(error);
+      await t?.rollback();
     }
 
-    await db.Users.sequelize?.close();
-  })();
+    // redirect
+    const redirectURL = "/category/" + loginedUserId;
+    res.redirect(redirectURL);
 
-  // redirect
-  console.log("posted!!!");
-  const redirectURL = "/category/" + loginedUserId;
-  res.redirect(redirectURL);
+    // mysqlとの接続切断
+    // await db.ShopCategories.sequelize?.close();
+  })();
 };

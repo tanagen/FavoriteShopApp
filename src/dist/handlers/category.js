@@ -18,9 +18,7 @@ const index_1 = __importDefault(require("../models/index"));
 const loginedUserId = 1;
 const renderShopCategoryPage = (req, res) => {
     (() => __awaiter(void 0, void 0, void 0, function* () {
-        var _a;
-        const t = yield index_1.default.Users.sequelize.transaction();
-        // belongsToのリレーションを持った状態のDBから、loginedUserIdのデータ取り出す
+        // belongsToのリレーションを持った状態のusersDBから、loginedUserIdのデータ取り出す
         yield index_1.default.Users.findAll({
             include: [
                 { model: index_1.default.ShopCategories, where: { user_id: loginedUserId } },
@@ -28,9 +26,9 @@ const renderShopCategoryPage = (req, res) => {
         }).then((loginedUserData) => {
             // user_nameを取得
             const loginedUserName = loginedUserData[0].dataValues.user_name;
-            // UserFavoriteShopsテーブルの全データを取得
+            // shopCategoriesテーブルの全データを取得
             const loginedUserShopCategories = loginedUserData[0].dataValues.ShopCategories;
-            // shop_categoryを配列に格納
+            // 各shop_categoryを配列に格納
             const shopCategories = [];
             loginedUserShopCategories.forEach((data) => {
                 shopCategories.push(data.shop_category);
@@ -44,7 +42,6 @@ const renderShopCategoryPage = (req, res) => {
                 shopCategories: setedShopCategories,
             });
         });
-        yield ((_a = index_1.default.Users.sequelize) === null || _a === void 0 ? void 0 : _a.close());
     }))();
 };
 exports.renderShopCategoryPage = renderShopCategoryPage;
@@ -57,7 +54,6 @@ const createShopCategory = (req, res) => {
     const createdCategory = req.body.category;
     // 取得したcategoryをshop_categoriesDBに格納
     (() => __awaiter(void 0, void 0, void 0, function* () {
-        var _a;
         const t = yield index_1.default.ShopCategories.sequelize.transaction();
         try {
             // userインスタンス作成
@@ -69,14 +65,14 @@ const createShopCategory = (req, res) => {
             yield (t === null || t === void 0 ? void 0 : t.commit);
         }
         catch (error) {
-            yield (t === null || t === void 0 ? void 0 : t.rollback());
             console.log(error);
+            yield (t === null || t === void 0 ? void 0 : t.rollback());
         }
-        yield ((_a = index_1.default.Users.sequelize) === null || _a === void 0 ? void 0 : _a.close());
+        // redirect
+        const redirectURL = "/category/" + loginedUserId;
+        res.redirect(redirectURL);
+        // mysqlとの接続切断
+        // await db.ShopCategories.sequelize?.close();
     }))();
-    // redirect
-    console.log("posted!!!");
-    const redirectURL = "/category/" + loginedUserId;
-    res.redirect(redirectURL);
 };
 exports.createShopCategory = createShopCategory;

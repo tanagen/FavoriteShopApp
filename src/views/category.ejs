@@ -12,8 +12,8 @@
       <div class="main-header"></div>
       <div class="catogory-container">
         <h1><%= `${loginedUserName}'s favorite shop categories`%></h1>
-        <% shopCategories.forEach(shopCategory => { %>
-        <li><%= shopCategory %></li>
+        <% shopCategories.forEach((shopCategory, index) => { %>
+        <li><a href="/list/<%= index %>"><%= shopCategory %></a></li>
         <% }) %>
         <a href="/category/create/<%= loginedUserId %>">カテゴリー新規登録</a>
       </div>
