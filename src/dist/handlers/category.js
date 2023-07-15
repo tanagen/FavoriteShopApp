@@ -14,30 +14,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createShopCategory = exports.renderCreateCategoryPage = exports.renderShopCategoryPage = void 0;
 const index_1 = __importDefault(require("../models/index"));
-// loginしたuserのuser_idを変数に格納
+// sessionに格納したloginedUser情報を変数に格納
 const loginedUserId = 1;
+const loginedUserName = "gen";
 const renderShopCategoryPage = (req, res) => {
     (() => __awaiter(void 0, void 0, void 0, function* () {
-        // belongsToのリレーションを持った状態のusersDBから、loginedUserIdのデータ取り出す
-        yield index_1.default.Users.findAll({
-            include: [
-                { model: index_1.default.ShopCategories, where: { user_id: loginedUserId } },
-            ],
-        }).then((loginedUserData) => {
-            // user_nameを取得
-            const loginedUserName = loginedUserData[0].dataValues.user_name;
-            // shopCategoriesテーブルの全データを取得
-            const loginedUserShopCategories = loginedUserData[0].dataValues.ShopCategories;
+        // shop_categoriesDBからデータ取得
+        yield index_1.default.ShopCategories.findAll({
+            where: { user_id: loginedUserId },
+        }).then((allData) => {
+            // // user_nameを取得
+            // const loginedUserName: string = loginedUserData[0].dataValues.user_name;
+            // // res.localsに代入
+            // res.locals.username = loginedUserName;
+            // // shopCategoriesテーブルの全データを取得
+            // const loginedUserShopCategories: any[] =
+            //   loginedUserData[0].dataValues.ShopCategories;
             // 各shop_categoryを配列に格納
             const shopCategories = [];
-            loginedUserShopCategories.forEach((data) => {
-                shopCategories.push(data.shop_category);
+            allData.forEach((data) => {
+                shopCategories.push(data.dataValues.shop_category);
             });
             // 重複排除
             const setedShopCategories = Array.from(new Set(shopCategories));
             // category.ejsをレンダリング
             res.render("category.ejs", {
-                loginedUserId: loginedUserId,
+                // loginedUserId: loginedUserId,
                 loginedUserName: loginedUserName,
                 shopCategories: setedShopCategories,
             });
@@ -69,10 +71,8 @@ const createShopCategory = (req, res) => {
             yield (t === null || t === void 0 ? void 0 : t.rollback());
         }
         // redirect
-        const redirectURL = "/category/" + loginedUserId;
-        res.redirect(redirectURL);
-        // mysqlとの接続切断
-        // await db.ShopCategories.sequelize?.close();
+        // const redirectURL = "/category/" + loginedUserId;
+        res.redirect("/category");
     }))();
 };
 exports.createShopCategory = createShopCategory;

@@ -1,35 +1,37 @@
 import db from "../models/index";
 import { Request, Response } from "express";
 
-// loginしたuserのuser_idを変数に格納
+// sessionに格納したloginedUser情報を変数に格納
 const loginedUserId: number = 1;
+const loginedUserName: string = "gen";
 
 export const renderShopCategoryPage = (req: Request, res: Response) => {
   (async () => {
-    // belongsToのリレーションを持った状態のusersDBから、loginedUserIdのデータ取り出す
-    await db.Users.findAll({
-      include: [
-        { model: db.ShopCategories, where: { user_id: loginedUserId } },
-      ],
-    }).then((loginedUserData) => {
-      // user_nameを取得
-      const loginedUserName: string = loginedUserData[0].dataValues.user_name;
+    // shop_categoriesDBからデータ取得
+    await db.ShopCategories.findAll({
+      where: { user_id: loginedUserId },
+    }).then((allData) => {
+      // // user_nameを取得
+      // const loginedUserName: string = loginedUserData[0].dataValues.user_name;
+      // // res.localsに代入
+      // res.locals.username = loginedUserName;
 
-      // shopCategoriesテーブルの全データを取得
-      const loginedUserShopCategories: any[] =
-        loginedUserData[0].dataValues.ShopCategories;
+      // // shopCategoriesテーブルの全データを取得
+      // const loginedUserShopCategories: any[] =
+      //   loginedUserData[0].dataValues.ShopCategories;
 
       // 各shop_categoryを配列に格納
       const shopCategories: string[] = [];
-      loginedUserShopCategories.forEach((data) => {
-        shopCategories.push(data.shop_category);
+      allData.forEach((data) => {
+        shopCategories.push(data.dataValues.shop_category);
       });
+
       // 重複排除
       const setedShopCategories: string[] = Array.from(new Set(shopCategories));
 
       // category.ejsをレンダリング
       res.render("category.ejs", {
-        loginedUserId: loginedUserId,
+        // loginedUserId: loginedUserId,
         loginedUserName: loginedUserName,
         shopCategories: setedShopCategories,
       });
@@ -64,10 +66,7 @@ export const createShopCategory = (req: Request, res: Response) => {
     }
 
     // redirect
-    const redirectURL = "/category/" + loginedUserId;
-    res.redirect(redirectURL);
-
-    // mysqlとの接続切断
-    // await db.ShopCategories.sequelize?.close();
+    // const redirectURL = "/category/" + loginedUserId;
+    res.redirect("/category");
   })();
 };

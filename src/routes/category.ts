@@ -5,8 +5,8 @@ import {
   createShopCategory,
 } from "../handlers/category";
 
-router.get("/:id", renderShopCategoryPage);
-router.post("/:id", createShopCategory);
-router.get("/create/:id", renderCreateCategoryPage);
+router.get("/", renderShopCategoryPage);
+router.post("/", createShopCategory);
+router.get("/create/", renderCreateCategoryPage);
 
 module.exports = router;

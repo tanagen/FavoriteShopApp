@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <title>CreateList</title>
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <h1><%= `Category ${selectedCategory} : Create New List` %></h1>
+      <form action="/list/<%= categoryIndex %>" method="post">
+        <p>店名・施設名</p>
+        <input class="" name="name" type="text" placeholder="〇〇ショップ" />
+        <p>場所</p>
+        <input class="" name="location" type="text" placeholder="〇〇駅" />
+        <p>メモ</p>
+        <input class="" name="text" type="text" placeholder="あいうえお" />
+        <input class="button" type="submit" value="登録" />
+      </form>
+    </main>
+    <footer></footer>
+  </body>
+</html>
