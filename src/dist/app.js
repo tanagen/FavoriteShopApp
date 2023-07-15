@@ -9,6 +9,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const categoryRoutes = require("./routes/category");
+const listRoutes = require("./routes/list");
 const indexRoutes = require("./routes/index");
 const usersRoutes = require("./routes/users");
 const app = (0, exports.express)();
@@ -113,6 +114,7 @@ app.set("view engine", "ejs");
 app.use(exports.express.static(path.join("public")));
 // ルーティング
 app.use("/category", categoryRoutes);
+app.use("/list", listRoutes);
 // app.use("/index", indexRoutes);
 // app.use("/users", usersRoutes);
 // catch 404 and forward to error handler
