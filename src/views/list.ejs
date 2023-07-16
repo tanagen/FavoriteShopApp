@@ -32,11 +32,16 @@
             <td class="description-column"><%= shopInfo.shop_description %></td>
             <!-- 編集ボタン -->
             <td>
-              <a href="">編集</a>
+              <a href="/list/<%= categoryIndex %>/edit/<%= shopInfo.id %>"
+                >編集</a
+              >
             </td>
             <!-- 削除ボタン -->
             <td>
-              <form action="" method="post">
+              <form
+                action="/list/<%= categoryIndex %>/<%= shopInfo.id %>"
+                method="post"
+              >
                 <input type="submit" value="削除" />
               </form>
             </td>
