@@ -9,9 +9,18 @@
   <body>
     <header></header>
     <main>
-      <h1><%= `Category ${selectedCategory} : Create New List` %></h1>
+      <h1><%= `${selectedCategory} Update List` %></h1>
 
-      <form action="/list/<%= categoryIndex %>" method="post">
+      <!-- 選択したlistIDに情報がない場合の表示 -->
+      <% if (errorMessage.length !== 0) { %>
+      <h2><%= errorMessage %></h2>
+
+      <!-- 選択したlistIDに情報がある場合の表示 -->
+      <% } else { %>
+      <form
+        action="/list/<%= categoryIndex %>/update/<%= shopId %>"
+        method="post"
+      >
         <p>店名・施設名</p>
 
         <!-- 入力値のエラー表示 -->
@@ -19,13 +28,8 @@
         <p class="name-error"><%= errors.shopName %></p>
         <% } %>
 
-        <input
-          class=""
-          name="name"
-          type="text"
-          placeholder="〇〇ショップ"
-          value="<%= shopName %>"
-        />
+        <input class="" name="name" type="text" value="<%= shopName %>" />
+
         <p>場所</p>
 
         <!-- 入力値のエラー表示 -->
@@ -37,9 +41,9 @@
           class=""
           name="location"
           type="text"
-          placeholder="〇〇駅"
           value="<%= shopLocation %>"
         />
+
         <p>メモ</p>
 
         <!-- 入力値のエラー表示 -->
@@ -47,18 +51,14 @@
         <p class="description-error"><%= errors.shopDescription %></p>
         <% } %>
 
-        <textarea
-          name="description"
-          id="text"
-          cols="30"
-          rows="10"
-          placeholder="あいうえお"
-        >
+        <textarea name="description" id="text" cols="30" rows="10">
 <%= shopDescription %></textarea
         >
         <br />
-        <input class="button" type="submit" value="登録" />
+        <input class="button" type="submit" value="更新" />
       </form>
+
+      <% } %>
     </main>
     <footer></footer>
   </body>
