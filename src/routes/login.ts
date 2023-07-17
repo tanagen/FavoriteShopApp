@@ -1,7 +1,9 @@
-import { router } from "../app";
-import { renderLoginPage } from "../handlers/login";
+import express from "express";
+const router = express.Router();
+
+import { login, renderLoginPage } from "../handlers/login";
 
 router.get("/", renderLoginPage);
-router.post("/");
+router.post("/", login);
 
 export default router;

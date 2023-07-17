@@ -48,7 +48,7 @@ const renderShopCategoryPage = (req, res) => {
 };
 exports.renderShopCategoryPage = renderShopCategoryPage;
 const renderCreateCategoryPage = (req, res) => {
-    res.render("createCategory.ejs", { loginedUserId: loginedUserId });
+    res.render("createCategory", { loginedUserId: loginedUserId });
 };
 exports.renderCreateCategoryPage = renderCreateCategoryPage;
 const createShopCategory = (req, res) => {

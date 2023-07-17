@@ -1,5 +1,6 @@
 import express from "express";
-import { router } from "../app";
+const router = express.Router();
+
 import {
   renderShopCategoryPage,
   renderCreateCategoryPage,

@@ -1,41 +1,63 @@
-// export const express = require("express");
-import express from "express";
-export const router = express.Router();
+import express, { Request, Response, NextFunction } from "express";
 
-let createError = require("http-errors");
-let path = require("path");
-let cookieParser = require("cookie-parser");
-let logger = require("morgan");
+import createError from "http-errors";
+import path from "path";
+import cookieParser from "cookie-parser";
+import logger from "morgan";
 
-// const loginRoutes = require("./routes/login");
 import loginRoutes from "./routes/login";
-// const categoryRoutes = require("./routes/category");
 import categoryRoutes from "./routes/category";
-const listRoutes = require("./routes/list");
+import listRoutes from "./routes/list";
 
-// import db from "./models/index";
+import db from "./models/index";
+
+import session from "express-session";
 
 const app = express();
 
-// モデルをdbに同期
+// // モデルをdbに同期
 // (async () => {
 //   await db.Users.sync({ force: true });
-//   await db.UserFavoriteShops.sync({ force: true });
-//   await db.ShopCategories.sync({ force: true });
+//   // await db.UserFavoriteShops.sync({ force: true });
+//   // await db.ShopCategories.sync({ force: true });
 // })();
 
 // view engine setup
 app.set("views", path.join("views"));
 app.set("view engine", "ejs");
-app.use(express.static(path.join("public")));
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.static(path.join("public")));
+
+// sessionの設定
+app.use(
+  session({
+    secret: "my_secret_key", // 指定した文字列を使ってクッキーIDを暗号化しクッキーIDが書き換えらているかを判断する
+    resave: false, // セッションにアクセスすると上書きされるするオプション
+    saveUninitialized: false, // 未初期化状態のセッションも保存するようなオプション
+    cookie: {
+      maxAge: 1000 * 60 * 30, // セッションの消滅時間。単位はミリ秒。30分と指定。
+    },
+  })
+);
 
 // ルーティング
 app.use("/login", loginRoutes);
+// セッション情報を確認するミドルウェア
+app.use((req: Request, res: Response, next: NextFunction) => {
+  if (req.session.userId === undefined) {
+    console.log("ログインしていません");
+    // res.render("login");
+    // res.redirect("/login");
+  } else {
+    console.log("ログインしています");
+    next();
+  }
+});
+
 app.use("/category", categoryRoutes);
 app.use("/list", listRoutes);
 

@@ -13,6 +13,7 @@ export default class Users extends Model {
   public id!: number;
   public user_name!: string;
   public user_email!: string;
+  public user_password!: string;
   public created_at!: Date;
   public updated_at!: Date;
 
@@ -39,6 +40,10 @@ export default class Users extends Model {
           allowNull: false,
           defaultValue: "",
           unique: true,
+        },
+        user_password: {
+          type: DataTypes.STRING,
+          allowNull: false,
         },
         created_at: {
           type: DataTypes.DATE,

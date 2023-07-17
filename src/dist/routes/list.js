@@ -1,11 +1,15 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const app_1 = require("../app");
+const express_1 = __importDefault(require("express"));
+const router = express_1.default.Router();
 const list_1 = require("../handlers/list");
-app_1.router.get("/:index", list_1.getSelectedCategory, list_1.renderListPage);
-app_1.router.post("/:index", list_1.getSelectedCategory, list_1.checkPostedNewList, list_1.createList);
-app_1.router.get("/:index/create", list_1.getSelectedCategory, list_1.renderCreateListPage);
-app_1.router.post("/:index/:id", list_1.deleteList);
-app_1.router.get("/:index/edit/:id", list_1.getSelectedCategory, list_1.renderEditListPage);
-app_1.router.post("/:index/update/:id", list_1.getSelectedCategory, list_1.checkPostedUpdateList, list_1.updateList);
-module.exports = app_1.router;
+router.get("/:index", list_1.getSelectedCategory, list_1.renderListPage);
+router.post("/:index", list_1.getSelectedCategory, list_1.checkPostedNewList, list_1.createList);
+router.get("/:index/create", list_1.getSelectedCategory, list_1.renderCreateListPage);
+router.post("/:index/:id", list_1.deleteList);
+router.get("/:index/edit/:id", list_1.getSelectedCategory, list_1.renderEditListPage);
+router.post("/:index/update/:id", list_1.getSelectedCategory, list_1.checkPostedUpdateList, list_1.updateList);
+exports.default = router;
