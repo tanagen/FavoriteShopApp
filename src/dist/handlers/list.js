@@ -56,7 +56,7 @@ const renderListPage = (req, res) => {
                 const errorMessage = "";
                 const allShopInfo = data;
                 // レンダリング
-                res.render("list.ejs", {
+                res.render("list", {
                     errorMessage: errorMessage,
                     allShopInfo: allShopInfo,
                     categoryIndex: res.locals.index,
@@ -67,7 +67,7 @@ const renderListPage = (req, res) => {
                 const errorMessage = "メモが登録されていません";
                 const allShopInfo = [];
                 // レンダリング
-                res.render("list.ejs", {
+                res.render("list", {
                     errorMessage: errorMessage,
                     allShopInfo: allShopInfo,
                     categoryIndex: res.locals.index,
@@ -82,7 +82,7 @@ const renderCreateListPage = (req, res) => {
     // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
     const categoryIndex = res.locals.index;
     const selectedCategory = res.locals.selectedCategory;
-    res.render("createList.ejs", {
+    res.render("createList", {
         categoryIndex: categoryIndex,
         selectedCategory: selectedCategory,
         shopName: "",
@@ -105,16 +105,16 @@ const checkPostedNewList = (req, res, next) => {
     const errors = {};
     // errorチェック
     if (postedShopName === "") {
-        errors["shopName"] = "店名・施設名を入力してください";
+        errors["shopName"] = "入力してください";
     }
     if (postedShopLocation === "") {
-        errors["shopLocation"] = "場所を入力してください";
+        errors["shopLocation"] = "入力してください";
     }
     if (postedShopDescription === "") {
-        errors["shopDescription"] = "メモを入力してください";
+        errors["shopDescription"] = "入力してください";
     }
     if (Object.keys(errors).length > 0) {
-        res.render("createList.ejs", {
+        res.render("createList", {
             categoryIndex: categoryIndex,
             selectedCategory: selectedCategory,
             shopName: postedShopName,
@@ -143,16 +143,16 @@ const checkPostedUpdateList = (req, res, next) => {
     const errors = {};
     // errorチェック
     if (postedShopName === "") {
-        errors["shopName"] = "店名・施設名を入力してください";
+        errors["shopName"] = "入力してください";
     }
     if (postedShopLocation === "") {
-        errors["shopLocation"] = "場所を入力してください";
+        errors["shopLocation"] = "入力してください";
     }
     if (postedShopDescription === "") {
-        errors["shopDescription"] = "メモを入力してください";
+        errors["shopDescription"] = "入力してください";
     }
     if (Object.keys(errors).length > 0) {
-        res.render("editList.ejs", {
+        res.render("editList", {
             selectedCategory: selectedCategory,
             errorMessage: "",
             shopId: selectedShopId,
@@ -248,7 +248,7 @@ const renderEditListPage = (req, res) => {
                 const shopLocation = shopInfo.shop_location;
                 const shopDescription = shopInfo.shop_description;
                 // レンダリング
-                res.render("editList.ejs", {
+                res.render("editList", {
                     selectedCategory: selectedCategory,
                     errorMessage: errorMessage,
                     shopId: shopId,
@@ -267,7 +267,7 @@ const renderEditListPage = (req, res) => {
                 const shopLocation = "";
                 const shopDescription = "";
                 // レンダリング
-                res.render("editList.ejs", {
+                res.render("editList", {
                     selectedCategory: selectedCategory,
                     errorMessage: errorMessage,
                     shopId: shopId,

@@ -1,4 +1,5 @@
-import { express, router } from "../app";
+import express from "express";
+import { router } from "../app";
 import {
   renderShopCategoryPage,
   renderCreateCategoryPage,
@@ -9,4 +10,4 @@ router.get("/", renderShopCategoryPage);
 router.post("/", createShopCategory);
 router.get("/create/", renderCreateCategoryPage);
 
-module.exports = router;
+export default router;

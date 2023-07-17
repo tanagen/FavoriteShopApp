@@ -16,7 +16,7 @@
 
         <!-- 入力値のエラー表示 -->
         <% if (Object.keys(errors).length > 0) { %>
-        <p class="name-error"><%= errors.shopName %></p>
+        <p class="error"><%= errors.shopName %></p>
         <% } %>
 
         <input
@@ -30,7 +30,7 @@
 
         <!-- 入力値のエラー表示 -->
         <% if (Object.keys(errors).length > 0) { %>
-        <p class="location-error"><%= errors.shopLocation %></p>
+        <p class="error"><%= errors.shopLocation %></p>
         <% } %>
 
         <input
@@ -44,7 +44,7 @@
 
         <!-- 入力値のエラー表示 -->
         <% if (Object.keys(errors).length > 0) { %>
-        <p class="description-error"><%= errors.shopDescription %></p>
+        <p class="error"><%= errors.shopDescription %></p>
         <% } %>
 
         <textarea

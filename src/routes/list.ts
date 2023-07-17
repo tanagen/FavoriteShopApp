@@ -1,4 +1,4 @@
-import { express, router } from "../app";
+import { router } from "../app";
 import {
   getSelectedCategory,
   renderListPage,
