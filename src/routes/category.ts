@@ -1,4 +1,6 @@
-import { express, router } from "../app";
+import express from "express";
+const router = express.Router();
+
 import {
   renderShopCategoryPage,
   renderCreateCategoryPage,
@@ -9,4 +11,4 @@ router.get("/", renderShopCategoryPage);
 router.post("/", createShopCategory);
 router.get("/create/", renderCreateCategoryPage);
 
-module.exports = router;
+export default router;

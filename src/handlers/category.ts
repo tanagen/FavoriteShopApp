@@ -30,7 +30,7 @@ export const renderShopCategoryPage = (req: Request, res: Response) => {
       const setedShopCategories: string[] = Array.from(new Set(shopCategories));
 
       // category.ejsをレンダリング
-      res.render("category.ejs", {
+      res.render("category", {
         // loginedUserId: loginedUserId,
         loginedUserName: loginedUserName,
         shopCategories: setedShopCategories,
@@ -40,7 +40,7 @@ export const renderShopCategoryPage = (req: Request, res: Response) => {
 };
 
 export const renderCreateCategoryPage = (req: Request, res: Response) => {
-  res.render("createCategory.ejs", { loginedUserId: loginedUserId });
+  res.render("createCategory", { loginedUserId: loginedUserId });
 };
 
 export const createShopCategory = (req: Request, res: Response) => {

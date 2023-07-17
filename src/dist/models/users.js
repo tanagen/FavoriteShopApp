@@ -27,6 +27,10 @@ class Users extends sequelize_1.Model {
                 defaultValue: "",
                 unique: true,
             },
+            user_password: {
+                type: sequelize_1.DataTypes.STRING,
+                allowNull: false,
+            },
             created_at: {
                 type: sequelize_1.DataTypes.DATE,
                 defaultValue: sequelize_1.Sequelize.literal("CURRENT_TIMESTAMP"),

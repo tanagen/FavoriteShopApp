@@ -1,4 +1,6 @@
-import { express, router } from "../app";
+import express from "express";
+const router = express.Router();
+
 import {
   getSelectedCategory,
   renderListPage,
@@ -23,4 +25,4 @@ router.post(
   updateList
 );
 
-module.exports = router;
+export default router;
