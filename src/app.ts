@@ -10,8 +10,10 @@ import categoryRoutes from "./routes/category";
 import listRoutes from "./routes/list";
 
 import db from "./models/index";
-
 import session from "express-session";
+import bcrypt from "bcrypt";
+import passport from "./auth";
+import flash from "connect-flash";
 
 const app = express();
 
@@ -20,6 +22,20 @@ const app = express();
 //   await db.Users.sync({ force: true });
 //   // await db.UserFavoriteShops.sync({ force: true });
 //   // await db.ShopCategories.sync({ force: true });
+
+//   const t = await db.Users.sequelize?.transaction();
+
+//   try {
+//     await db.Users.create({
+//       user_name: "gen",
+//       user_email: "gen@test.com",
+//       user_password: bcrypt.hashSync("passw0rd", bcrypt.genSaltSync(8)),
+//     });
+
+//     await t?.commit;
+//   } catch (error) {
+//     await t?.rollback();
+//   }
 // })();
 
 // view engine setup
@@ -31,6 +47,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join("public")));
+app.use(flash());
 
 // sessionの設定
 app.use(
@@ -44,19 +61,34 @@ app.use(
   })
 );
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+export const authMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    res.redirect("/login");
+  }
+};
+
 // ルーティング
 app.use("/login", loginRoutes);
 // セッション情報を確認するミドルウェア
-app.use((req: Request, res: Response, next: NextFunction) => {
-  if (req.session.userId === undefined) {
-    console.log("ログインしていません");
-    // res.render("login");
-    // res.redirect("/login");
-  } else {
-    console.log("ログインしています");
-    next();
-  }
-});
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//   if (req.session.userId === undefined) {
+//     console.log("ログインしていません");
+//     // res.render("login");
+//     // res.redirect("/login");
+//   } else {
+//     console.log("ログインしています");
+//     next();
+//   }
+// });
 
 app.use("/category", categoryRoutes);
 app.use("/list", listRoutes);
