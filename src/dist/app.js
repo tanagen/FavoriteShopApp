@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.authMiddleware = void 0;
 const express_1 = __importDefault(require("express"));
 const http_errors_1 = __importDefault(require("http-errors"));
 const path_1 = __importDefault(require("path"));
@@ -12,12 +13,25 @@ const login_1 = __importDefault(require("./routes/login"));
 const category_1 = __importDefault(require("./routes/category"));
 const list_1 = __importDefault(require("./routes/list"));
 const express_session_1 = __importDefault(require("express-session"));
+const auth_1 = __importDefault(require("./auth"));
+const connect_flash_1 = __importDefault(require("connect-flash"));
 const app = (0, express_1.default)();
 // // モデルをdbに同期
 // (async () => {
 //   await db.Users.sync({ force: true });
 //   // await db.UserFavoriteShops.sync({ force: true });
 //   // await db.ShopCategories.sync({ force: true });
+//   const t = await db.Users.sequelize?.transaction();
+//   try {
+//     await db.Users.create({
+//       user_name: "gen",
+//       user_email: "gen@test.com",
+//       user_password: bcrypt.hashSync("passw0rd", bcrypt.genSaltSync(8)),
+//     });
+//     await t?.commit;
+//   } catch (error) {
+//     await t?.rollback();
+//   }
 // })();
 // view engine setup
 app.set("views", path_1.default.join("views"));
@@ -27,6 +41,7 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.static(path_1.default.join("public")));
+app.use((0, connect_flash_1.default)());
 // sessionの設定
 app.use((0, express_session_1.default)({
     secret: "my_secret_key",
@@ -36,20 +51,30 @@ app.use((0, express_session_1.default)({
         maxAge: 1000 * 60 * 30, // セッションの消滅時間。単位はミリ秒。30分と指定。
     },
 }));
+app.use(auth_1.default.initialize());
+app.use(auth_1.default.session());
+const authMiddleware = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        next();
+    }
+    else {
+        res.redirect("/login");
+    }
+};
+exports.authMiddleware = authMiddleware;
 // ルーティング
 app.use("/login", login_1.default);
 // セッション情報を確認するミドルウェア
-app.use((req, res, next) => {
-    if (req.session.userId === undefined) {
-        console.log("ログインしていません");
-        // res.render("login");
-        // res.redirect("/login");
-    }
-    else {
-        console.log("ログインしています");
-        next();
-    }
-});
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//   if (req.session.userId === undefined) {
+//     console.log("ログインしていません");
+//     // res.render("login");
+//     // res.redirect("/login");
+//   } else {
+//     console.log("ログインしています");
+//     next();
+//   }
+// });
 app.use("/category", category_1.default);
 app.use("/list", list_1.default);
 // catch 404 and forward to error handler

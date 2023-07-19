@@ -5,8 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
+const app_1 = require("../app");
 const category_1 = require("../handlers/category");
-router.get("/", category_1.renderShopCategoryPage);
+router.get("/", app_1.authMiddleware, category_1.renderShopCategoryPage);
 router.post("/", category_1.createShopCategory);
 router.get("/create/", category_1.renderCreateCategoryPage);
 exports.default = router;
