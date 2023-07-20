@@ -1,15 +1,13 @@
 import express from "express";
-const router = express.Router();
-
-import { authMiddleware } from "../app";
-
+import { checkAuthenticated } from "../handlers/checkAuthenticated";
 import {
   renderShopCategoryPage,
   renderCreateCategoryPage,
   createShopCategory,
 } from "../handlers/category";
+const router = express.Router();
 
-router.get("/", authMiddleware, renderShopCategoryPage);
+router.get("/", checkAuthenticated, renderShopCategoryPage);
 router.post("/", createShopCategory);
 router.get("/create/", renderCreateCategoryPage);
 

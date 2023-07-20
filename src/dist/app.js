@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authMiddleware = void 0;
 const express_1 = __importDefault(require("express"));
 const http_errors_1 = __importDefault(require("http-errors"));
 const path_1 = __importDefault(require("path"));
@@ -12,6 +11,7 @@ const morgan_1 = __importDefault(require("morgan"));
 const login_1 = __importDefault(require("./routes/login"));
 const category_1 = __importDefault(require("./routes/category"));
 const list_1 = __importDefault(require("./routes/list"));
+const logout_1 = __importDefault(require("./routes/logout"));
 const express_session_1 = __importDefault(require("express-session"));
 const auth_1 = __importDefault(require("./auth"));
 const connect_flash_1 = __importDefault(require("connect-flash"));
@@ -51,19 +51,15 @@ app.use((0, express_session_1.default)({
         maxAge: 1000 * 60 * 30, // セッションの消滅時間。単位はミリ秒。30分と指定。
     },
 }));
+// passportの初期化
 app.use(auth_1.default.initialize());
+// sessionが有効な間、リクエストのたびにデシリアライズを実行し、req.userの更新を行う
 app.use(auth_1.default.session());
-const authMiddleware = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        next();
-    }
-    else {
-        res.redirect("/login");
-    }
-};
-exports.authMiddleware = authMiddleware;
 // ルーティング
 app.use("/login", login_1.default);
+app.use("/logout", logout_1.default);
+app.use("/category", category_1.default);
+app.use("/list", list_1.default);
 // セッション情報を確認するミドルウェア
 // app.use((req: Request, res: Response, next: NextFunction) => {
 //   if (req.session.userId === undefined) {
@@ -75,8 +71,6 @@ app.use("/login", login_1.default);
 //     next();
 //   }
 // });
-app.use("/category", category_1.default);
-app.use("/list", list_1.default);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next((0, http_errors_1.default)(404));

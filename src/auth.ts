@@ -1,7 +1,6 @@
-import express from "express";
 import bcrypt from "bcrypt";
 import passport from "passport";
-import { Strategy as LocasStrategy } from "passport-local";
+const LocasStrategy = require("passport-local").Strategy; // importで読み込むと型定義ファイルが見つからないエラーになる
 import db from "./models/index";
 
 // 認証処理
@@ -13,6 +12,7 @@ passport.use(
       passwordField: "password",
     },
     (email: any, password: any, done: any) => {
+      // postのnameタグから取得したemailを指定してUsersDBにアクセス
       db.Users.findOne({
         where: { user_email: email },
       })
@@ -34,11 +34,12 @@ passport.use(
   )
 );
 
-// Session
+// ユーザー情報をsessionに保存する
 passport.serializeUser((user: Express.User, done) => {
   done(null, user);
 });
 
+// IDからユーザー情報を特定し、req.userに保存する
 passport.deserializeUser((user: Express.User, done) => {
   done(null, user);
 });

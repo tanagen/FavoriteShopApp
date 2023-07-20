@@ -5,14 +5,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const passport_1 = __importDefault(require("passport"));
-const passport_local_1 = require("passport-local");
+const LocasStrategy = require("passport-local").Strategy; // importで読み込むと型定義ファイルが見つからないエラーになる
 const index_1 = __importDefault(require("./models/index"));
 // 認証処理
-passport_1.default.use(new passport_local_1.Strategy({
+passport_1.default.use(new LocasStrategy({
     // デフォルトパラメータ名をオーバーライド
     usernameField: "email",
     passwordField: "password",
 }, (email, password, done) => {
+    // postのnameタグから取得したemailを指定してUsersDBにアクセス
     index_1.default.Users.findOne({
         where: { user_email: email },
     })
@@ -30,10 +31,11 @@ passport_1.default.use(new passport_local_1.Strategy({
         });
     });
 }));
-// Session
+// ユーザー情報をsessionに保存する
 passport_1.default.serializeUser((user, done) => {
     done(null, user);
 });
+// IDからユーザー情報を特定し、req.userに保存する
 passport_1.default.deserializeUser((user, done) => {
     done(null, user);
 });

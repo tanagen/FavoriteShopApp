@@ -8,10 +8,10 @@ import logger from "morgan";
 import loginRoutes from "./routes/login";
 import categoryRoutes from "./routes/category";
 import listRoutes from "./routes/list";
+import logoutRoutes from "./routes/logout";
 
 import db from "./models/index";
 import session from "express-session";
-import bcrypt from "bcrypt";
 import passport from "./auth";
 import flash from "connect-flash";
 
@@ -61,23 +61,16 @@ app.use(
   })
 );
 
+// passportの初期化
 app.use(passport.initialize());
+// sessionが有効な間、リクエストのたびにデシリアライズを実行し、req.userの更新を行う
 app.use(passport.session());
-
-export const authMiddleware = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  if (req.isAuthenticated()) {
-    next();
-  } else {
-    res.redirect("/login");
-  }
-};
 
 // ルーティング
 app.use("/login", loginRoutes);
+app.use("/logout", logoutRoutes);
+app.use("/category", categoryRoutes);
+app.use("/list", listRoutes);
 // セッション情報を確認するミドルウェア
 // app.use((req: Request, res: Response, next: NextFunction) => {
 //   if (req.session.userId === undefined) {
@@ -89,9 +82,6 @@ app.use("/login", loginRoutes);
 //     next();
 //   }
 // });
-
-app.use("/category", categoryRoutes);
-app.use("/list", listRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req: any, res: any, next: any) {

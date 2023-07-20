@@ -4,12 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const router = express_1.default.Router();
+const checkAuthenticated_1 = require("../handlers/checkAuthenticated");
 const list_1 = require("../handlers/list");
-router.get("/:index", list_1.getSelectedCategory, list_1.renderListPage);
+const router = express_1.default.Router();
+router.get("/:index", checkAuthenticated_1.checkAuthenticated, list_1.getSelectedCategory, list_1.renderListPage);
 router.post("/:index", list_1.getSelectedCategory, list_1.checkPostedNewList, list_1.createList);
-router.get("/:index/create", list_1.getSelectedCategory, list_1.renderCreateListPage);
+router.get("/:index/create", checkAuthenticated_1.checkAuthenticated, list_1.getSelectedCategory, list_1.renderCreateListPage);
 router.post("/:index/:id", list_1.deleteList);
-router.get("/:index/edit/:id", list_1.getSelectedCategory, list_1.renderEditListPage);
+router.get("/:index/edit/:id", checkAuthenticated_1.checkAuthenticated, list_1.getSelectedCategory, list_1.renderEditListPage);
 router.post("/:index/update/:id", list_1.getSelectedCategory, list_1.checkPostedUpdateList, list_1.updateList);
 exports.default = router;
