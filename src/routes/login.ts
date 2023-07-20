@@ -1,9 +1,10 @@
 import express from "express";
-const router = express.Router();
-
+import { checkAuthenticated } from "../handlers/checkAuthenticated";
 import { login, renderLoginPage } from "../handlers/login";
 
-router.get("/", renderLoginPage);
+const router = express.Router();
+
+router.get("/", checkAuthenticated, renderLoginPage);
 router.post("/", login);
 
 export default router;

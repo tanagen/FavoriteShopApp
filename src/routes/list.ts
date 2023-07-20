@@ -1,6 +1,5 @@
 import express from "express";
-const router = express.Router();
-
+import { checkAuthenticated } from "../handlers/checkAuthenticated";
 import {
   getSelectedCategory,
   renderListPage,
@@ -13,11 +12,23 @@ import {
   checkPostedUpdateList,
 } from "../handlers/list";
 
-router.get("/:index", getSelectedCategory, renderListPage);
+const router = express.Router();
+
+router.get("/:index", checkAuthenticated, getSelectedCategory, renderListPage);
 router.post("/:index", getSelectedCategory, checkPostedNewList, createList);
-router.get("/:index/create", getSelectedCategory, renderCreateListPage);
+router.get(
+  "/:index/create",
+  checkAuthenticated,
+  getSelectedCategory,
+  renderCreateListPage
+);
 router.post("/:index/:id", deleteList);
-router.get("/:index/edit/:id", getSelectedCategory, renderEditListPage);
+router.get(
+  "/:index/edit/:id",
+  checkAuthenticated,
+  getSelectedCategory,
+  renderEditListPage
+);
 router.post(
   "/:index/update/:id",
   getSelectedCategory,
