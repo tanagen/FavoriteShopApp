@@ -7,7 +7,7 @@
     <title>FavoriteShopApp</title>
   </head>
   <body>
-    <header></header>
+    <header><%- include('header'); %></header>
     <main>
       <div class="main-header"></div>
       <div class="catogory-container">
@@ -16,9 +16,6 @@
         <li><a href="/list/<%= index %>"><%= shopCategory %></a></li>
         <% }) %>
         <a href="/category/create">カテゴリー新規登録</a>
-        <form action="/logout" method="post">
-          <input class="button" type="submit" value="ログアウト" />
-        </form>
       </div>
     </main>
     <footer></footer>

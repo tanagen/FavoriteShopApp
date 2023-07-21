@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 
 import loginRoutes from "./routes/login";
+import signUpRoutes from "./routes/signUp";
 import categoryRoutes from "./routes/category";
 import listRoutes from "./routes/list";
 import logoutRoutes from "./routes/logout";
@@ -68,6 +69,7 @@ app.use(passport.session());
 
 // ルーティング
 app.use("/login", loginRoutes);
+app.use("/signup", signUpRoutes);
 app.use("/logout", logoutRoutes);
 app.use("/category", categoryRoutes);
 app.use("/list", listRoutes);
