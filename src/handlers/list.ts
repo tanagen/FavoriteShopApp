@@ -2,16 +2,15 @@ import db from "../models/index";
 import { Request, Response, NextFunction } from "express";
 import UserFavoriteShops from "../models/userFavoriteShops";
 
-// sessionに格納したloginedUser情報を変数に格納
-const loginedUserId: number = 1;
-const loginedUserName: string = "gen";
-
 // 操作中のカテゴリー名を取得
 export const getSelectedCategory = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  // passportのsessionからidを取得
+  const loginedUserId: number = req.user!.id;
+
   // ルートパラメータからカテゴリーのインデックス番号を取得
   const categoryIndex: number = Number(req.params.index);
   res.locals.index = categoryIndex;
@@ -39,6 +38,9 @@ export const getSelectedCategory = (
 
 // リスト一覧の表示
 export const renderListPage = (req: Request, res: Response) => {
+  // passportのsessionからid,user_nameを取得
+  const loginedUserId: number = req.user!.id;
+
   (async () => {
     // user_favorite_shopsDBからデータ取得
     await db.UserFavoriteShops.findAll({
@@ -182,6 +184,8 @@ export const checkPostedUpdateList = (
 
 // リストの新規登録
 export const createList = (req: Request, res: Response) => {
+  // passportのsessionからidを取得
+  const loginedUserId: number = req.user!.id;
   // ルートパラメータからcategoryIndexを取得して変数に代入
   const selectedCategoryIndex = req.params.index;
   // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入

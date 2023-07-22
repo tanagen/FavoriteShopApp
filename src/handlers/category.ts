@@ -1,26 +1,26 @@
 import db from "../models/index";
 import { Request, Response } from "express";
 
-// sessionに格納したloginedUser情報を変数に格納
-const loginedUserId: number = 1;
-const loginedUserName: string = "gen";
+declare global {
+  namespace Express {
+    interface User {
+      id: number;
+      user_name: string;
+    }
+  }
+}
 
 export const renderShopCategoryPage = (req: Request, res: Response) => {
+  // passportのsessionからid,user_nameを取得
+  const loginedUserId: number = req.user!.id;
+  const loginedUserName: string = req.user!.user_name;
+
   (async () => {
     // shop_categoriesDBからデータ取得
     await db.ShopCategories.findAll({
       where: { user_id: loginedUserId },
     }).then((allData) => {
-      // // user_nameを取得
-      // const loginedUserName: string = loginedUserData[0].dataValues.user_name;
-      // // res.localsに代入
-      // res.locals.username = loginedUserName;
-
-      // // shopCategoriesテーブルの全データを取得
-      // const loginedUserShopCategories: any[] =
-      //   loginedUserData[0].dataValues.ShopCategories;
-
-      // 各shop_categoryを配列に格納
+      // allDataから各shop_categoryを取得して配列に格納
       const shopCategories: string[] = [];
       allData.forEach((data) => {
         shopCategories.push(data.dataValues.shop_category);
@@ -40,10 +40,12 @@ export const renderShopCategoryPage = (req: Request, res: Response) => {
 };
 
 export const renderCreateCategoryPage = (req: Request, res: Response) => {
+  const loginedUserId: number = req.user!.id;
   res.render("createCategory", { loginedUserId: loginedUserId });
 };
 
 export const createShopCategory = (req: Request, res: Response) => {
+  const loginedUserId: number = req.user!.id;
   // formでpostされたcateogryを取得
   const createdCategory = req.body.category;
 
@@ -52,7 +54,6 @@ export const createShopCategory = (req: Request, res: Response) => {
     const t = await db.ShopCategories.sequelize!.transaction();
 
     try {
-      // userインスタンス作成
       // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
       await db.ShopCategories.create({
         user_id: loginedUserId,
@@ -66,7 +67,6 @@ export const createShopCategory = (req: Request, res: Response) => {
     }
 
     // redirect
-    // const redirectURL = "/category/" + loginedUserId;
     res.redirect("/category");
   })();
 };

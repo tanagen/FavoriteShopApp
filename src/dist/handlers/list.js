@@ -14,11 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateList = exports.renderEditListPage = exports.deleteList = exports.createList = exports.checkPostedUpdateList = exports.checkPostedNewList = exports.renderCreateListPage = exports.renderListPage = exports.getSelectedCategory = void 0;
 const index_1 = __importDefault(require("../models/index"));
-// sessionに格納したloginedUser情報を変数に格納
-const loginedUserId = 1;
-const loginedUserName = "gen";
 // 操作中のカテゴリー名を取得
 const getSelectedCategory = (req, res, next) => {
+    // passportのsessionからidを取得
+    const loginedUserId = req.user.id;
     // ルートパラメータからカテゴリーのインデックス番号を取得
     const categoryIndex = Number(req.params.index);
     res.locals.index = categoryIndex;
@@ -43,6 +42,8 @@ const getSelectedCategory = (req, res, next) => {
 exports.getSelectedCategory = getSelectedCategory;
 // リスト一覧の表示
 const renderListPage = (req, res) => {
+    // passportのsessionからid,user_nameを取得
+    const loginedUserId = req.user.id;
     (() => __awaiter(void 0, void 0, void 0, function* () {
         // user_favorite_shopsDBからデータ取得
         yield index_1.default.UserFavoriteShops.findAll({
@@ -170,6 +171,8 @@ const checkPostedUpdateList = (req, res, next) => {
 exports.checkPostedUpdateList = checkPostedUpdateList;
 // リストの新規登録
 const createList = (req, res) => {
+    // passportのsessionからidを取得
+    const loginedUserId = req.user.id;
     // ルートパラメータからcategoryIndexを取得して変数に代入
     const selectedCategoryIndex = req.params.index;
     // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
