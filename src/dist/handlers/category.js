@@ -14,23 +14,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createShopCategory = exports.renderCreateCategoryPage = exports.renderShopCategoryPage = void 0;
 const index_1 = __importDefault(require("../models/index"));
-// sessionに格納したloginedUser情報を変数に格納
-const loginedUserId = 1;
-const loginedUserName = "gen";
 const renderShopCategoryPage = (req, res) => {
+    // passportのsessionからid,user_nameを取得
+    const loginedUserId = req.user.id;
+    const loginedUserName = req.user.user_name;
     (() => __awaiter(void 0, void 0, void 0, function* () {
         // shop_categoriesDBからデータ取得
         yield index_1.default.ShopCategories.findAll({
             where: { user_id: loginedUserId },
         }).then((allData) => {
-            // // user_nameを取得
-            // const loginedUserName: string = loginedUserData[0].dataValues.user_name;
-            // // res.localsに代入
-            // res.locals.username = loginedUserName;
-            // // shopCategoriesテーブルの全データを取得
-            // const loginedUserShopCategories: any[] =
-            //   loginedUserData[0].dataValues.ShopCategories;
-            // 各shop_categoryを配列に格納
+            // allDataから各shop_categoryを取得して配列に格納
             const shopCategories = [];
             allData.forEach((data) => {
                 shopCategories.push(data.dataValues.shop_category);
@@ -48,17 +41,18 @@ const renderShopCategoryPage = (req, res) => {
 };
 exports.renderShopCategoryPage = renderShopCategoryPage;
 const renderCreateCategoryPage = (req, res) => {
+    const loginedUserId = req.user.id;
     res.render("createCategory", { loginedUserId: loginedUserId });
 };
 exports.renderCreateCategoryPage = renderCreateCategoryPage;
 const createShopCategory = (req, res) => {
+    const loginedUserId = req.user.id;
     // formでpostされたcateogryを取得
     const createdCategory = req.body.category;
     // 取得したcategoryをshop_categoriesDBに格納
     (() => __awaiter(void 0, void 0, void 0, function* () {
         const t = yield index_1.default.ShopCategories.sequelize.transaction();
         try {
-            // userインスタンス作成
             // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
             yield index_1.default.ShopCategories.create({
                 user_id: loginedUserId,
@@ -71,7 +65,6 @@ const createShopCategory = (req, res) => {
             yield (t === null || t === void 0 ? void 0 : t.rollback());
         }
         // redirect
-        // const redirectURL = "/category/" + loginedUserId;
         res.redirect("/category");
     }))();
 };

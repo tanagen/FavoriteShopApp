@@ -24,7 +24,7 @@ passport.use(
 
           throw new Error();
         })
-        .catch((erro) => {
+        .catch((error) => {
           // エラー処理
           return done(null, false, {
             message: "認証情報と一致するレコードがありません",
@@ -34,13 +34,18 @@ passport.use(
   )
 );
 
-// ユーザー情報をsessionに保存する
+// serializeUserやdeserializeUserはsessionに登録したり、sessionから取り出したりするのに利用
+// serializeUser:ユーザーオブジェクト(user)を渡してsessionの保存に成功したらdoneの第2引数でuserを返す
 passport.serializeUser((user: Express.User, done) => {
   done(null, user);
+  console.log("call serializeUser");
+  console.log(user);
 });
 
 // IDからユーザー情報を特定し、req.userに保存する
 passport.deserializeUser((user: Express.User, done) => {
+  console.log("call deserializeUser");
+  console.log(user);
   done(null, user);
 });
 
