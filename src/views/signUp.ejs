@@ -4,15 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/stylesheets/style.css" />
-    <title>Sign Up</title>
+    <title>sign up</title>
   </head>
   <body>
     <form action="/signup" method="post">
       <p>ユーザー名</p>
-      <input type="text" name="username" placeholder="tarou" />
+
+      <!-- 入力値のエラー表示 -->
+      <% if (Object.keys(errors).length > 0) { %>
+      <p class="error"><%= errors.userName %></p>
+      <% } %>
+
+      <input
+        type="text"
+        name="userName"
+        placeholder="tarou"
+        value="<%= userName %>"
+      />
       <p>メールアドレス</p>
-      <input type="text" name="email" placeholder="〇〇@test.com" />
+
+      <!-- 入力値のエラー表示 -->
+      <% if (Object.keys(errors).length > 0) { %>
+      <p class="error"><%= errors.email %></p>
+      <% } %>
+
+      <input
+        type="text"
+        name="email"
+        placeholder="〇〇@test.com"
+        value="<%= email %>"
+      />
       <p>パスワード</p>
+
+      <!-- 入力値のエラー表示 -->
+      <% if (Object.keys(errors).length > 0) { %>
+      <p class="error"><%= errors.password %></p>
+      <% } %>
+
       <input type="password" name="password" />
       <input class="button" type="submit" value="登録" />
     </form>

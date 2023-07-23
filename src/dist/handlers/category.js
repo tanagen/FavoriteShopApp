@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createShopCategory = exports.renderCreateCategoryPage = exports.renderShopCategoryPage = void 0;
+exports.checkPostedNewCategory = exports.createShopCategory = exports.renderCreateCategoryPage = exports.renderShopCategoryPage = void 0;
 const index_1 = __importDefault(require("../models/index"));
 const renderShopCategoryPage = (req, res) => {
+    console.log(req.user);
     // passportのsessionからid,user_nameを取得
     const loginedUserId = req.user.id;
     const loginedUserName = req.user.user_name;
@@ -42,7 +43,7 @@ const renderShopCategoryPage = (req, res) => {
 exports.renderShopCategoryPage = renderShopCategoryPage;
 const renderCreateCategoryPage = (req, res) => {
     const loginedUserId = req.user.id;
-    res.render("createCategory", { loginedUserId: loginedUserId });
+    res.render("createCategory", { errors: {} }); // { loginedUserId: loginedUserId }
 };
 exports.renderCreateCategoryPage = renderCreateCategoryPage;
 const createShopCategory = (req, res) => {
@@ -69,3 +70,23 @@ const createShopCategory = (req, res) => {
     }))();
 };
 exports.createShopCategory = createShopCategory;
+// カテゴリー新規登録における入力値の空チェック
+const checkPostedNewCategory = (req, res, next) => {
+    // postされた内容を変数に代入
+    const postedCategory = req.body.category;
+    // error文格納用の配列
+    const errors = {};
+    // errorチェック
+    if (postedCategory === "") {
+        errors["category"] = "入力してください";
+    }
+    if (Object.keys(errors).length > 0) {
+        res.render("createCategory", {
+            errors: errors,
+        });
+    }
+    else {
+        next();
+    }
+};
+exports.checkPostedNewCategory = checkPostedNewCategory;

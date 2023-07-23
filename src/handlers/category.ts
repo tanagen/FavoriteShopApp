@@ -1,5 +1,5 @@
 import db from "../models/index";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 
 declare global {
   namespace Express {
@@ -11,6 +11,7 @@ declare global {
 }
 
 export const renderShopCategoryPage = (req: Request, res: Response) => {
+  console.log(req.user);
   // passportのsessionからid,user_nameを取得
   const loginedUserId: number = req.user!.id;
   const loginedUserName: string = req.user!.user_name;
@@ -41,7 +42,7 @@ export const renderShopCategoryPage = (req: Request, res: Response) => {
 
 export const renderCreateCategoryPage = (req: Request, res: Response) => {
   const loginedUserId: number = req.user!.id;
-  res.render("createCategory", { loginedUserId: loginedUserId });
+  res.render("createCategory", { errors: {} }); // { loginedUserId: loginedUserId }
 };
 
 export const createShopCategory = (req: Request, res: Response) => {
@@ -69,4 +70,30 @@ export const createShopCategory = (req: Request, res: Response) => {
     // redirect
     res.redirect("/category");
   })();
+};
+
+// カテゴリー新規登録における入力値の空チェック
+export const checkPostedNewCategory = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  // postされた内容を変数に代入
+  const postedCategory = req.body.category;
+
+  // error文格納用の配列
+  const errors: { [key: string]: string } = {};
+
+  // errorチェック
+  if (postedCategory === "") {
+    errors["category"] = "入力してください";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    res.render("createCategory", {
+      errors: errors,
+    });
+  } else {
+    next();
+  }
 };

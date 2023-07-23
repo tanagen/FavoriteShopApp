@@ -11,7 +11,6 @@ export const checkAuthenticated = (
   if (req.isAuthenticated()) {
     next();
   } else {
-    next();
     res.redirect("/login");
   }
 };
