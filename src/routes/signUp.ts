@@ -1,8 +1,12 @@
 import express from "express";
-import { renderSignUpPage, signUp } from "../handlers/signUp";
+import {
+  renderSignUpPage,
+  checkPostedNewUser,
+  signUp,
+} from "../handlers/signUp";
 const router = express.Router();
 
 router.get("/", renderSignUpPage);
-router.post("/", signUp);
+router.post("/", checkPostedNewUser, signUp);
 
 export default router;

@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import db from "../models/index";
 import bcrypt from "bcrypt";
 
 export const renderSignUpPage = (req: Request, res: Response) => {
-  res.render("signUp");
+  res.render("signUp", { userName: "", email: "", errors: {} });
 };
 
 export const signUp = (req: Request, res: Response) => {
@@ -35,4 +35,40 @@ export const signUp = (req: Request, res: Response) => {
     // redirect
     res.redirect("/login");
   })();
+};
+
+// user新規登録における入力値の空チェック
+export const checkPostedNewUser = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  // postされた内容を変数に代入
+  const postedUserName = req.body.userName;
+  const postedEmail = req.body.email;
+  const postedPassword = req.body.password;
+
+  // error文格納用の配列
+  const errors: { [key: string]: string } = {};
+
+  // errorチェック
+  if (postedUserName === "") {
+    errors["userName"] = "入力してください";
+  }
+  if (postedEmail === "") {
+    errors["email"] = "入力してください";
+  }
+  if (postedPassword === "") {
+    errors["password"] = "入力してください";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    res.render("signUp", {
+      userName: postedUserName,
+      email: postedEmail,
+      errors: errors,
+    });
+  } else {
+    next();
+  }
 };

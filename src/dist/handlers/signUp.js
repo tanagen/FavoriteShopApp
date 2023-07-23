@@ -12,11 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signUp = exports.renderSignUpPage = void 0;
+exports.checkPostedNewUser = exports.signUp = exports.renderSignUpPage = void 0;
 const index_1 = __importDefault(require("../models/index"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const renderSignUpPage = (req, res) => {
-    res.render("signUp");
+    res.render("signUp", { userName: "", email: "", errors: {} });
 };
 exports.renderSignUpPage = renderSignUpPage;
 const signUp = (req, res) => {
@@ -44,3 +44,33 @@ const signUp = (req, res) => {
     }))();
 };
 exports.signUp = signUp;
+// user新規登録における入力値の空チェック
+const checkPostedNewUser = (req, res, next) => {
+    // postされた内容を変数に代入
+    const postedUserName = req.body.userName;
+    const postedEmail = req.body.email;
+    const postedPassword = req.body.password;
+    // error文格納用の配列
+    const errors = {};
+    // errorチェック
+    if (postedUserName === "") {
+        errors["userName"] = "入力してください";
+    }
+    if (postedEmail === "") {
+        errors["email"] = "入力してください";
+    }
+    if (postedPassword === "") {
+        errors["password"] = "入力してください";
+    }
+    if (Object.keys(errors).length > 0) {
+        res.render("signUp", {
+            userName: postedUserName,
+            email: postedEmail,
+            errors: errors,
+        });
+    }
+    else {
+        next();
+    }
+};
+exports.checkPostedNewUser = checkPostedNewUser;

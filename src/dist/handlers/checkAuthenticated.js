@@ -8,7 +8,6 @@ const checkAuthenticated = (req, res, next) => {
         next();
     }
     else {
-        next();
         res.redirect("/login");
     }
 };
