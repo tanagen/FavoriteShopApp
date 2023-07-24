@@ -38,14 +38,10 @@ passport.use(
 // serializeUser:ユーザーオブジェクト(user)を渡してsessionの保存に成功したらdoneの第2引数でuserを返す
 passport.serializeUser((user: Express.User, done) => {
   done(null, user);
-  console.log("call serializeUser");
-  console.log(user);
 });
 
 // IDからユーザー情報を特定し、req.userに保存する
 passport.deserializeUser((user: Express.User, done) => {
-  console.log("call deserializeUser");
-  console.log(user);
   done(null, user);
 });
 

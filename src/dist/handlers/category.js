@@ -12,10 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkPostedNewCategory = exports.createShopCategory = exports.renderCreateCategoryPage = exports.renderShopCategoryPage = void 0;
+exports.deleteCategory = exports.renderDeleteCategoryPage = exports.checkPostedNewCategory = exports.createShopCategory = exports.renderCreateCategoryPage = exports.renderShopCategoryPage = void 0;
 const index_1 = __importDefault(require("../models/index"));
 const renderShopCategoryPage = (req, res) => {
-    console.log(req.user);
     // passportのsessionからid,user_nameを取得
     const loginedUserId = req.user.id;
     const loginedUserName = req.user.user_name;
@@ -90,3 +89,69 @@ const checkPostedNewCategory = (req, res, next) => {
     }
 };
 exports.checkPostedNewCategory = checkPostedNewCategory;
+const renderDeleteCategoryPage = (req, res) => {
+    // passportのsessionからid,user_nameを取得
+    const loginedUserId = req.user.id;
+    (() => __awaiter(void 0, void 0, void 0, function* () {
+        // shop_categoriesDBからデータ取得
+        yield index_1.default.ShopCategories.findAll({
+            where: { user_id: loginedUserId },
+        }).then((allData) => {
+            // allDataから各shop_categoryを取得して配列に格納
+            const shopCategories = [];
+            allData.forEach((data) => {
+                shopCategories.push(data.dataValues.shop_category);
+            });
+            // 重複排除
+            const setedShopCategories = Array.from(new Set(shopCategories));
+            // レンダリング
+            res.render("deleteCategory", { shopCategories: setedShopCategories });
+        });
+    }))();
+};
+exports.renderDeleteCategoryPage = renderDeleteCategoryPage;
+const deleteCategory = (req, res) => {
+    // passportのsessionからid,user_nameを取得
+    const loginedUserId = req.user.id;
+    // checkboxで選択してpostされたオブジェクトのkeyの配列を作成
+    const postedCategories = Object.keys(req.body);
+    postedCategories.forEach((postedCategory) => {
+        // postされたcategoryをshop_categoriesDBとuser_favorite_shopsDBから削除
+        (() => __awaiter(void 0, void 0, void 0, function* () {
+            // const t1 = await db.ShopCategories.sequelize!.transaction();
+            try {
+                yield index_1.default.ShopCategories.findAll({
+                    where: { user_id: loginedUserId },
+                }).then((shopCategories) => {
+                    console.log(shopCategories);
+                    // shopCategories.destroy({
+                    //   where: {
+                    //     shop_category: postedCategory,
+                    //   },
+                    // });
+                });
+                // await t1?.commit;
+            }
+            catch (error) {
+                console.log(error);
+                // await t1?.rollback();
+            }
+            // const t2 = await db.UserFavoriteShops.sequelize!.transaction();
+            // try {
+            //   // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
+            //   await db.UserFavoriteShops.destroy({
+            //     where: {
+            //       shop_category: postedCategory,
+            //     },
+            //   });
+            //   await t2?.commit;
+            // } catch (error) {
+            //   console.log(error);
+            //   await t2?.rollback();
+            // }
+            // redirect
+            res.redirect("/category");
+        }))();
+    });
+};
+exports.deleteCategory = deleteCategory;

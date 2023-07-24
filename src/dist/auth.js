@@ -35,13 +35,9 @@ passport_1.default.use(new LocasStrategy({
 // serializeUser:ユーザーオブジェクト(user)を渡してsessionの保存に成功したらdoneの第2引数でuserを返す
 passport_1.default.serializeUser((user, done) => {
     done(null, user);
-    console.log("call serializeUser");
-    console.log(user);
 });
 // IDからユーザー情報を特定し、req.userに保存する
 passport_1.default.deserializeUser((user, done) => {
-    console.log("call deserializeUser");
-    console.log(user);
     done(null, user);
 });
 exports.default = passport_1.default;
