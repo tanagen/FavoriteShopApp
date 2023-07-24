@@ -1,5 +1,6 @@
 import db from "../models/index";
 import { Request, Response, NextFunction } from "express";
+import ShopCategories from "../models/shopCategories";
 
 declare global {
   namespace Express {
@@ -11,7 +12,6 @@ declare global {
 }
 
 export const renderShopCategoryPage = (req: Request, res: Response) => {
-  console.log(req.user);
   // passportのsessionからid,user_nameを取得
   const loginedUserId: number = req.user!.id;
   const loginedUserName: string = req.user!.user_name;
@@ -96,4 +96,79 @@ export const checkPostedNewCategory = (
   } else {
     next();
   }
+};
+
+export const renderDeleteCategoryPage = (req: Request, res: Response) => {
+  // passportのsessionからid,user_nameを取得
+  const loginedUserId: number = req.user!.id;
+
+  (async () => {
+    // shop_categoriesDBからデータ取得
+    await db.ShopCategories.findAll({
+      where: { user_id: loginedUserId },
+    }).then((allData) => {
+      // allDataから各shop_categoryを取得して配列に格納
+      const shopCategories: string[] = [];
+      allData.forEach((data) => {
+        shopCategories.push(data.dataValues.shop_category);
+      });
+
+      // 重複排除
+      const setedShopCategories: string[] = Array.from(new Set(shopCategories));
+
+      // レンダリング
+      res.render("deleteCategory", { shopCategories: setedShopCategories });
+    });
+  })();
+};
+
+export const deleteCategory = (req: Request, res: Response) => {
+  // passportのsessionからid,user_nameを取得
+  const loginedUserId: number = req.user!.id;
+  // checkboxで選択してpostされたオブジェクトのkeyの配列を作成
+  const postedCategories = Object.keys(req.body);
+
+  postedCategories.forEach((postedCategory) => {
+    // postされたcategoryをshop_categoriesDBとuser_favorite_shopsDBから削除
+    (async () => {
+      // const t1 = await db.ShopCategories.sequelize!.transaction();
+
+      try {
+        await db.ShopCategories.findAll({
+          where: { user_id: loginedUserId },
+        }).then((shopCategories) => {
+          console.log(shopCategories);
+          // shopCategories.destroy({
+          //   where: {
+          //     shop_category: postedCategory,
+          //   },
+          // });
+        });
+
+        // await t1?.commit;
+      } catch (error) {
+        console.log(error);
+        // await t1?.rollback();
+      }
+
+      // const t2 = await db.UserFavoriteShops.sequelize!.transaction();
+
+      // try {
+      //   // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
+      //   await db.UserFavoriteShops.destroy({
+      //     where: {
+      //       shop_category: postedCategory,
+      //     },
+      //   });
+
+      //   await t2?.commit;
+      // } catch (error) {
+      //   console.log(error);
+      //   await t2?.rollback();
+      // }
+
+      // redirect
+      res.redirect("/category");
+    })();
+  });
 };
