@@ -126,49 +126,82 @@ export const deleteCategory = (req: Request, res: Response) => {
   // passportのsessionからid,user_nameを取得
   const loginedUserId: number = req.user!.id;
   // checkboxで選択してpostされたオブジェクトのkeyの配列を作成
-  const postedCategories = Object.keys(req.body);
+  const postedCategories: string[] = Object.keys(req.body);
 
-  postedCategories.forEach((postedCategory) => {
-    // postされたcategoryをshop_categoriesDBとuser_favorite_shopsDBから削除
-    (async () => {
-      // const t1 = await db.ShopCategories.sequelize!.transaction();
+  // postされたcategoryをshop_categoriesDBとuser_favorite_shopsDBから削除
+  (async () => {
+    const t = await db.ShopCategories.sequelize!.transaction();
 
-      try {
-        await db.ShopCategories.findAll({
-          where: { user_id: loginedUserId },
-        }).then((shopCategories) => {
-          console.log(shopCategories);
-          // shopCategories.destroy({
-          //   where: {
-          //     shop_category: postedCategory,
-          //   },
-          // });
-        });
+    try {
+      await db.ShopCategories.destroy({
+        where: { user_id: loginedUserId, shop_category: postedCategories },
+      });
 
-        // await t1?.commit;
-      } catch (error) {
-        console.log(error);
-        // await t1?.rollback();
-      }
+      await db.UserFavoriteShops.destroy({
+        where: { user_id: loginedUserId, shop_category: postedCategories },
+      });
 
-      // const t2 = await db.UserFavoriteShops.sequelize!.transaction();
+      await t.commit;
+    } catch (error) {
+      console.log(error);
+      await t.rollback();
+    }
 
-      // try {
-      //   // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
-      //   await db.UserFavoriteShops.destroy({
-      //     where: {
-      //       shop_category: postedCategory,
-      //     },
-      //   });
+    // redirect
+    res.redirect("/category");
+  })();
 
-      //   await t2?.commit;
-      // } catch (error) {
-      //   console.log(error);
-      //   await t2?.rollback();
-      // }
+  // // passportのsessionからid,user_nameを取得
+  // const loginedUserId: number = req.user!.id;
+  // // checkboxで選択してpostされたオブジェクトのkeyの配列を作成
+  // const postedCategories: string[] = Object.keys(req.body);
 
-      // redirect
-      res.redirect("/category");
-    })();
-  });
+  // // postされたcategoryをshop_categoriesDBとuser_favorite_shopsDBから削除
+  // (async () => {
+  //   const t1 = await db.ShopCategories.sequelize!.transaction();
+
+  //   try {
+  //     await db.ShopCategories.destroy({
+  //       where: { user_id: loginedUserId, shop_category: postedCategories },
+  //     });
+
+  //     await t1?.commit;
+  //   } catch (error) {
+  //     console.log(error);
+  //     await t1?.rollback();
+  //   }
+
+  //   //
+  //   const t2 = await db.UserFavoriteShops.sequelize!.transaction();
+
+  //   try {
+  //     await db.UserFavoriteShops.destroy({
+  //       where: { user_id: loginedUserId, shop_category: postedCategories },
+  //     });
+
+  //     await t2?.commit;
+  //   } catch (error) {
+  //     console.log(error);
+  //     await t2?.rollback();
+  //   }
+
+  //   // const t2 = await db.UserFavoriteShops.sequelize!.transaction();
+
+  //   // try {
+  //   //   // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
+  //   //   await db.UserFavoriteShops.destroy({
+  //   //     where: {
+  //   //       shop_category: postedCategory,
+  //   //     },
+  //   //   });
+
+  //   //   await t2?.commit;
+  //   // } catch (error) {
+  //   //   console.log(error);
+  //   //   await t2?.rollback();
+  //   // }
+
+  //   // redirect
+  //   res.redirect("/category");
+  // })();
 };
