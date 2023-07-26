@@ -58,21 +58,10 @@ app.use(auth_1.default.initialize());
 app.use(auth_1.default.session());
 // ルーティング
 app.use("/login", login_1.default);
-app.use("/signup", signUp_1.default);
+app.use("/signUp", signUp_1.default);
 app.use("/logout", logout_1.default);
 app.use("/category", category_1.default);
 app.use("/list", list_1.default);
-// セッション情報を確認するミドルウェア
-// app.use((req: Request, res: Response, next: NextFunction) => {
-//   if (req.session.userId === undefined) {
-//     console.log("ログインしていません");
-//     // res.render("login");
-//     // res.redirect("/login");
-//   } else {
-//     console.log("ログインしています");
-//     next();
-//   }
-// });
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next((0, http_errors_1.default)(404));
