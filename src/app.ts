@@ -69,21 +69,10 @@ app.use(passport.session());
 
 // ルーティング
 app.use("/login", loginRoutes);
-app.use("/signup", signUpRoutes);
+app.use("/signUp", signUpRoutes);
 app.use("/logout", logoutRoutes);
 app.use("/category", categoryRoutes);
 app.use("/list", listRoutes);
-// セッション情報を確認するミドルウェア
-// app.use((req: Request, res: Response, next: NextFunction) => {
-//   if (req.session.userId === undefined) {
-//     console.log("ログインしていません");
-//     // res.render("login");
-//     // res.redirect("/login");
-//   } else {
-//     console.log("ログインしています");
-//     next();
-//   }
-// });
 
 // catch 404 and forward to error handler
 app.use(function (req: any, res: any, next: any) {

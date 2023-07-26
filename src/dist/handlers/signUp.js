@@ -21,9 +21,10 @@ const renderSignUpPage = (req, res) => {
 exports.renderSignUpPage = renderSignUpPage;
 const signUp = (req, res) => {
     // formでpostされたuser情報を取得
-    const createdUserName = req.body.username;
+    const createdUserName = req.body.userName;
     const createdEmail = req.body.email;
     const createdPassword = bcrypt_1.default.hashSync(req.body.password, bcrypt_1.default.genSaltSync(8));
+    console.log(createdEmail, createdEmail, createdPassword);
     // 取得したuser情報をusersDBに格納
     (() => __awaiter(void 0, void 0, void 0, function* () {
         const t = yield index_1.default.Users.sequelize.transaction();

@@ -1,6 +1,5 @@
 import db from "../models/index";
 import { Request, Response, NextFunction } from "express";
-import ShopCategories from "../models/shopCategories";
 
 declare global {
   namespace Express {
@@ -123,9 +122,9 @@ export const renderDeleteCategoryPage = (req: Request, res: Response) => {
 };
 
 export const deleteCategory = (req: Request, res: Response) => {
-  // passportのsessionからid,user_nameを取得
+  // sessionからid,user_nameを取得
   const loginedUserId: number = req.user!.id;
-  // checkboxで選択してpostされたオブジェクトのkeyの配列を作成
+  // checkboxからpostされたオブジェクトからkeyの配列を作成
   const postedCategories: string[] = Object.keys(req.body);
 
   // postされたcategoryをshop_categoriesDBとuser_favorite_shopsDBから削除
@@ -150,58 +149,4 @@ export const deleteCategory = (req: Request, res: Response) => {
     // redirect
     res.redirect("/category");
   })();
-
-  // // passportのsessionからid,user_nameを取得
-  // const loginedUserId: number = req.user!.id;
-  // // checkboxで選択してpostされたオブジェクトのkeyの配列を作成
-  // const postedCategories: string[] = Object.keys(req.body);
-
-  // // postされたcategoryをshop_categoriesDBとuser_favorite_shopsDBから削除
-  // (async () => {
-  //   const t1 = await db.ShopCategories.sequelize!.transaction();
-
-  //   try {
-  //     await db.ShopCategories.destroy({
-  //       where: { user_id: loginedUserId, shop_category: postedCategories },
-  //     });
-
-  //     await t1?.commit;
-  //   } catch (error) {
-  //     console.log(error);
-  //     await t1?.rollback();
-  //   }
-
-  //   //
-  //   const t2 = await db.UserFavoriteShops.sequelize!.transaction();
-
-  //   try {
-  //     await db.UserFavoriteShops.destroy({
-  //       where: { user_id: loginedUserId, shop_category: postedCategories },
-  //     });
-
-  //     await t2?.commit;
-  //   } catch (error) {
-  //     console.log(error);
-  //     await t2?.rollback();
-  //   }
-
-  //   // const t2 = await db.UserFavoriteShops.sequelize!.transaction();
-
-  //   // try {
-  //   //   // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
-  //   //   await db.UserFavoriteShops.destroy({
-  //   //     where: {
-  //   //       shop_category: postedCategory,
-  //   //     },
-  //   //   });
-
-  //   //   await t2?.commit;
-  //   // } catch (error) {
-  //   //   console.log(error);
-  //   //   await t2?.rollback();
-  //   // }
-
-  //   // redirect
-  //   res.redirect("/category");
-  // })();
 };

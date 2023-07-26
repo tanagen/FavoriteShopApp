@@ -8,12 +8,13 @@ export const renderSignUpPage = (req: Request, res: Response) => {
 
 export const signUp = (req: Request, res: Response) => {
   // formでpostされたuser情報を取得
-  const createdUserName = req.body.username;
+  const createdUserName = req.body.userName;
   const createdEmail = req.body.email;
   const createdPassword = bcrypt.hashSync(
     req.body.password,
     bcrypt.genSaltSync(8)
   );
+  console.log(createdEmail, createdEmail, createdPassword);
 
   // 取得したuser情報をusersDBに格納
   (async () => {
