@@ -51,7 +51,7 @@ export const createShopCategory = (req: Request, res: Response) => {
 
   // 取得したcategoryをshop_categoriesDBに格納
   (async () => {
-    const t = await db.ShopCategories.sequelize!.transaction();
+    // const t = await db.ShopCategories.sequelize!.transaction();
 
     try {
       // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
@@ -60,10 +60,10 @@ export const createShopCategory = (req: Request, res: Response) => {
         shop_category: createdCategory,
       });
 
-      await t?.commit;
+      // await t?.commit;
     } catch (error) {
       console.log(error);
-      await t?.rollback();
+      // await t?.rollback();
     }
 
     // redirect
@@ -129,7 +129,7 @@ export const deleteCategory = (req: Request, res: Response) => {
 
   // postされたcategoryをshop_categoriesDBとuser_favorite_shopsDBから削除
   (async () => {
-    const t = await db.ShopCategories.sequelize!.transaction();
+    // const t = await db.ShopCategories.sequelize!.transaction();
 
     try {
       await db.ShopCategories.destroy({
@@ -140,10 +140,10 @@ export const deleteCategory = (req: Request, res: Response) => {
         where: { user_id: loginedUserId, shop_category: postedCategories },
       });
 
-      await t.commit;
+      // await t.commit;
     } catch (error) {
       console.log(error);
-      await t.rollback();
+      // await t.rollback();
     }
 
     // redirect

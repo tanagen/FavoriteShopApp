@@ -27,18 +27,18 @@ const signUp = (req, res) => {
     console.log(createdEmail, createdEmail, createdPassword);
     // 取得したuser情報をusersDBに格納
     (() => __awaiter(void 0, void 0, void 0, function* () {
-        const t = yield index_1.default.Users.sequelize.transaction();
+        // const t = await db.Users.sequelize!.transaction();
         try {
             yield index_1.default.Users.create({
                 user_name: createdUserName,
                 user_email: createdEmail,
                 user_password: createdPassword,
             });
-            yield (t === null || t === void 0 ? void 0 : t.commit);
+            // await t?.commit;
         }
         catch (error) {
             console.log(error);
-            yield (t === null || t === void 0 ? void 0 : t.rollback());
+            // await t?.rollback();
         }
         // redirect
         res.redirect("/login");

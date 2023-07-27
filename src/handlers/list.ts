@@ -197,7 +197,7 @@ export const createList = (req: Request, res: Response) => {
 
   // postされた内容をuser_favorite_shopsDBに格納
   (async () => {
-    const t = await db.UserFavoriteShops.sequelize!.transaction();
+    // const t = await db.UserFavoriteShops.sequelize!.transaction();
 
     try {
       // createメソッドはbuild+saveを一度に行い、データベースにinsertまで行う
@@ -209,10 +209,10 @@ export const createList = (req: Request, res: Response) => {
         shop_description: createdDescription,
       });
 
-      await t?.commit;
+      // await t?.commit;
     } catch (error) {
       console.log(error);
-      await t?.rollback();
+      // await t?.rollback();
     }
 
     // redirect
@@ -226,7 +226,7 @@ export const deleteList = (req: Request, res: Response) => {
   const selectedCategoryIndex = req.params.index;
 
   (async () => {
-    const t = await db.UserFavoriteShops.sequelize!.transaction();
+    // const t = await db.UserFavoriteShops.sequelize!.transaction();
 
     try {
       // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
@@ -236,10 +236,10 @@ export const deleteList = (req: Request, res: Response) => {
         },
       });
 
-      await t?.commit;
+      // await t?.commit;
     } catch (error) {
       console.log(error);
-      await t?.rollback();
+      // await t?.rollback();
     }
 
     // redirect
@@ -313,7 +313,7 @@ export const updateList = (req: Request, res: Response) => {
 
   // user_favorite_shopsDBの選択したリストIdの情報を更新
   (async () => {
-    const t = await db.UserFavoriteShops.sequelize!.transaction();
+    // const t = await db.UserFavoriteShops.sequelize!.transaction();
 
     try {
       await db.UserFavoriteShops.update(
@@ -325,10 +325,10 @@ export const updateList = (req: Request, res: Response) => {
         { where: { id: selectedShopId } }
       );
 
-      await t?.commit;
+      // await t?.commit;
     } catch (error) {
       console.log(error);
-      await t?.rollback();
+      // await t?.rollback();
     }
 
     // redirect

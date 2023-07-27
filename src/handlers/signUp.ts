@@ -18,7 +18,7 @@ export const signUp = (req: Request, res: Response) => {
 
   // 取得したuser情報をusersDBに格納
   (async () => {
-    const t = await db.Users.sequelize!.transaction();
+    // const t = await db.Users.sequelize!.transaction();
 
     try {
       await db.Users.create({
@@ -27,10 +27,10 @@ export const signUp = (req: Request, res: Response) => {
         user_password: createdPassword,
       });
 
-      await t?.commit;
+      // await t?.commit;
     } catch (error) {
       console.log(error);
-      await t?.rollback();
+      // await t?.rollback();
     }
 
     // redirect

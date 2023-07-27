@@ -183,7 +183,7 @@ const createList = (req, res) => {
     const createdDescription = req.body.description;
     // postされた内容をuser_favorite_shopsDBに格納
     (() => __awaiter(void 0, void 0, void 0, function* () {
-        const t = yield index_1.default.UserFavoriteShops.sequelize.transaction();
+        // const t = await db.UserFavoriteShops.sequelize!.transaction();
         try {
             // createメソッドはbuild+saveを一度に行い、データベースにinsertまで行う
             yield index_1.default.UserFavoriteShops.create({
@@ -193,11 +193,11 @@ const createList = (req, res) => {
                 shop_location: createdLocation,
                 shop_description: createdDescription,
             });
-            yield (t === null || t === void 0 ? void 0 : t.commit);
+            // await t?.commit;
         }
         catch (error) {
             console.log(error);
-            yield (t === null || t === void 0 ? void 0 : t.rollback());
+            // await t?.rollback();
         }
         // redirect
         const redirectURL = "/list/" + selectedCategoryIndex;
@@ -209,7 +209,7 @@ exports.createList = createList;
 const deleteList = (req, res) => {
     const selectedCategoryIndex = req.params.index;
     (() => __awaiter(void 0, void 0, void 0, function* () {
-        const t = yield index_1.default.UserFavoriteShops.sequelize.transaction();
+        // const t = await db.UserFavoriteShops.sequelize!.transaction();
         try {
             // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
             yield index_1.default.UserFavoriteShops.destroy({
@@ -217,11 +217,11 @@ const deleteList = (req, res) => {
                     id: req.params.id,
                 },
             });
-            yield (t === null || t === void 0 ? void 0 : t.commit);
+            // await t?.commit;
         }
         catch (error) {
             console.log(error);
-            yield (t === null || t === void 0 ? void 0 : t.rollback());
+            // await t?.rollback();
         }
         // redirect
         const redirectURL = "/list/" + selectedCategoryIndex;
@@ -291,18 +291,18 @@ const updateList = (req, res) => {
     const selectedShopId = req.params.id;
     // user_favorite_shopsDBの選択したリストIdの情報を更新
     (() => __awaiter(void 0, void 0, void 0, function* () {
-        const t = yield index_1.default.UserFavoriteShops.sequelize.transaction();
+        // const t = await db.UserFavoriteShops.sequelize!.transaction();
         try {
             yield index_1.default.UserFavoriteShops.update({
                 shop_name: req.body.name,
                 shop_location: req.body.location,
                 shop_description: req.body.description,
             }, { where: { id: selectedShopId } });
-            yield (t === null || t === void 0 ? void 0 : t.commit);
+            // await t?.commit;
         }
         catch (error) {
             console.log(error);
-            yield (t === null || t === void 0 ? void 0 : t.rollback());
+            // await t?.rollback();
         }
         // redirect
         const redirectURL = "/list/" + selectedCategoryIndex;

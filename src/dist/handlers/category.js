@@ -51,18 +51,18 @@ const createShopCategory = (req, res) => {
     const createdCategory = req.body.category;
     // 取得したcategoryをshop_categoriesDBに格納
     (() => __awaiter(void 0, void 0, void 0, function* () {
-        const t = yield index_1.default.ShopCategories.sequelize.transaction();
+        // const t = await db.ShopCategories.sequelize!.transaction();
         try {
             // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
             yield index_1.default.ShopCategories.create({
                 user_id: loginedUserId,
                 shop_category: createdCategory,
             });
-            yield (t === null || t === void 0 ? void 0 : t.commit);
+            // await t?.commit;
         }
         catch (error) {
             console.log(error);
-            yield (t === null || t === void 0 ? void 0 : t.rollback());
+            // await t?.rollback();
         }
         // redirect
         res.redirect("/category");
@@ -117,7 +117,7 @@ const deleteCategory = (req, res) => {
     const postedCategories = Object.keys(req.body);
     // postされたcategoryをshop_categoriesDBとuser_favorite_shopsDBから削除
     (() => __awaiter(void 0, void 0, void 0, function* () {
-        const t = yield index_1.default.ShopCategories.sequelize.transaction();
+        // const t = await db.ShopCategories.sequelize!.transaction();
         try {
             yield index_1.default.ShopCategories.destroy({
                 where: { user_id: loginedUserId, shop_category: postedCategories },
@@ -125,11 +125,11 @@ const deleteCategory = (req, res) => {
             yield index_1.default.UserFavoriteShops.destroy({
                 where: { user_id: loginedUserId, shop_category: postedCategories },
             });
-            yield t.commit;
+            // await t.commit;
         }
         catch (error) {
             console.log(error);
-            yield t.rollback();
+            // await t.rollback();
         }
         // redirect
         res.redirect("/category");
