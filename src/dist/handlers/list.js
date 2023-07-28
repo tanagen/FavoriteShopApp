@@ -98,7 +98,7 @@ const checkPostedNewList = (req, res, next) => {
     // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
     const categoryIndex = res.locals.index;
     const selectedCategory = res.locals.selectedCategory;
-    // postされた内容を変数に代入
+    // postされた値を変数に代入
     const postedShopName = req.body.name;
     const postedShopLocation = req.body.location;
     const postedShopDescription = req.body.description;

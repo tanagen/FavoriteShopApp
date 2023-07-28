@@ -19,6 +19,7 @@
           <!-- 入力値のエラー表示 -->
           <% if (Object.keys(errors).length > 0) { %>
           <p class="error"><%= errors.category %></p>
+          <p class="error"><%= errors.duplication %></p>
           <% } %>
 
           <input name="category" type="text" />

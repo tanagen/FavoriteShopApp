@@ -10,10 +10,13 @@ declare global {
   }
 }
 
-export const renderShopCategoryPage = (req: Request, res: Response) => {
+export const getShopCategories = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   // passportのsessionからid,user_nameを取得
   const loginedUserId: number = req.user!.id;
-  const loginedUserName: string = req.user!.user_name;
 
   (async () => {
     // shop_categoriesDBからデータ取得
@@ -28,19 +31,48 @@ export const renderShopCategoryPage = (req: Request, res: Response) => {
 
       // 重複排除
       const setedShopCategories: string[] = Array.from(new Set(shopCategories));
+      // res.localに格納
+      res.locals.shopCategories = setedShopCategories;
 
-      // category.ejsをレンダリング
-      res.render("category", {
-        // loginedUserId: loginedUserId,
-        loginedUserName: loginedUserName,
-        shopCategories: setedShopCategories,
-      });
+      next();
     });
   })();
 };
 
+export const renderShopCategoryPage = (req: Request, res: Response) => {
+  // passportのsessionからid,user_nameを取得
+  // const loginedUserId: number = req.user!.id;
+  const loginedUserName: string = req.user!.user_name;
+
+  // getShopCategoriesメソッドで取得したres.localsの内容を取得して変数に代入
+  const userShopCategories = res.locals.shopCategories;
+
+  // (async () => {
+  //   // shop_categoriesDBからデータ取得
+  //   await db.ShopCategories.findAll({
+  //     where: { user_id: loginedUserId },
+  //   }).then((allData) => {
+  //     // allDataから各shop_categoryを取得して配列に格納
+  //     const shopCategories: string[] = [];
+  //     allData.forEach((data) => {
+  //       shopCategories.push(data.dataValues.shop_category);
+  //     });
+
+  //     // 重複排除
+  //     const setedShopCategories: string[] = Array.from(new Set(shopCategories));
+
+  //   });
+  // })();
+
+  // category.ejsをレンダリング
+  res.render("category", {
+    loginedUserName: loginedUserName,
+    shopCategories: userShopCategories,
+  });
+};
+
 export const renderCreateCategoryPage = (req: Request, res: Response) => {
-  const loginedUserId: number = req.user!.id;
+  // const loginedUserId: number = req.user!.id;
   res.render("createCategory", { errors: {} }); // { loginedUserId: loginedUserId }
 };
 
@@ -54,7 +86,6 @@ export const createShopCategory = (req: Request, res: Response) => {
     // const t = await db.ShopCategories.sequelize!.transaction();
 
     try {
-      // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
       await db.ShopCategories.create({
         user_id: loginedUserId,
         shop_category: createdCategory,
@@ -71,13 +102,16 @@ export const createShopCategory = (req: Request, res: Response) => {
   })();
 };
 
-// カテゴリー新規登録における入力値の空チェック
+// カテゴリー新規登録における入力値の空チェック&既存カテゴリーチェック
 export const checkPostedNewCategory = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  // postされた内容を変数に代入
+  // getShopCategoriesメソッドで取得したres.localsの内容を取得して変数に代入
+  const presentShopCategories: string[] = res.locals.shopCategories;
+
+  // postされた値を取得して変数に代入
   const postedCategory = req.body.category;
 
   // error文格納用の配列
@@ -86,6 +120,9 @@ export const checkPostedNewCategory = (
   // errorチェック
   if (postedCategory === "") {
     errors["category"] = "入力してください";
+  }
+  if (presentShopCategories.includes(postedCategory) === true) {
+    errors["duplication"] = "既に登録されたカテゴリーです";
   }
 
   if (Object.keys(errors).length > 0) {
