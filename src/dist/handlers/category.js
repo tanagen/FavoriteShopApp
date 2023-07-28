@@ -12,12 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCategory = exports.renderDeleteCategoryPage = exports.checkPostedNewCategory = exports.createShopCategory = exports.renderCreateCategoryPage = exports.renderShopCategoryPage = void 0;
+exports.deleteCategory = exports.renderDeleteCategoryPage = exports.checkPostedNewCategory = exports.createShopCategory = exports.renderCreateCategoryPage = exports.renderShopCategoryPage = exports.getShopCategories = void 0;
 const index_1 = __importDefault(require("../models/index"));
-const renderShopCategoryPage = (req, res) => {
+const getShopCategories = (req, res, next) => {
     // passportのsessionからid,user_nameを取得
     const loginedUserId = req.user.id;
-    const loginedUserName = req.user.user_name;
     (() => __awaiter(void 0, void 0, void 0, function* () {
         // shop_categoriesDBからデータ取得
         yield index_1.default.ShopCategories.findAll({
@@ -30,18 +29,42 @@ const renderShopCategoryPage = (req, res) => {
             });
             // 重複排除
             const setedShopCategories = Array.from(new Set(shopCategories));
-            // category.ejsをレンダリング
-            res.render("category", {
-                // loginedUserId: loginedUserId,
-                loginedUserName: loginedUserName,
-                shopCategories: setedShopCategories,
-            });
+            // res.localに格納
+            res.locals.shopCategories = setedShopCategories;
+            next();
         });
     }))();
 };
+exports.getShopCategories = getShopCategories;
+const renderShopCategoryPage = (req, res) => {
+    // passportのsessionからid,user_nameを取得
+    // const loginedUserId: number = req.user!.id;
+    const loginedUserName = req.user.user_name;
+    // getShopCategoriesメソッドで取得したres.localsの内容を取得して変数に代入
+    const userShopCategories = res.locals.shopCategories;
+    // (async () => {
+    //   // shop_categoriesDBからデータ取得
+    //   await db.ShopCategories.findAll({
+    //     where: { user_id: loginedUserId },
+    //   }).then((allData) => {
+    //     // allDataから各shop_categoryを取得して配列に格納
+    //     const shopCategories: string[] = [];
+    //     allData.forEach((data) => {
+    //       shopCategories.push(data.dataValues.shop_category);
+    //     });
+    //     // 重複排除
+    //     const setedShopCategories: string[] = Array.from(new Set(shopCategories));
+    //   });
+    // })();
+    // category.ejsをレンダリング
+    res.render("category", {
+        loginedUserName: loginedUserName,
+        shopCategories: userShopCategories,
+    });
+};
 exports.renderShopCategoryPage = renderShopCategoryPage;
 const renderCreateCategoryPage = (req, res) => {
-    const loginedUserId = req.user.id;
+    // const loginedUserId: number = req.user!.id;
     res.render("createCategory", { errors: {} }); // { loginedUserId: loginedUserId }
 };
 exports.renderCreateCategoryPage = renderCreateCategoryPage;
@@ -53,7 +76,6 @@ const createShopCategory = (req, res) => {
     (() => __awaiter(void 0, void 0, void 0, function* () {
         // const t = await db.ShopCategories.sequelize!.transaction();
         try {
-            // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
             yield index_1.default.ShopCategories.create({
                 user_id: loginedUserId,
                 shop_category: createdCategory,
@@ -69,15 +91,20 @@ const createShopCategory = (req, res) => {
     }))();
 };
 exports.createShopCategory = createShopCategory;
-// カテゴリー新規登録における入力値の空チェック
+// カテゴリー新規登録における入力値の空チェック&既存カテゴリーチェック
 const checkPostedNewCategory = (req, res, next) => {
-    // postされた内容を変数に代入
+    // getShopCategoriesメソッドで取得したres.localsの内容を取得して変数に代入
+    const presentShopCategories = res.locals.shopCategories;
+    // postされた値を取得して変数に代入
     const postedCategory = req.body.category;
     // error文格納用の配列
     const errors = {};
     // errorチェック
     if (postedCategory === "") {
         errors["category"] = "入力してください";
+    }
+    if (presentShopCategories.includes(postedCategory) === true) {
+        errors["duplication"] = "既に登録されたカテゴリーです";
     }
     if (Object.keys(errors).length > 0) {
         res.render("createCategory", {
