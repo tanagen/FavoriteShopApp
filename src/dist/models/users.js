@@ -49,7 +49,7 @@ class Users extends sequelize_1.Model {
         });
         return Users;
     }
-    // テーブル関係を記述
+    // テーブル関係の記述
     static associate() {
         this.hasMany(userFavoriteShops_1.default, {
             sourceKey: "id",
