@@ -29,7 +29,23 @@ export const signUp = (req: Request, res: Response) => {
 
       // await t?.commit;
     } catch (error) {
+      // errorの場合はemailが重複している
       console.log(error);
+
+      // postした値を取得
+      const postedUserName = req.body.userName;
+      const postedEmail = req.body.email;
+
+      // email重複エラー文
+      const errors: { [key: string]: string } = {};
+      errors["email"] = "既に登録されています";
+
+      return res.render("signUp", {
+        userName: postedUserName,
+        email: postedEmail,
+        errors: errors,
+      });
+
       // await t?.rollback();
     }
 

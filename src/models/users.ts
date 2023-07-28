@@ -68,7 +68,7 @@ export default class Users extends Model {
     return Users;
   }
 
-  // テーブル関係を記述
+  // テーブル関係の記述
   public static associate() {
     this.hasMany(UserFavoriteShops, {
       sourceKey: "id",
