@@ -1,0 +1,6 @@
+学習内容
+8/9
+・アカウント作成
+・root userとIAM userを作成
+・CloudWatchで料金アラートを設定
+・CloudTrailで操作ログを記録
