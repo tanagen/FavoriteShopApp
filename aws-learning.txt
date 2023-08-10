@@ -4,3 +4,8 @@
 ・root userとIAM userを作成
 ・CloudWatchで料金アラートを設定
 ・CloudTrailで操作ログを記録
+8/10
+・VPCの作成
+・IPアドレスの設定
+・サブネットの作成
+・ルーティングの設定
