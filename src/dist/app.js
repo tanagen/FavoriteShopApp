@@ -8,6 +8,7 @@ const http_errors_1 = __importDefault(require("http-errors"));
 const path_1 = __importDefault(require("path"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const morgan_1 = __importDefault(require("morgan"));
+const top_1 = __importDefault(require("./routes/top"));
 const login_1 = __importDefault(require("./routes/login"));
 const signUp_1 = __importDefault(require("./routes/signUp"));
 const category_1 = __importDefault(require("./routes/category"));
@@ -57,6 +58,7 @@ app.use(auth_1.default.initialize());
 // sessionが有効な間、リクエストのたびにデシリアライズを実行し、req.userの更新を行う
 app.use(auth_1.default.session());
 // ルーティング
+app.use("/", top_1.default);
 app.use("/login", login_1.default);
 app.use("/signUp", signUp_1.default);
 app.use("/logout", logout_1.default);
