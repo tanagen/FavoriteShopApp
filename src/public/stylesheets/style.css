@@ -73,7 +73,7 @@ a {
   align-items: center;
   margin: 10px auto;
   width: 160px;
-  /* max-width: 220px; */
+  max-width: 220px;
   padding: 10px 25px;
   color: #FFF;
   font-weight: 600;
