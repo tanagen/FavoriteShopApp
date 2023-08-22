@@ -4,18 +4,24 @@ li {
 }
 
 body {
-  background-color: #DCF5FF;
+  background-color: #F5F5F7;
   padding: 50px;
-  font: 16px Helvetica;
+  font: 16px Lato;
 }
 
 a {
-  color: #00B7FF;
+  color: inherit;
+  text-decoration: none;
 }
 
 .error {
   color: red;
 }
+
+label, input {
+  display: block;
+}
+
 
 /* top.ejs ================================ */
 .top-parent {
@@ -34,7 +40,7 @@ a {
 }
 
 .top a {
-  border-radius: 3px;
+  border-radius: 8px;
   position: relative;
   display: flex;
   justify-content: space-around;
@@ -44,43 +50,60 @@ a {
   padding: 10px 25px;
   color: #FFF;
   font-weight: 600;
-  background: rgb(149,202,252);
-  background: linear-gradient(270deg, rgba(149,202,252,1) 0%, rgba(107,182,255,1) 100%);
+  background: rgb(62,62,62);
+  background: linear-gradient(270deg, rgba(62,62,62,1) 0%, rgb(59,41,41,1) 100%);
+  /* background: rgb(149,202,252);
+  background: linear-gradient(270deg, rgba(149,202,252,1) 0%, rgba(107,182,255,1) 100%); */
 }
 .top a:hover {
-  background: rgb(117,188,255);
-  background: linear-gradient(270deg, rgba(117,188,255,1) 0%, rgba(62,159,252,1) 100%);
+  background: rgb(30,42,65);
+  background: linear-gradient(270deg, rgb(26, 34, 47) 0%, rgb(23, 28, 47) 100%);
+  /* background: rgb(117,188,255);
+  background: linear-gradient(270deg, rgba(117,188,255,1) 0%, rgba(62,159,252,1) 100%); */
 }
 
 
 /* login.ejs ================================ */
+.login-parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .login {
   text-align: center;
 }
 
 .login input {
-  width: 200px;
+  margin: 0px auto 0px;
+  width: 250px;
 }
 
+.login input {
+  margin-top: 10px;
+}
+
+.password {
+  margin-top: 20px;
+}
 
 .login input[type="submit"] {
   border: none;
   background: transparent;
-  border-radius: 3px;
+  border-radius: 8px;
   position: relative;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: 10px auto;
-  width: 160px;
+  margin: 20px auto 10px;
+  width: 200px;
   max-width: 220px;
   padding: 10px 25px;
   color: #FFF;
   font-weight: 600;
-  background: rgb(149,202,252);
-  background: linear-gradient(270deg, rgba(149,202,252,1) 0%, rgba(107,182,255,1) 100%);
+  background: rgb(62,62,62);
+  background: linear-gradient(270deg, rgba(62,62,62,1) 0%, rgb(59,41,41,1) 100%);
 }
 .login input[type="submit"]:hover {
-  background: rgb(117,188,255);
-  background: linear-gradient(270deg, rgba(117,188,255,1) 0%, rgba(62,159,252,1) 100%);
+  background: rgb(30,42,65);
+  background: linear-gradient(270deg, rgb(26, 34, 47) 0%, rgb(23, 28, 47) 100%);
 }
