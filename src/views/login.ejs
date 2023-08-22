@@ -7,22 +7,24 @@
     <title>ログイン</title>
   </head>
   <body>
-    <main class="top-parent">
+    <main class="login-parent">
       <div class="login">
-        <a href="/">トップ</a>
-        <a href="/signUp">ユーザー登録</a>
         <h1>ユーザーログイン</h1>
         <h2 class="error"><%= errorMessage %></h2>
 
         <form action="/login" method="post">
-          <p>メールアドレス</p>
-          <input type="text" name="email" />
+          <!-- <p>メールアドレス</p>
+          <input type="text" name="email" /> -->
 
-          <p>パスワード</p>
-          <input type="password" name="password" />
+          <label for="email">メールアドレス</label>
+          <input type="text" id="email" name="email" />
+
+          <label class="password" for="password">パスワード</label>
+          <input type="password" id="password" name="password" />
           <p></p>
           <input class="button" type="submit" value="ログイン" />
         </form>
+        <a href="/signUp">ユーザー登録</a>
       </div>
     </main>
   </body>
