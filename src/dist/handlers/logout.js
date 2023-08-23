@@ -4,6 +4,7 @@ exports.logout = void 0;
 const logout = (req, res, next) => {
     req.logout((error) => {
         if (error) {
+            console.log(error);
             return next(error);
         }
         res.redirect("/login");
