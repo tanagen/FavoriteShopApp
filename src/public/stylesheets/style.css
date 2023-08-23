@@ -18,18 +18,29 @@ a {
   color: red;
 }
 
-label, input {
+label {
+  margin-top: 20px;
   display: block;
 }
 
+input {
+  display: block;
+}
 
-/* top.ejs ================================ */
-.top-parent {
-  /* border: 1px solid #000; */
+main {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* top.ejs ================================ */
 .top {
   /* border: 1px solid #000; */
   text-align: center;
@@ -64,29 +75,17 @@ label, input {
 
 
 /* login.ejs ================================ */
-.login-parent {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 .login {
   text-align: center;
 }
 
 .login input {
-  margin: 0px auto 0px;
+  margin: 10px auto 0px;
   width: 250px;
 }
 
-.login input {
-  margin-top: 10px;
-}
-
-.password {
-  margin-top: 20px;
-}
-
 .login input[type="submit"] {
+  cursor:pointer;
   border: none;
   background: transparent;
   border-radius: 8px;
@@ -106,4 +105,60 @@ label, input {
 .login input[type="submit"]:hover {
   background: rgb(30,42,65);
   background: linear-gradient(270deg, rgb(26, 34, 47) 0%, rgb(23, 28, 47) 100%);
+}
+
+.signup-link {
+  text-decoration: underline;
+}
+
+.signup-link:hover {
+  color:rgb(197, 114, 96);
+}
+
+/* signUp.ejs ================================ */
+header a:hover {
+  color:rgb(197, 114, 96);
+}
+
+.signup {
+  text-align: center;
+}
+
+.signup input {
+  margin: 0px auto 0px;
+  width: 250px;
+}
+
+.signup input[type="submit"] {
+  cursor:pointer;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px auto 10px;
+  width: 200px;
+  max-width: 220px;
+  padding: 10px 25px;
+  color: #FFF;
+  font-weight: 600;
+  background: rgb(62,62,62);
+  background: linear-gradient(270deg, rgba(62,62,62,1) 0%, rgb(59,41,41,1) 100%);
+}
+.signup input[type="submit"]:hover {
+  background: rgb(30,42,65);
+  background: linear-gradient(270deg, rgb(26, 34, 47) 0%, rgb(23, 28, 47) 100%);
+}
+
+.signup input {
+  margin: 10px auto 0px;
+  width: 250px;
+}
+
+
+/* category.ejs ================================ */
+.category h1 {
+  text-align: center;
 }

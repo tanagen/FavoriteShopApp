@@ -7,11 +7,16 @@
     <title>category</title>
   </head>
   <body>
-    <header><%- include('header'); %></header>
+    <header>
+      <form action="/logout" method="post">
+        <input class="button" type="submit" value="ログアウト" />
+      </form>
+    </header>
+
     <main>
-      <div class="main-header"></div>
-      <div class="catogory-container">
-        <h1><%= `${loginedUserName}'s favorite shop categories`%></h1>
+      <div class="category">
+        <h1><%= `Hello ${loginedUserName}`%></h1>
+        <h1>favorite shop categories</h1>
         <% shopCategories.forEach((shopCategory, index) => { %>
         <li><a href="/list/<%= index %>"><%= shopCategory %></a></li>
         <% }) %>

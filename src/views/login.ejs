@@ -7,7 +7,10 @@
     <title>ログイン</title>
   </head>
   <body>
-    <main class="login-parent">
+    <header>
+      <a href="/">トップ</a>
+    </header>
+    <main>
       <div class="login">
         <h1>ユーザーログイン</h1>
         <h2 class="error"><%= errorMessage %></h2>
@@ -24,7 +27,7 @@
           <p></p>
           <input class="button" type="submit" value="ログイン" />
         </form>
-        <a href="/signUp">ユーザー登録</a>
+        <a class="signup-link" href="/signUp">ユーザー登録</a>
       </div>
     </main>
   </body>

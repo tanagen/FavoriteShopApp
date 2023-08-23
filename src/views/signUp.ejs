@@ -6,46 +6,54 @@
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <title>sign up</title>
   </head>
-  <header>
-    <a href="/login">ログイン</a>
-  </header>
   <body>
-    <form action="/signUp" method="post">
-      <p>ユーザー名</p>
+    <header>
+      <a href="/login">ログイン</a>
+    </header>
 
-      <!-- 入力値のエラー表示 -->
-      <% if (Object.keys(errors).length > 0) { %>
-      <p class="error"><%= errors.userName %></p>
-      <% } %>
+    <main>
+      <div class="signup">
+        <h1>ユーザー登録</h1>
+        <form action="/signUp" method="post">
+          <label for="username">ユーザー名</label>
 
-      <input
-        type="text"
-        name="userName"
-        placeholder="tarou"
-        value="<%= userName %>"
-      />
-      <p>メールアドレス</p>
+          <!-- 入力値のエラー表示 -->
+          <% if (Object.keys(errors).length > 0) { %>
+          <p class="error"><%= errors.userName %></p>
+          <% } %>
 
-      <!-- 入力値のエラー表示 -->
-      <% if (Object.keys(errors).length > 0) { %>
-      <p class="error"><%= errors.email %></p>
-      <% } %>
+          <input
+            id="username"
+            type="text"
+            name="userName"
+            placeholder="tarou"
+            value="<%= userName %>"
+          />
+          <label for="email">メールアドレス</label>
 
-      <input
-        type="text"
-        name="email"
-        placeholder="〇〇@test.com"
-        value="<%= email %>"
-      />
-      <p>パスワード</p>
+          <!-- 入力値のエラー表示 -->
+          <% if (Object.keys(errors).length > 0) { %>
+          <p class="error"><%= errors.email %></p>
+          <% } %>
 
-      <!-- 入力値のエラー表示 -->
-      <% if (Object.keys(errors).length > 0) { %>
-      <p class="error"><%= errors.password %></p>
-      <% } %>
+          <input
+            id="email"
+            type="text"
+            name="email"
+            placeholder="〇〇@test.com"
+            value="<%= email %>"
+          />
+          <label for="password">パスワード</label>
 
-      <input type="password" name="password" />
-      <input class="button" type="submit" value="登録" />
-    </form>
+          <!-- 入力値のエラー表示 -->
+          <% if (Object.keys(errors).length > 0) { %>
+          <p class="error"><%= errors.password %></p>
+          <% } %>
+
+          <input id="password" type="password" name="password" />
+          <input class="button" type="submit" value="登録" />
+        </form>
+      </div>
+    </main>
   </body>
 </html>
