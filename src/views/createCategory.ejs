@@ -8,13 +8,14 @@
     <title>create category</title>
   </head>
   <body>
-    <header><%- include('header'); %></header>
+    <header>
+      <a href="/category">カテゴリー一覧</a>
+    </header>
     <main>
-      <div class="main-header"></div>
-
-      <div class="create-catogory">
+      <div class="create-category">
+        <h1>Create Category</h1>
         <form action="/category" method="post">
-          <p>カテゴリー</p>
+          <label for="category">カテゴリー</label>
 
           <!-- 入力値のエラー表示 -->
           <% if (Object.keys(errors).length > 0) { %>
@@ -22,7 +23,7 @@
           <p class="error"><%= errors.duplication %></p>
           <% } %>
 
-          <input name="category" type="text" />
+          <input id="category" name="category" type="text" />
           <input class="button" type="submit" value="登録" />
         </form>
       </div>
