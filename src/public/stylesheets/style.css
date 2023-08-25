@@ -261,9 +261,9 @@ header a:hover {
 }
 
 /* deleteCategory.ejs ================================ */
-/* .delete-category {
+.delete-category {
   text-align: center;
-} */
+}
 
 .delete-category input[type="submit"] {
   cursor:pointer;
@@ -275,7 +275,7 @@ header a:hover {
   justify-content: space-around;
   align-items: center;
   margin: 20px auto 10px;
-  width: 200px;
+  width: 100px;
   max-width: 220px;
   padding: 10px 25px;
   color: #FFF;
@@ -289,10 +289,23 @@ header a:hover {
 }
 
 .delete-category input[type="checkbox"] {
-  display: inline;
-  margin: 0;
+  display: block;
+  text-align: left;
+  padding: 5px;
+  /* margin: 0; */
 }
+.delete-category input[type="checkbox"]:hover {
+ cursor: pointer;
+}
+
 .delete-category label {
-  display: inline;
-  margin: 0;
+  display: block;
+  text-align: left;
+  /* margin: 0; */
+  font-size: 20px;
+}
+
+.delete-category label:hover {
+  cursor: pointer;
+  color: rgb(208, 44, 44);
 }
