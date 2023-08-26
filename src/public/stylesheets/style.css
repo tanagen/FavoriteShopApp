@@ -262,7 +262,7 @@ header a:hover {
 
 /* deleteCategory.ejs ================================ */
 .delete-category {
-  text-align: center;
+  /* text-align: center; */
 }
 
 .delete-category input[type="submit"] {
@@ -289,8 +289,8 @@ header a:hover {
 }
 
 .delete-category input[type="checkbox"] {
-  display: block;
-  text-align: left;
+  /* display: block; */
+  /* text-align: left; */
   padding: 5px;
   /* margin: 0; */
 }
@@ -299,9 +299,9 @@ header a:hover {
 }
 
 .delete-category label {
-  display: block;
-  text-align: left;
-  /* margin: 0; */
+  /* display: block; */
+  /* text-align: left; */
+  margin: 0;
   font-size: 20px;
 }
 
