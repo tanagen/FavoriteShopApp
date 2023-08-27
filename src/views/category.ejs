@@ -8,11 +8,10 @@
   </head>
   <body>
     <header>
-      <div class="logout">
-        <form action="/logout" method="post">
-          <input class="button" type="submit" value="ログアウト" />
-        </form>
-      </div>
+      <a href="/">トップ</a>
+      &nbsp;>&nbsp;
+      <a href="/login">ログイン</a>
+      &nbsp;>&nbsp;カテゴリー
     </header>
 
     <main>
@@ -28,8 +27,14 @@
         </ul>
         <a href="/category/create" class="create">新規作成</a>
         <a href="/category/delete" class="delete">削除</a>
+        <div class="logout">
+          <form action="/logout" method="post">
+            <input type="submit" value="ログアウト" />
+          </form>
+        </div>
       </div>
     </main>
+
     <footer></footer>
   </body>
 </html>

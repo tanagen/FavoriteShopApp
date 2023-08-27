@@ -7,10 +7,18 @@
     <title>favorite shop list</title>
   </head>
   <body>
-    <header><%- include('header'); %></header>
+    <header>
+      <a href="/">トップ</a>
+      &nbsp;>&nbsp;
+      <a href="/login">ログイン</a>
+      &nbsp;>&nbsp;
+      <a href="/category">カテゴリー</a>
+      &nbsp;>&nbsp;メモ
+    </header>
+
     <main>
-      <div class="list-container">
-        <h1><%= `${locals.selectedCategory} list` %></h1>
+      <div class="list">
+        <h1><%= `${locals.selectedCategory}` %></h1>
 
         <!-- user_favorite_shopDBに情報がない場合の表示 -->
         <% if (errorMessage.length !== 0) { %>
@@ -31,18 +39,20 @@
             <td class="location-column"><%= shopInfo.shop_location %></td>
             <td class="description-column"><%= shopInfo.shop_description %></td>
             <!-- 編集ボタン -->
-            <td>
-              <a href="/list/<%= categoryIndex %>/edit/<%= shopInfo.id %>"
+            <td class="list-edit">
+              <a
+                class="edit-button"
+                href="/list/<%= categoryIndex %>/edit/<%= shopInfo.id %>"
                 >編集</a
               >
             </td>
             <!-- 削除ボタン -->
-            <td>
+            <td class="list-delete">
               <form
                 action="/list/<%= categoryIndex %>/<%= shopInfo.id %>"
                 method="post"
               >
-                <input type="submit" value="削除" />
+                <input class="delete-button" type="submit" value="削除" />
               </form>
             </td>
           </tr>
@@ -51,7 +61,9 @@
         <% } %>
 
         <!-- 新規登録ボタン -->
-        <a href="/list/<%= categoryIndex %>/create">新規登録</a>
+        <a class="register-button" href="/list/<%= categoryIndex %>/create"
+          >新規登録</a
+        >
       </div>
     </main>
     <footer></footer>
