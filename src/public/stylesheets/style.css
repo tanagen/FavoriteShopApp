@@ -33,16 +33,19 @@ main {
   align-items: center;
 }
 
-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+.header-container {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+  width: 100%;
+  word-wrap: break-word;
 }
 
 
 /* top.ejs ================================ */
 .top {
-  /* border: 1px solid #000; */
   text-align: center;
 }
 .top-logo img{
@@ -81,7 +84,8 @@ header {
 
 .login input {
   margin: 10px auto 0px;
-  width: 250px;
+  width: 90%;
+  max-width: 250px;
 }
 
 .login input[type="submit"] {
@@ -415,4 +419,98 @@ table th,table td{
 
 .list-edit, .list-delete {
   width: 5%;
+}
+
+.table-name {
+  width: 15%;
+}
+
+.table-place {
+  width: 15%;
+}
+
+.table-memo {
+  width: 60%;
+}
+
+/* createList.ejs ================================ */
+.create-list {
+  text-align: center;
+}
+
+.create-list input {
+  margin: 10px auto 0px;
+  width: 80%;
+  max-width: 250px;
+}
+
+.create-list textarea {
+  margin: 10px auto 0px;
+  width: 100%;
+  max-width: 450px;
+}
+
+.create-button {
+  cursor:pointer;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px auto 10px;
+  width: 150px;
+  max-width: 220px;
+  padding: 10px 25px;
+  color: #FFF;
+  background: rgb(62,62,62);
+  background: linear-gradient(270deg, rgba(62,62,62,1) 0%, rgb(59,41,41,1) 100%);
+}
+
+.create-button:hover {
+  background: rgb(30,42,65);
+  background: linear-gradient(270deg, rgb(26, 34, 47, 1) 0%, rgb(23, 28, 47, 1) 100%);
+}
+
+
+/* editList.ejs ================================ */
+.edit-list {
+  text-align: center;
+  width: 100%;
+}
+
+.edit-list input {
+  margin: 10px auto 0px;
+  width: 80%;
+  max-width: 250px;
+}
+
+.edit-list textarea {
+  margin: 10px auto 0px;
+  width: 100%;
+  max-width: 450px;
+}
+
+.update-button {
+  cursor:pointer;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px auto 10px;
+  width: 150px;
+  max-width: 220px;
+  padding: 10px 25px;
+  color: #FFF;
+  background: rgb(62,62,62);
+  background: linear-gradient(270deg, rgba(62,62,62,1) 0%, rgb(59,41,41,1) 100%);
+}
+
+.update-button:hover {
+  background: rgb(30,42,65);
+  background: linear-gradient(270deg, rgb(26, 34, 47, 1) 0%, rgb(23, 28, 47, 1) 100%);
 }

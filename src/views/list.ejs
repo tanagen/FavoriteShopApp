@@ -8,12 +8,14 @@
   </head>
   <body>
     <header>
-      <a href="/">トップ</a>
-      &nbsp;>&nbsp;
-      <a href="/login">ログイン</a>
-      &nbsp;>&nbsp;
-      <a href="/category">カテゴリー</a>
-      &nbsp;>&nbsp;メモ
+      <div class="header-container">
+        <a href="/">トップ</a>
+        &nbsp;>&nbsp;
+        <a href="/login">ログイン</a>
+        &nbsp;>&nbsp;
+        <a href="/category">カテゴリー</a>
+        &nbsp;>&nbsp;<%=locals.selectedCategory%>
+      </div>
     </header>
 
     <main>
@@ -28,9 +30,9 @@
         <% } else { %>
         <table>
           <tr>
-            <th>名称</th>
-            <th>場所</th>
-            <th>メモ</th>
+            <th class="table-name">名称</th>
+            <th class="table-place">場所</th>
+            <th class="table-memo">メモ</th>
           </tr>
 
           <% allShopInfo.forEach((shopInfo) => { %>
@@ -52,7 +54,12 @@
                 action="/list/<%= categoryIndex %>/<%= shopInfo.id %>"
                 method="post"
               >
-                <input class="delete-button" type="submit" value="削除" />
+                <input
+                  class="delete-button"
+                  type="submit"
+                  value="削除"
+                  onclick="return confirm('削除してよろしいですか？');"
+                />
               </form>
             </td>
           </tr>
@@ -62,7 +69,7 @@
 
         <!-- 新規登録ボタン -->
         <a class="register-button" href="/list/<%= categoryIndex %>/create"
-          >新規登録</a
+          >新規作成</a
         >
       </div>
     </main>

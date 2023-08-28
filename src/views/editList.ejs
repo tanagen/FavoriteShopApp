@@ -7,59 +7,77 @@
     <title>create list</title>
   </head>
   <body>
-    <header><%- include('header'); %></header>
+    <header>
+      <div class="header-container">
+        <a href="/">トップ</a>
+        &nbsp;>&nbsp;
+        <a href="/login">ログイン</a>
+        &nbsp;>&nbsp;
+        <a href="/category">カテゴリー</a>
+        &nbsp;>&nbsp;
+        <a href="/list/<%= categoryIndex %>"><%= selectedCategory %></a>
+        &nbsp;>&nbsp;編集
+      </div>
+    </header>
+
     <main>
-      <h1><%= `${selectedCategory} Update List` %></h1>
+      <div class="edit-list">
+        <!-- <h1><%= `${selectedCategory} Update List` %></h1> -->
 
-      <!-- 選択したlistIDに情報がない場合の表示 -->
-      <% if (errorMessage.length !== 0) { %>
-      <h2><%= errorMessage %></h2>
+        <!-- 選択したlistIDに情報がない場合の表示 -->
+        <% if (errorMessage.length !== 0) { %>
+        <h2><%= errorMessage %></h2>
 
-      <!-- 選択したlistIDに情報がある場合の表示 -->
-      <% } else { %>
-      <form
-        action="/list/<%= categoryIndex %>/update/<%= shopId %>"
-        method="post"
-      >
-        <p>店名・施設名</p>
-
-        <!-- 入力値のエラー表示 -->
-        <% if (Object.keys(errors).length > 0) { %>
-        <p class="error"><%= errors.shopName %></p>
-        <% } %>
-
-        <input class="" name="name" type="text" value="<%= shopName %>" />
-
-        <p>場所</p>
-
-        <!-- 入力値のエラー表示 -->
-        <% if (Object.keys(errors).length > 0) { %>
-        <p class="error"><%= errors.shopLocation %></p>
-        <% } %>
-
-        <input
-          class=""
-          name="location"
-          type="text"
-          value="<%= shopLocation %>"
-        />
-
-        <p>メモ</p>
-
-        <!-- 入力値のエラー表示 -->
-        <% if (Object.keys(errors).length > 0) { %>
-        <p class="error"><%= errors.shopDescription %></p>
-        <% } %>
-
-        <textarea name="description" id="text" cols="30" rows="10">
-<%= shopDescription %></textarea
+        <!-- 選択したlistIDに情報がある場合の表示 -->
+        <% } else { %>
+        <form
+          action="/list/<%= categoryIndex %>/update/<%= shopId %>"
+          method="post"
         >
-        <br />
-        <input class="button" type="submit" value="更新" />
-      </form>
+          <label for="shop-name">店名・施設名</label>
 
-      <% } %>
+          <!-- 入力値のエラー表示 -->
+          <% if (Object.keys(errors).length > 0) { %>
+          <p class="error"><%= errors.shopName %></p>
+          <% } %>
+
+          <input
+            id="shop-name"
+            name="name"
+            type="text"
+            value="<%= shopName %>"
+          />
+
+          <label for="place">場所</label>
+
+          <!-- 入力値のエラー表示 -->
+          <% if (Object.keys(errors).length > 0) { %>
+          <p class="error"><%= errors.shopLocation %></p>
+          <% } %>
+
+          <input
+            id="place"
+            name="location"
+            type="text"
+            value="<%= shopLocation %>"
+          />
+
+          <label for="memo">メモ</label>
+
+          <!-- 入力値のエラー表示 -->
+          <% if (Object.keys(errors).length > 0) { %>
+          <p class="error"><%= errors.shopDescription %></p>
+          <% } %>
+
+          <textarea name="description" id="memo" cols="30" rows="10">
+<%= shopDescription %></textarea
+          >
+          <br />
+          <input class="update-button" type="submit" value="更新" />
+        </form>
+
+        <% } %>
+      </div>
     </main>
-    <footer></footer>
   </body>
 </html>

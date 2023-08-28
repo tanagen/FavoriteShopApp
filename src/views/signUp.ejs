@@ -8,10 +8,12 @@
   </head>
   <body>
     <header>
-      <a href="/">トップ</a>
-      &nbsp;>&nbsp;
-      <a href="/login">ログイン</a>
-      &nbsp;>&nbsp;ユーザー登録
+      <div class="header-container">
+        <a href="/">トップ</a>
+        &nbsp;>&nbsp;
+        <a href="/login">ログイン</a>
+        &nbsp;>&nbsp;ユーザー登録
+      </div>
     </header>
 
     <main>
@@ -54,7 +56,12 @@
           <% } %>
 
           <input id="password" type="password" name="password" />
-          <input class="button" type="submit" value="登録" />
+          <input
+            class="button"
+            type="submit"
+            value="登録"
+            onclick="return confirm('登録してよろしいですか？');"
+          />
         </form>
       </div>
     </main>

@@ -14,24 +14,24 @@
       &nbsp;>&nbsp;
       <a href="/category">カテゴリー</a>
       &nbsp;>&nbsp;削除
+      <div class="header-container"></div>
     </header>
     <main>
       <div class="delete-category">
         <h1>Delete Category</h1>
         <form action="/category/delete" method="post">
           <% shopCategories.forEach(shopCategory => { %>
-          <!-- <input
-            type="checkbox"
-            id="<%= shopCategory %>"
-            name="<%= shopCategory %>"
-          />
-          <label for="<%= shopCategory %>"><%= shopCategory %></label> -->
           <label
             ><input type="checkbox" name="<%= shopCategory %>" /><%=
             shopCategory %></label
           >
           <% }) %>
-          <input class="button" type="submit" value="削除" />
+          <input
+            class="button"
+            type="submit"
+            value="削除"
+            onclick="return confirm('削除してよろしいですか？');"
+          />
         </form>
       </div>
     </main>

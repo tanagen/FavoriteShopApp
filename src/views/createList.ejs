@@ -7,58 +7,71 @@
     <title>create list</title>
   </head>
   <body>
-    <header><%- include('header'); %></header>
+    <header>
+      <div class="header-container">
+        <a href="/">トップ</a>
+        &nbsp;>&nbsp;
+        <a href="/login">ログイン</a>
+        &nbsp;>&nbsp;
+        <a href="/category">カテゴリー</a>
+        &nbsp;>&nbsp;
+        <a href="/list/<%= categoryIndex %>"><%= selectedCategory %></a>
+        &nbsp;>&nbsp;メモ作成
+      </div>
+    </header>
     <main>
-      <h1><%= `Category ${selectedCategory} : Create New List` %></h1>
+      <div class="create-list">
+        <h1>Create New List</h1>
 
-      <form action="/list/<%= categoryIndex %>" method="post">
-        <p>店名・施設名</p>
+        <form action="/list/<%= categoryIndex %>" method="post">
+          <label for="shop-name">店名・施設名</label>
 
-        <!-- 入力値のエラー表示 -->
-        <% if (Object.keys(errors).length > 0) { %>
-        <p class="error"><%= errors.shopName %></p>
-        <% } %>
+          <!-- 入力値のエラー表示 -->
+          <% if (Object.keys(errors).length > 0) { %>
+          <p class="error"><%= errors.shopName %></p>
+          <% } %>
 
-        <input
-          class=""
-          name="name"
-          type="text"
-          placeholder="〇〇ショップ"
-          value="<%= shopName %>"
-        />
-        <p>場所</p>
+          <input
+            id="shop-name"
+            name="name"
+            type="text"
+            placeholder="〇〇ショップ"
+            value="<%= shopName %>"
+          />
+          <label for="place">場所</label>
 
-        <!-- 入力値のエラー表示 -->
-        <% if (Object.keys(errors).length > 0) { %>
-        <p class="error"><%= errors.shopLocation %></p>
-        <% } %>
+          <!-- 入力値のエラー表示 -->
+          <% if (Object.keys(errors).length > 0) { %>
+          <p class="error"><%= errors.shopLocation %></p>
+          <% } %>
 
-        <input
-          class=""
-          name="location"
-          type="text"
-          placeholder="〇〇駅"
-          value="<%= shopLocation %>"
-        />
-        <p>メモ</p>
+          <input
+            id="place"
+            name="location"
+            type="text"
+            placeholder="〇〇駅"
+            value="<%= shopLocation %>"
+          />
+          <label for="memo">メモ</label>
 
-        <!-- 入力値のエラー表示 -->
-        <% if (Object.keys(errors).length > 0) { %>
-        <p class="error"><%= errors.shopDescription %></p>
-        <% } %>
+          <!-- 入力値のエラー表示 -->
+          <% if (Object.keys(errors).length > 0) { %>
+          <p class="error"><%= errors.shopDescription %></p>
+          <% } %>
 
-        <textarea
-          name="description"
-          id="text"
-          cols="30"
-          rows="10"
-          placeholder="あいうえお"
-        >
+          <textarea
+            name="description"
+            id="memo"
+            cols="30"
+            rows="10"
+            placeholder="あいうえお"
+          >
 <%= shopDescription %></textarea
-        >
-        <br />
-        <input class="button" type="submit" value="登録" />
-      </form>
+          >
+          <br />
+          <input class="create-button" type="submit" value="作成" />
+        </form>
+      </div>
     </main>
     <footer></footer>
   </body>
