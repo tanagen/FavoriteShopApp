@@ -15,21 +15,29 @@ export const getSelectedCategory = (
   const categoryIndex: number = Number(req.params.index);
   res.locals.index = categoryIndex;
 
+  // shop_categoriesDBから選択中のカテゴリーのid,shop_categoryを取得
   (async () => {
-    // shop_categoriesDBからデータ取得
     await db.ShopCategories.findAll({
       where: { user_id: loginedUserId },
     }).then((allData) => {
       // shop_categoryを配列に格納
+      // const shopCategoryObj: {} = {};
+      const shopCategoryIds: number[] = [];
       const shopCategories: string[] = [];
+
       allData.forEach((data) => {
+        // const key: string = data.dataValues.id;
+        // shopCategoryObj[key] = data.dataValues.shop_category;
+        shopCategoryIds.push(Number(data.dataValues.id));
         shopCategories.push(data.dataValues.shop_category);
       });
 
       // 重複排除
-      const setedShopCategories: string[] = Array.from(new Set(shopCategories));
+      // const setedShopCategories: string[] = Array.from(new Set(shopCategories));
       // ルートパラメータで渡されたcategoryIndexのカテゴリー名をres.localsに格納
-      res.locals.selectedCategory = setedShopCategories[categoryIndex];
+      // res.locals.selectedCategory = setedShopCategories[categoryIndex];
+      res.locals.selectedCategoryDBId = shopCategoryIds[categoryIndex];
+      res.locals.selectedCategory = shopCategories[categoryIndex];
 
       next();
     });
@@ -40,13 +48,16 @@ export const getSelectedCategory = (
 export const renderListPage = (req: Request, res: Response) => {
   // passportのsessionからid,user_nameを取得
   const loginedUserId: number = req.user!.id;
+  // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
+  const selectedCategoryIndex = res.locals.index;
+  const selectedCategory = res.locals.selectedCategory;
 
+  // user_favorite_shopsDBからデータ取得
   (async () => {
-    // user_favorite_shopsDBからデータ取得
     await db.UserFavoriteShops.findAll({
       where: {
         user_id: loginedUserId,
-        shop_category: res.locals.selectedCategory,
+        shop_category: selectedCategory,
       },
     }).then((data) => {
       // データが存在する場合
@@ -69,7 +80,7 @@ export const renderListPage = (req: Request, res: Response) => {
         res.render("list", {
           errorMessage: errorMessage,
           allShopInfo: allShopInfo,
-          categoryIndex: res.locals.index,
+          categoryIndex: selectedCategoryIndex,
         });
       }
     });
@@ -313,8 +324,6 @@ export const updateList = (req: Request, res: Response) => {
 
   // user_favorite_shopsDBの選択したリストIdの情報を更新
   (async () => {
-    // const t = await db.UserFavoriteShops.sequelize!.transaction();
-
     try {
       await db.UserFavoriteShops.update(
         {
@@ -324,11 +333,8 @@ export const updateList = (req: Request, res: Response) => {
         },
         { where: { id: selectedShopId } }
       );
-
-      // await t?.commit;
     } catch (error) {
       console.log(error);
-      // await t?.rollback();
     }
 
     // redirect

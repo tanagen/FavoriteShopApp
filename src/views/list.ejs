@@ -20,7 +20,10 @@
 
     <main>
       <div class="list">
-        <h1><%= `${locals.selectedCategory}` %></h1>
+        <a href="/list/<%= categoryIndex %>/edit" class="edit-category"
+          ><%= locals.selectedCategory %></a
+        >
+        <a href=""></a>
 
         <!-- user_favorite_shopDBに情報がない場合の表示 -->
         <% if (errorMessage.length !== 0) { %>

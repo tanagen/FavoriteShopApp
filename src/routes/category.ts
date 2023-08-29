@@ -3,16 +3,17 @@ import { checkAuthenticated } from "../handlers/checkAuthenticated";
 import {
   renderShopCategoryPage,
   renderCreateCategoryPage,
-  checkPostedNewCategory,
+  checkPostedCategory,
   createShopCategory,
   renderDeleteCategoryPage,
   deleteCategory,
   getShopCategories,
 } from "../handlers/category";
+
 const router = express.Router();
 
 router.get("/", checkAuthenticated, getShopCategories, renderShopCategoryPage);
-router.post("/", getShopCategories, checkPostedNewCategory, createShopCategory);
+router.post("/", getShopCategories, checkPostedCategory, createShopCategory);
 router.get("/create", renderCreateCategoryPage);
 router.get("/delete", renderDeleteCategoryPage);
 router.post("/delete", deleteCategory);

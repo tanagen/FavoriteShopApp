@@ -189,6 +189,7 @@ header a:hover {
 
 .category {
   text-align: center;
+  width: 100%;
 }
 
 .category h1{
@@ -350,6 +351,13 @@ header a:hover {
 .list {
   text-align: center;
   width: 100%;
+}
+
+.edit-category {
+  display: inline-block;
+  font-size: 32px;
+  font-weight: bold;
+  margin: 21px 0px;
 }
 
 .edit-button {

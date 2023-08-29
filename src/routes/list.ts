@@ -12,6 +12,12 @@ import {
   checkPostedUpdateList,
 } from "../handlers/list";
 
+import {
+  getDBIdOfUpdateCategory,
+  renderEditCategoryPage,
+  updateCategory,
+} from "../handlers/category";
+
 const router = express.Router();
 
 router.get("/:index", checkAuthenticated, getSelectedCategory, renderListPage);
@@ -21,6 +27,13 @@ router.get(
   checkAuthenticated,
   getSelectedCategory,
   renderCreateListPage
+);
+router.get("/:index/edit", getSelectedCategory, renderEditCategoryPage);
+router.post(
+  "/:index/update",
+  getSelectedCategory,
+  getDBIdOfUpdateCategory,
+  updateCategory
 );
 router.post("/:index/:id", deleteList);
 router.get(
