@@ -8,7 +8,7 @@ const checkAuthenticated_1 = require("../handlers/checkAuthenticated");
 const category_1 = require("../handlers/category");
 const router = express_1.default.Router();
 router.get("/", checkAuthenticated_1.checkAuthenticated, category_1.getShopCategories, category_1.renderShopCategoryPage);
-router.post("/", category_1.getShopCategories, category_1.checkPostedNewCategory, category_1.createShopCategory);
+router.post("/", category_1.getShopCategories, category_1.checkPostedCategory, category_1.createShopCategory);
 router.get("/create", category_1.renderCreateCategoryPage);
 router.get("/delete", category_1.renderDeleteCategoryPage);
 router.post("/delete", category_1.deleteCategory);

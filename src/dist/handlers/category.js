@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCategory = exports.renderDeleteCategoryPage = exports.checkPostedNewCategory = exports.createShopCategory = exports.renderCreateCategoryPage = exports.renderShopCategoryPage = exports.getShopCategories = void 0;
+exports.deleteCategory = exports.renderDeleteCategoryPage = exports.checkPostedCategory = exports.createShopCategory = exports.updateCategory = exports.getDBIdOfUpdateCategory = exports.renderEditCategoryPage = exports.renderCreateCategoryPage = exports.renderShopCategoryPage = exports.getShopCategories = void 0;
 const index_1 = __importDefault(require("../models/index"));
 const getShopCategories = (req, res, next) => {
     // passportのsessionからid,user_nameを取得
@@ -22,15 +22,18 @@ const getShopCategories = (req, res, next) => {
         yield index_1.default.ShopCategories.findAll({
             where: { user_id: loginedUserId },
         }).then((allData) => {
-            // allDataから各shop_categoryを取得して配列に格納
+            // allDataからid,shop_categoryを取得してそれぞれ配列に格納
+            const shopCategoryIds = [];
             const shopCategories = [];
             allData.forEach((data) => {
+                shopCategoryIds.push(Number(data.dataValues.id));
                 shopCategories.push(data.dataValues.shop_category);
             });
             // 重複排除
-            const setedShopCategories = Array.from(new Set(shopCategories));
+            // const setedShopCategories: string[] = Array.from(new Set(shopCategories));
             // res.localに格納
-            res.locals.shopCategories = setedShopCategories;
+            res.locals.shopCategoryIds = shopCategoryIds;
+            res.locals.shopCategories = shopCategories;
             next();
         });
     }))();
@@ -65,34 +68,102 @@ const renderShopCategoryPage = (req, res) => {
 exports.renderShopCategoryPage = renderShopCategoryPage;
 const renderCreateCategoryPage = (req, res) => {
     // const loginedUserId: number = req.user!.id;
-    res.render("createCategory", { errors: {} }); // { loginedUserId: loginedUserId }
+    res.render("createCategory", { errors: {} });
 };
 exports.renderCreateCategoryPage = renderCreateCategoryPage;
+const renderEditCategoryPage = (req, res) => {
+    // getSelectedCategoryメソッドで取得したindex, category名を変数に格納
+    const selectedCategoryIndex = res.locals.index;
+    const selectedCategory = res.locals.selectedCategory;
+    res.render("editCategory", {
+        errors: {},
+        selectedCategoryIndex: selectedCategoryIndex,
+        selectedCategory: selectedCategory,
+    });
+};
+exports.renderEditCategoryPage = renderEditCategoryPage;
+const getDBIdOfUpdateCategory = (req, res, next) => {
+    // passportのsessionからuserIdを取得
+    const loginedUserId = req.user.id;
+    // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
+    const selectedCategoryIndex = res.locals.index;
+    const presentCategory = res.locals.selectedCategory;
+    // shop_categoriesDBとuser_favorite_shopsDBから更新対象のDBidを取得して配列に格納
+    (() => __awaiter(void 0, void 0, void 0, function* () {
+        yield index_1.default.ShopCategories.findAll({
+            where: { user_id: loginedUserId },
+        }).then((allData) => {
+            const shopCategoryDBIds = [];
+            const shopCategories = [];
+            allData.forEach((data) => {
+                shopCategoryDBIds.push(Number(data.dataValues.id));
+                shopCategories.push(data.dataValues.shop_category);
+            });
+            // res.localsに格納
+            res.locals.targetCategoryDBId = shopCategoryDBIds[selectedCategoryIndex];
+            // res.locals.presentCategory = shopCategories[selectedCategoryIndex];
+        });
+        yield index_1.default.UserFavoriteShops.findAll({
+            where: { user_id: loginedUserId, shop_category: presentCategory },
+        }).then((allData) => {
+            const userFavoriteShopDBIds = [];
+            allData.forEach((data) => {
+                userFavoriteShopDBIds.push(Number(data.dataValues.id));
+            });
+            // res.localsに格納
+            res.locals.targetUserFavoriteShopDBIds = userFavoriteShopDBIds;
+            next();
+        });
+    }))();
+};
+exports.getDBIdOfUpdateCategory = getDBIdOfUpdateCategory;
+const updateCategory = (req, res) => {
+    // postURLのルートパラメータからselectedCategoryIndexを取得して変数に格納
+    const selectedCategoryIndex = req.params.index;
+    // passportのsessionからuserIdを取得
+    const loginedUserId = req.user.id;
+    // 更新postされたカテゴリー名を変数に格納
+    const updatedCategory = req.body.updatedCategory;
+    // getDBIdOfUpdateCategoryメソッドで取得したres.localsの内容を変数に格納
+    const targetCategoryDBId = res.locals.targetCategoryDBId;
+    const targetUserFavoriteShopDBIds = res.locals.targetUserFavoriteShopDBIds;
+    // shop_categoriesDBとuser_favorite_shopsDBのカテゴリー名をupdate
+    (() => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            yield index_1.default.ShopCategories.update({ shop_category: updatedCategory }, { where: { id: targetCategoryDBId } });
+            yield index_1.default.UserFavoriteShops.update({ shop_category: updatedCategory }, { where: { id: targetUserFavoriteShopDBIds } });
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }))();
+    // redirect
+    const redirectURL = "/list/" + selectedCategoryIndex;
+    res.redirect(redirectURL);
+};
+exports.updateCategory = updateCategory;
 const createShopCategory = (req, res) => {
     const loginedUserId = req.user.id;
     // formでpostされたcateogryを取得
     const createdCategory = req.body.category;
     // 取得したcategoryをshop_categoriesDBに格納
     (() => __awaiter(void 0, void 0, void 0, function* () {
-        // const t = await db.ShopCategories.sequelize!.transaction();
         try {
             yield index_1.default.ShopCategories.create({
                 user_id: loginedUserId,
                 shop_category: createdCategory,
             });
-            // await t?.commit;
         }
         catch (error) {
             console.log(error);
-            // await t?.rollback();
         }
         // redirect
         res.redirect("/category");
     }))();
 };
 exports.createShopCategory = createShopCategory;
-// カテゴリー新規登録における入力値の空チェック&既存カテゴリーチェック
-const checkPostedNewCategory = (req, res, next) => {
+// カテゴリー新規登録,更新における入力値の空チェック&既存カテゴリーチェック
+const checkPostedCategory = (req, res, next) => {
     // getShopCategoriesメソッドで取得したres.localsの内容を取得して変数に代入
     const presentShopCategories = res.locals.shopCategories;
     // postされた値を取得して変数に代入
@@ -103,7 +174,7 @@ const checkPostedNewCategory = (req, res, next) => {
     if (postedCategory === "") {
         errors["category"] = "入力してください";
     }
-    if (presentShopCategories.includes(postedCategory) === true) {
+    if (presentShopCategories.includes(postedCategory)) {
         errors["duplication"] = "既に登録されたカテゴリーです";
     }
     if (Object.keys(errors).length > 0) {
@@ -115,7 +186,7 @@ const checkPostedNewCategory = (req, res, next) => {
         next();
     }
 };
-exports.checkPostedNewCategory = checkPostedNewCategory;
+exports.checkPostedCategory = checkPostedCategory;
 const renderDeleteCategoryPage = (req, res) => {
     // passportのsessionからid,user_nameを取得
     const loginedUserId = req.user.id;

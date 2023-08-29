@@ -23,16 +23,20 @@ export const getShopCategories = (
     await db.ShopCategories.findAll({
       where: { user_id: loginedUserId },
     }).then((allData) => {
-      // allDataから各shop_categoryを取得して配列に格納
+      // allDataからid,shop_categoryを取得してそれぞれ配列に格納
+      const shopCategoryIds: number[] = [];
       const shopCategories: string[] = [];
+
       allData.forEach((data) => {
+        shopCategoryIds.push(Number(data.dataValues.id));
         shopCategories.push(data.dataValues.shop_category);
       });
 
       // 重複排除
-      const setedShopCategories: string[] = Array.from(new Set(shopCategories));
+      // const setedShopCategories: string[] = Array.from(new Set(shopCategories));
       // res.localに格納
-      res.locals.shopCategories = setedShopCategories;
+      res.locals.shopCategoryIds = shopCategoryIds;
+      res.locals.shopCategories = shopCategories;
 
       next();
     });
@@ -73,7 +77,97 @@ export const renderShopCategoryPage = (req: Request, res: Response) => {
 
 export const renderCreateCategoryPage = (req: Request, res: Response) => {
   // const loginedUserId: number = req.user!.id;
-  res.render("createCategory", { errors: {} }); // { loginedUserId: loginedUserId }
+  res.render("createCategory", { errors: {} });
+};
+
+export const renderEditCategoryPage = (req: Request, res: Response) => {
+  // getSelectedCategoryメソッドで取得したindex, category名を変数に格納
+  const selectedCategoryIndex = res.locals.index;
+  const selectedCategory = res.locals.selectedCategory;
+
+  res.render("editCategory", {
+    errors: {},
+    selectedCategoryIndex: selectedCategoryIndex,
+    selectedCategory: selectedCategory,
+  });
+};
+
+export const getDBIdOfUpdateCategory = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  // passportのsessionからuserIdを取得
+  const loginedUserId: number = req.user!.id;
+  // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
+  const selectedCategoryIndex = res.locals.index;
+  const presentCategory = res.locals.selectedCategory;
+
+  // shop_categoriesDBとuser_favorite_shopsDBから更新対象のDBidを取得して配列に格納
+  (async () => {
+    await db.ShopCategories.findAll({
+      where: { user_id: loginedUserId },
+    }).then((allData) => {
+      const shopCategoryDBIds: number[] = [];
+      const shopCategories: string[] = [];
+
+      allData.forEach((data) => {
+        shopCategoryDBIds.push(Number(data.dataValues.id));
+        shopCategories.push(data.dataValues.shop_category);
+      });
+
+      // res.localsに格納
+      res.locals.targetCategoryDBId = shopCategoryDBIds[selectedCategoryIndex];
+      // res.locals.presentCategory = shopCategories[selectedCategoryIndex];
+    });
+
+    await db.UserFavoriteShops.findAll({
+      where: { user_id: loginedUserId, shop_category: presentCategory },
+    }).then((allData) => {
+      const userFavoriteShopDBIds: number[] = [];
+      allData.forEach((data) => {
+        userFavoriteShopDBIds.push(Number(data.dataValues.id));
+      });
+
+      // res.localsに格納
+      res.locals.targetUserFavoriteShopDBIds = userFavoriteShopDBIds;
+
+      next();
+    });
+  })();
+};
+
+export const updateCategory = (req: Request, res: Response) => {
+  // postURLのルートパラメータからselectedCategoryIndexを取得して変数に格納
+  const selectedCategoryIndex = req.params.index;
+  // passportのsessionからuserIdを取得
+  const loginedUserId: number = req.user!.id;
+  // 更新postされたカテゴリー名を変数に格納
+  const updatedCategory = req.body.updatedCategory;
+  // getDBIdOfUpdateCategoryメソッドで取得したres.localsの内容を変数に格納
+  const targetCategoryDBId = res.locals.targetCategoryDBId;
+  const targetUserFavoriteShopDBIds = res.locals.targetUserFavoriteShopDBIds;
+
+  // shop_categoriesDBとuser_favorite_shopsDBのカテゴリー名をupdate
+  (async () => {
+    try {
+      await db.ShopCategories.update(
+        { shop_category: updatedCategory },
+        { where: { id: targetCategoryDBId } }
+      );
+
+      await db.UserFavoriteShops.update(
+        { shop_category: updatedCategory },
+        { where: { id: targetUserFavoriteShopDBIds } }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  })();
+
+  // redirect
+  const redirectURL = "/list/" + selectedCategoryIndex;
+  res.redirect(redirectURL);
 };
 
 export const createShopCategory = (req: Request, res: Response) => {
@@ -83,18 +177,13 @@ export const createShopCategory = (req: Request, res: Response) => {
 
   // 取得したcategoryをshop_categoriesDBに格納
   (async () => {
-    // const t = await db.ShopCategories.sequelize!.transaction();
-
     try {
       await db.ShopCategories.create({
         user_id: loginedUserId,
         shop_category: createdCategory,
       });
-
-      // await t?.commit;
     } catch (error) {
       console.log(error);
-      // await t?.rollback();
     }
 
     // redirect
@@ -102,8 +191,8 @@ export const createShopCategory = (req: Request, res: Response) => {
   })();
 };
 
-// カテゴリー新規登録における入力値の空チェック&既存カテゴリーチェック
-export const checkPostedNewCategory = (
+// カテゴリー新規登録,更新における入力値の空チェック&既存カテゴリーチェック
+export const checkPostedCategory = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -121,7 +210,7 @@ export const checkPostedNewCategory = (
   if (postedCategory === "") {
     errors["category"] = "入力してください";
   }
-  if (presentShopCategories.includes(postedCategory) === true) {
+  if (presentShopCategories.includes(postedCategory)) {
     errors["duplication"] = "既に登録されたカテゴリーです";
   }
 
