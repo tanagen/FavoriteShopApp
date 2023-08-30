@@ -33,6 +33,10 @@ main {
   align-items: center;
 }
 
+header {
+  text-align: center;
+  width: 100%;
+}
 
 .header-container {
   display: block;
@@ -43,6 +47,16 @@ main {
   word-wrap: break-word;
 }
 
+.logined-user-name {
+  display: block;
+  text-align: right;
+  margin:0;
+}
+
+.logined-user-name p {
+  margin: 0 10%;
+  font-size: 18px;
+}
 
 /* top.ejs ================================ */
 .top {
@@ -190,10 +204,11 @@ header a:hover {
 .category {
   text-align: center;
   width: 100%;
+  max-width: 600px;
 }
 
 .category h1{
-  margin: 0px;
+  margin: auto auto;
 }
 
 .category-list {
@@ -351,6 +366,7 @@ header a:hover {
 .list {
   text-align: center;
   width: 100%;
+  max-width: 1500px;
 }
 
 .edit-category {
@@ -361,7 +377,9 @@ header a:hover {
 }
 
 .edit-button {
-  padding: 0 2px;
+  display: inline-block;
+  text-align: center;
+  padding: 0 5px;
 }
 
 .edit-button:hover {
@@ -378,7 +396,7 @@ header a:hover {
   /* その他の設定 */
   cursor:pointer;
   font-size: 16px;
-  padding: 0 2px;
+  padding: 0 5px;
   white-space: normal; /* 文字がはみ出た時のルールを文字送りに指定 */
 }
 
@@ -421,41 +439,47 @@ table tr{
 }
 
 table th,table td{
-  text-align: center;
-  padding: 15px 0;
+  text-align: left;
+  padding: 15px 5px;
 }
 
 .list-edit, .list-delete {
-  width: 5%;
+  width: 6%;
 }
 
 .table-name {
-  width: 15%;
+  width: 14%;
 }
 
 .table-place {
-  width: 15%;
+  width: 14%;
 }
 
 .table-memo {
   width: 60%;
 }
 
+.description-column {
+  white-space: pre-wrap;  /* 改行コードを含む文字列を改行表示するための設定 */
+}
+
 /* createList.ejs ================================ */
 .create-list {
   text-align: center;
+  width: 100%;
+  max-width: 1500px;
 }
 
-.create-list input {
+.shop-name, .place {
   margin: 10px auto 0px;
   width: 80%;
-  max-width: 250px;
+  max-width: 350px;
 }
 
 .create-list textarea {
   margin: 10px auto 0px;
   width: 100%;
-  max-width: 450px;
+  max-width: 650px;
 }
 
 .create-button {
@@ -468,7 +492,7 @@ table th,table td{
   justify-content: space-around;
   align-items: center;
   margin: 20px auto 10px;
-  width: 150px;
+  width: 50%;
   max-width: 220px;
   padding: 10px 25px;
   color: #FFF;
@@ -486,18 +510,19 @@ table th,table td{
 .edit-list {
   text-align: center;
   width: 100%;
+  max-width: 1500px;
 }
 
-.edit-list input {
+.shop-name, .place {
   margin: 10px auto 0px;
   width: 80%;
-  max-width: 250px;
+  max-width: 350px;
 }
 
 .edit-list textarea {
   margin: 10px auto 0px;
   width: 100%;
-  max-width: 450px;
+  max-width: 650px;
 }
 
 .update-button {
@@ -510,7 +535,7 @@ table th,table td{
   justify-content: space-around;
   align-items: center;
   margin: 20px auto 10px;
-  width: 150px;
+  width: 50%;
   max-width: 220px;
   padding: 10px 25px;
   color: #FFF;

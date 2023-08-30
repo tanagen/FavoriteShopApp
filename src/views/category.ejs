@@ -14,11 +14,14 @@
         <a href="/login">ログイン</a>
         &nbsp;>&nbsp;カテゴリー
       </div>
+
+      <div class="logined-user-name">
+        <p><%= `${loginedUserName}さん` %></p>
+      </div>
     </header>
 
     <main>
       <div class="category">
-        <h1><%= `Hi ${loginedUserName} !`%></h1>
         <h1>favorite shop categories</h1>
         <ul class="category-list">
           <% shopCategories.forEach((shopCategory, index) => { %>

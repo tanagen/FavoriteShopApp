@@ -42,7 +42,7 @@ export default class UserFavoriteShops extends Model {
           defaultValue: "",
         },
         shop_description: {
-          type: DataTypes.STRING,
+          type: DataTypes.TEXT,
           allowNull: true,
           defaultValue: "",
         },
