@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const checkAuthenticated_1 = require("../handlers/checkAuthenticated");
 const list_1 = require("../handlers/list");
 const category_1 = require("../handlers/category");
+const map_1 = require("../handlers/map");
 const router = express_1.default.Router();
 router.get("/:index", checkAuthenticated_1.checkAuthenticated, list_1.getSelectedCategory, list_1.renderListPage);
 router.post("/:index", list_1.getSelectedCategory, list_1.checkPostedNewList, list_1.createList);
@@ -16,4 +17,5 @@ router.post("/:index/update", list_1.getSelectedCategory, category_1.getDBIdOfUp
 router.post("/:index/:id", list_1.deleteList);
 router.get("/:index/edit/:id", checkAuthenticated_1.checkAuthenticated, list_1.getSelectedCategory, list_1.renderEditListPage);
 router.post("/:index/update/:id", list_1.getSelectedCategory, list_1.checkPostedUpdateList, list_1.updateList);
+router.get("/:index/map/:id", map_1.getAPIKey, map_1.showMap);
 exports.default = router;
