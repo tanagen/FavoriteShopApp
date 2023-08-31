@@ -18,6 +18,8 @@ import {
   updateCategory,
 } from "../handlers/category";
 
+import { getAPIKey, showMap } from "../handlers/map";
+
 const router = express.Router();
 
 router.get("/:index", checkAuthenticated, getSelectedCategory, renderListPage);
@@ -48,5 +50,7 @@ router.post(
   checkPostedUpdateList,
   updateList
 );
+
+router.get("/:index/map/:id", getAPIKey, showMap);
 
 export default router;

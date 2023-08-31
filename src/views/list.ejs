@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/stylesheets/style.css" />
-    <title>favorite shop list</title>
+    <title>memo list</title>
   </head>
   <body>
     <header>
@@ -41,7 +41,11 @@
           <% allShopInfo.forEach((shopInfo) => { %>
           <tr>
             <td class="name-column"><%= shopInfo.shop_name %></td>
-            <td class="location-column"><%= shopInfo.shop_location %></td>
+            <td class="location-column">
+              <a href="/list/<%= categoryIndex %>/map/<%= shopInfo.id %>"
+                ><%= shopInfo.shop_location %></a
+              >
+            </td>
             <td class="description-column"><%= shopInfo.shop_description %></td>
             <!-- 編集ボタン -->
             <td class="list-edit">

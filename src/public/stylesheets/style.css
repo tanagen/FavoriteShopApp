@@ -47,16 +47,6 @@ header {
   word-wrap: break-word;
 }
 
-.logined-user-name {
-  display: block;
-  text-align: right;
-  margin:0;
-}
-
-.logined-user-name p {
-  margin: 0 10%;
-  font-size: 18px;
-}
 
 /* top.ejs ================================ */
 .top {
@@ -177,6 +167,17 @@ header a:hover {
 
 
 /* category.ejs ================================ */
+.logined-user-name {
+  display: block;
+  text-align: center;
+  margin:0;
+}
+
+.logined-user-name p {
+  margin: 10px 0 0 0 ;
+  font-size: 20px;
+}
+
 .logout{
   display: flex;
   position: relative;
