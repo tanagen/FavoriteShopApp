@@ -5,13 +5,13 @@ dotenv.config({ path: ENV_PATH });
 
 import { Request, Response, NextFunction } from "express";
 
-export const showMap = (req: Request, res: Response) => {
-  res.render("map");
-};
-
 export const getAPIKey = (req: Request, res: Response, next: NextFunction) => {
-  const API_KEY = process.env.GOOGLE_MAPS_API_KEY;
-  console.log(API_KEY);
+  res.locals.apiKey = process.env.GOOGLE_MAPS_API_KEY;
 
   next();
+};
+
+export const showMap = (req: Request, res: Response) => {
+  const API_KEY = res.locals.apiKey;
+  res.render("map", { apiKey: API_KEY });
 };
