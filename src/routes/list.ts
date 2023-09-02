@@ -10,6 +10,7 @@ import {
   renderEditListPage,
   updateList,
   checkPostedUpdateList,
+  getSelectedList,
 } from "../handlers/list";
 
 import {
@@ -51,6 +52,12 @@ router.post(
   updateList
 );
 
-router.get("/:index/map/:id", getAPIKey, showMap);
+router.get(
+  "/:index/map/:id",
+  getSelectedCategory,
+  getAPIKey,
+  getSelectedList,
+  showMap
+);
 
 export default router;

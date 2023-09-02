@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateList = exports.renderEditListPage = exports.deleteList = exports.createList = exports.checkPostedUpdateList = exports.checkPostedNewList = exports.renderCreateListPage = exports.renderListPage = exports.getSelectedCategory = void 0;
+exports.updateList = exports.renderEditListPage = exports.getSelectedList = exports.deleteList = exports.createList = exports.checkPostedUpdateList = exports.checkPostedNewList = exports.renderCreateListPage = exports.renderListPage = exports.getSelectedCategory = void 0;
 const index_1 = __importDefault(require("../models/index"));
 // 操作中のカテゴリー名を取得
 const getSelectedCategory = (req, res, next) => {
@@ -219,7 +219,6 @@ exports.createList = createList;
 const deleteList = (req, res) => {
     const selectedCategoryIndex = req.params.index;
     (() => __awaiter(void 0, void 0, void 0, function* () {
-        // const t = await db.UserFavoriteShops.sequelize!.transaction();
         try {
             // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
             yield index_1.default.UserFavoriteShops.destroy({
@@ -227,11 +226,9 @@ const deleteList = (req, res) => {
                     id: req.params.id,
                 },
             });
-            // await t?.commit;
         }
         catch (error) {
             console.log(error);
-            // await t?.rollback();
         }
         // redirect
         const redirectURL = "/list/" + selectedCategoryIndex;
@@ -239,17 +236,57 @@ const deleteList = (req, res) => {
     }))();
 };
 exports.deleteList = deleteList;
-// リスト編集画面の表示
-const renderEditListPage = (req, res) => {
-    // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
-    const categoryIndex = res.locals.index;
-    const selectedCategory = res.locals.selectedCategory;
+// 選択したリストの情報取得
+const getSelectedList = (req, res, next) => {
+    // ルートパラメータから選択したリストIdを取得
+    const selectedShopId = req.params.id;
     // 選択したリストIdの情報をuser_favorite_shopsDBから取得
     (() => __awaiter(void 0, void 0, void 0, function* () {
         // user_favorite_shopsDBからデータ取得
         yield index_1.default.UserFavoriteShops.findAll({
             where: {
-                id: req.params.id,
+                id: selectedShopId,
+            },
+        }).then((data) => {
+            // データが存在する場合
+            if (data.length !== 0) {
+                const errorMessage = "";
+                const shopInfo = data[0];
+                // const shopId = shopInfo.id;
+                // const shopName = shopInfo.shop_name;
+                // const shopLocation = shopInfo.shop_location;
+                // const shopDescription = shopInfo.shop_description;
+                res.locals.errorMessage = errorMessage;
+                res.locals.selectedShopInfo = shopInfo;
+                // データが存在しない場合
+            }
+            else {
+                const errorMessage = "情報取得エラー";
+                // const shopId: any = "";
+                // const shopName: any = "";
+                // const shopLocation: any = "";
+                // const shopDescription: any = "";
+                res.locals.errorMessage = errorMessage;
+                res.locals.selectedShopInfo = "";
+            }
+            next();
+        });
+    }))();
+};
+exports.getSelectedList = getSelectedList;
+// リスト編集画面の表示
+const renderEditListPage = (req, res) => {
+    // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
+    const categoryIndex = res.locals.index;
+    const selectedCategory = res.locals.selectedCategory;
+    // ルートパラメータから選択したリストIdを取得
+    const selectedShopId = req.params.id;
+    // 選択したリストIdの情報をuser_favorite_shopsDBから取得
+    (() => __awaiter(void 0, void 0, void 0, function* () {
+        // user_favorite_shopsDBからデータ取得
+        yield index_1.default.UserFavoriteShops.findAll({
+            where: {
+                id: selectedShopId,
             },
         }).then((data) => {
             // データが存在する場合
