@@ -17,5 +17,5 @@ router.post("/:index/update", list_1.getSelectedCategory, category_1.getDBIdOfUp
 router.post("/:index/:id", list_1.deleteList);
 router.get("/:index/edit/:id", checkAuthenticated_1.checkAuthenticated, list_1.getSelectedCategory, list_1.renderEditListPage);
 router.post("/:index/update/:id", list_1.getSelectedCategory, list_1.checkPostedUpdateList, list_1.updateList);
-router.get("/:index/map/:id", map_1.getAPIKey, map_1.showMap);
+router.get("/:index/map/:id", list_1.getSelectedCategory, map_1.getAPIKey, list_1.getSelectedList, map_1.showMap);
 exports.default = router;

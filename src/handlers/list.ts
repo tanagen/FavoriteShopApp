@@ -237,8 +237,6 @@ export const deleteList = (req: Request, res: Response) => {
   const selectedCategoryIndex = req.params.index;
 
   (async () => {
-    // const t = await db.UserFavoriteShops.sequelize!.transaction();
-
     try {
       // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
       await db.UserFavoriteShops.destroy({
@@ -246,11 +244,8 @@ export const deleteList = (req: Request, res: Response) => {
           id: req.params.id,
         },
       });
-
-      // await t?.commit;
     } catch (error) {
       console.log(error);
-      // await t?.rollback();
     }
 
     // redirect
@@ -259,18 +254,65 @@ export const deleteList = (req: Request, res: Response) => {
   })();
 };
 
-// リスト編集画面の表示
-export const renderEditListPage = (req: Request, res: Response) => {
-  // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
-  const categoryIndex = res.locals.index;
-  const selectedCategory = res.locals.selectedCategory;
+// 選択したリストの情報取得
+export const getSelectedList = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  // ルートパラメータから選択したリストIdを取得
+  const selectedShopId = req.params.id;
 
   // 選択したリストIdの情報をuser_favorite_shopsDBから取得
   (async () => {
     // user_favorite_shopsDBからデータ取得
     await db.UserFavoriteShops.findAll({
       where: {
-        id: req.params.id,
+        id: selectedShopId,
+      },
+    }).then((data) => {
+      // データが存在する場合
+      if (data.length !== 0) {
+        const errorMessage: string = "";
+        const shopInfo: UserFavoriteShops = data[0];
+        // const shopId = shopInfo.id;
+        // const shopName = shopInfo.shop_name;
+        // const shopLocation = shopInfo.shop_location;
+        // const shopDescription = shopInfo.shop_description;
+
+        res.locals.errorMessage = errorMessage;
+        res.locals.selectedShopInfo = shopInfo;
+        // データが存在しない場合
+      } else {
+        const errorMessage = "情報取得エラー";
+        // const shopId: any = "";
+        // const shopName: any = "";
+        // const shopLocation: any = "";
+        // const shopDescription: any = "";
+
+        res.locals.errorMessage = errorMessage;
+        res.locals.selectedShopInfo = "";
+      }
+
+      next();
+    });
+  })();
+};
+
+// リスト編集画面の表示
+export const renderEditListPage = (req: Request, res: Response) => {
+  // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
+  const categoryIndex = res.locals.index;
+  const selectedCategory = res.locals.selectedCategory;
+  // ルートパラメータから選択したリストIdを取得
+  const selectedShopId = req.params.id;
+
+  // 選択したリストIdの情報をuser_favorite_shopsDBから取得
+  (async () => {
+    // user_favorite_shopsDBからデータ取得
+    await db.UserFavoriteShops.findAll({
+      where: {
+        id: selectedShopId,
       },
     }).then((data) => {
       // データが存在する場合

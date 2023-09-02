@@ -8,13 +8,26 @@ const path_1 = __importDefault(require("path"));
 const dotenv_1 = __importDefault(require("dotenv")); // dotenvモジュールは.envファイルに定義された値を環境変数として使える
 const ENV_PATH = path_1.default.join(__dirname, "../../../app.env");
 dotenv_1.default.config({ path: ENV_PATH });
+const scriptSrcPath = path_1.default.join(__dirname, "../handlers/map.js");
 const getAPIKey = (req, res, next) => {
+    // app.envファイルからAPI_KEYの環境変数を取得
     res.locals.apiKey = process.env.GOOGLE_MAPS_API_KEY;
     next();
 };
 exports.getAPIKey = getAPIKey;
 const showMap = (req, res) => {
+    // getAPIKeyメソッドからローカル変数を取得して変数に格納
     const API_KEY = res.locals.apiKey;
-    res.render("map", { apiKey: API_KEY });
+    // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
+    const categoryIndex = res.locals.index;
+    const selectedCategory = res.locals.selectedCategory;
+    // ルートパラメータから選択したリストIdを取得
+    const selectedShopInfo = res.locals.selectedShopInfo;
+    res.render("map", {
+        apiKey: API_KEY,
+        categoryIndex: categoryIndex,
+        selectedCategory: selectedCategory,
+        shopInfo: selectedShopInfo,
+    });
 };
 exports.showMap = showMap;

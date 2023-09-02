@@ -175,7 +175,7 @@ header a:hover {
 
 .logined-user-name p {
   margin: 10px 0 0 0 ;
-  font-size: 20px;
+  font-size: 26px;
 }
 
 .logout{
@@ -222,7 +222,7 @@ header a:hover {
 
 .category-list li {
   /* position: relative; */
-  border: 2px solid #fff;
+  border: 2px solid #e0e0e0;
   border-radius: 16px;
   background: #fff;
   box-sizing: border-box;
@@ -460,6 +460,10 @@ table th,table td{
   width: 60%;
 }
 
+.location:hover {
+  color:rgb(197, 114, 96);
+}
+
 .description-column {
   white-space: pre-wrap;  /* 改行コードを含む文字列を改行表示するための設定 */
 }
@@ -548,3 +552,20 @@ table th,table td{
   background: rgb(30,42,65);
   background: linear-gradient(270deg, rgb(26, 34, 47, 1) 0%, rgb(23, 28, 47, 1) 100%);
 }
+
+/* map.ejs ================================ */
+.map-container {
+  text-align: center;
+  width: 100%;
+  max-width: 1500px;
+}
+
+.map {
+  margin: 0 auto;
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  max-width: 800px;
+  /* height: 300px; */
+  
+}
+
