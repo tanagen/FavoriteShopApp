@@ -4,7 +4,6 @@ const ENV_PATH = path.join(__dirname, "../../../app.env");
 dotenv.config({ path: ENV_PATH });
 
 import { Request, Response, NextFunction } from "express";
-const scriptSrcPath = path.join(__dirname, "../handlers/map.js");
 
 export const getAPIKey = (req: Request, res: Response, next: NextFunction) => {
   // app.envファイルからAPI_KEYの環境変数を取得

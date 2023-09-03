@@ -563,7 +563,7 @@ table th,table td{
 .map {
   margin: 0 auto;
   width: 100%;
-  aspect-ratio: 5 / 4;
+  aspect-ratio: 5 / 3;
   max-width: 800px;
   /* height: 300px; */
   

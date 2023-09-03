@@ -54,6 +54,7 @@ router.post(
 
 router.get(
   "/:index/map/:id",
+  checkAuthenticated,
   getSelectedCategory,
   getAPIKey,
   getSelectedList,

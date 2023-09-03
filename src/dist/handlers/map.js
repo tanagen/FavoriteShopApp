@@ -8,7 +8,6 @@ const path_1 = __importDefault(require("path"));
 const dotenv_1 = __importDefault(require("dotenv")); // dotenvモジュールは.envファイルに定義された値を環境変数として使える
 const ENV_PATH = path_1.default.join(__dirname, "../../../app.env");
 dotenv_1.default.config({ path: ENV_PATH });
-const scriptSrcPath = path_1.default.join(__dirname, "../handlers/map.js");
 const getAPIKey = (req, res, next) => {
     // app.envファイルからAPI_KEYの環境変数を取得
     res.locals.apiKey = process.env.GOOGLE_MAPS_API_KEY;
