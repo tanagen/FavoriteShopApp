@@ -77,7 +77,7 @@ export const renderShopCategoryPage = (req: Request, res: Response) => {
 
 export const renderCreateCategoryPage = (req: Request, res: Response) => {
   // const loginedUserId: number = req.user!.id;
-  res.render("createCategory", { errors: {} });
+  res.render("createCategory", { errors: {}, category: "" });
 };
 
 export const renderEditCategoryPage = (req: Request, res: Response) => {
@@ -143,7 +143,7 @@ export const updateCategory = (req: Request, res: Response) => {
   // passportのsessionからuserIdを取得
   const loginedUserId: number = req.user!.id;
   // 更新postされたカテゴリー名を変数に格納
-  const updatedCategory = req.body.updatedCategory;
+  const updatedCategory = req.body.category;
   // getDBIdOfUpdateCategoryメソッドで取得したres.localsの内容を変数に格納
   const targetCategoryDBId = res.locals.targetCategoryDBId;
   const targetUserFavoriteShopDBIds = res.locals.targetUserFavoriteShopDBIds;
@@ -162,12 +162,12 @@ export const updateCategory = (req: Request, res: Response) => {
       );
     } catch (error) {
       console.log(error);
+    } finally {
+      // redirect
+      const redirectURL = "/list/" + selectedCategoryIndex;
+      res.redirect(redirectURL);
     }
   })();
-
-  // redirect
-  const redirectURL = "/list/" + selectedCategoryIndex;
-  res.redirect(redirectURL);
 };
 
 export const createShopCategory = (req: Request, res: Response) => {
@@ -184,14 +184,14 @@ export const createShopCategory = (req: Request, res: Response) => {
       });
     } catch (error) {
       console.log(error);
+    } finally {
+      // redirect
+      res.redirect("/category");
     }
-
-    // redirect
-    res.redirect("/category");
   })();
 };
 
-// カテゴリー新規登録,更新における入力値の空チェック&既存カテゴリーチェック
+// カテゴリー新規登録における入力値の空チェック&既存カテゴリーチェック
 export const checkPostedCategory = (
   req: Request,
   res: Response,
@@ -217,6 +217,44 @@ export const checkPostedCategory = (
   if (Object.keys(errors).length > 0) {
     res.render("createCategory", {
       errors: errors,
+      category: postedCategory,
+    });
+  } else {
+    next();
+  }
+};
+
+// カテゴリー更新における入力値の空チェック&既存カテゴリーチェック
+export const checkUpdatedCategory = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  // getShopCategoriesメソッドで取得したres.localsの内容を取得して変数に代入
+  const presentShopCategories: string[] = res.locals.shopCategories;
+
+  // postされた値を取得して変数に代入
+  const postedCategory = req.body.category;
+
+  // error文格納用の配列
+  const errors: { [key: string]: string } = {};
+
+  // errorチェック
+  if (postedCategory === "") {
+    errors["category"] = "入力してください";
+  }
+  if (presentShopCategories.includes(postedCategory)) {
+    errors["duplication"] = "既に登録されたカテゴリーです";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    // getSelectedCategoryメソッドで取得したindexを変数に格納
+    const selectedCategoryIndex = res.locals.index;
+
+    res.render("editCategory", {
+      errors: errors,
+      selectedCategoryIndex: selectedCategoryIndex,
+      selectedCategory: postedCategory,
     });
   } else {
     next();

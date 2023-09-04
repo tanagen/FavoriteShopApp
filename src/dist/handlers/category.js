@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCategory = exports.renderDeleteCategoryPage = exports.checkPostedCategory = exports.createShopCategory = exports.updateCategory = exports.getDBIdOfUpdateCategory = exports.renderEditCategoryPage = exports.renderCreateCategoryPage = exports.renderShopCategoryPage = exports.getShopCategories = void 0;
+exports.deleteCategory = exports.renderDeleteCategoryPage = exports.checkUpdatedCategory = exports.checkPostedCategory = exports.createShopCategory = exports.updateCategory = exports.getDBIdOfUpdateCategory = exports.renderEditCategoryPage = exports.renderCreateCategoryPage = exports.renderShopCategoryPage = exports.getShopCategories = void 0;
 const index_1 = __importDefault(require("../models/index"));
 const getShopCategories = (req, res, next) => {
     // passportのsessionからid,user_nameを取得
@@ -68,7 +68,7 @@ const renderShopCategoryPage = (req, res) => {
 exports.renderShopCategoryPage = renderShopCategoryPage;
 const renderCreateCategoryPage = (req, res) => {
     // const loginedUserId: number = req.user!.id;
-    res.render("createCategory", { errors: {} });
+    res.render("createCategory", { errors: {}, category: "" });
 };
 exports.renderCreateCategoryPage = renderCreateCategoryPage;
 const renderEditCategoryPage = (req, res) => {
@@ -123,7 +123,7 @@ const updateCategory = (req, res) => {
     // passportのsessionからuserIdを取得
     const loginedUserId = req.user.id;
     // 更新postされたカテゴリー名を変数に格納
-    const updatedCategory = req.body.updatedCategory;
+    const updatedCategory = req.body.category;
     // getDBIdOfUpdateCategoryメソッドで取得したres.localsの内容を変数に格納
     const targetCategoryDBId = res.locals.targetCategoryDBId;
     const targetUserFavoriteShopDBIds = res.locals.targetUserFavoriteShopDBIds;
@@ -136,10 +136,12 @@ const updateCategory = (req, res) => {
         catch (error) {
             console.log(error);
         }
+        finally {
+            // redirect
+            const redirectURL = "/list/" + selectedCategoryIndex;
+            res.redirect(redirectURL);
+        }
     }))();
-    // redirect
-    const redirectURL = "/list/" + selectedCategoryIndex;
-    res.redirect(redirectURL);
 };
 exports.updateCategory = updateCategory;
 const createShopCategory = (req, res) => {
@@ -157,12 +159,14 @@ const createShopCategory = (req, res) => {
         catch (error) {
             console.log(error);
         }
-        // redirect
-        res.redirect("/category");
+        finally {
+            // redirect
+            res.redirect("/category");
+        }
     }))();
 };
 exports.createShopCategory = createShopCategory;
-// カテゴリー新規登録,更新における入力値の空チェック&既存カテゴリーチェック
+// カテゴリー新規登録における入力値の空チェック&既存カテゴリーチェック
 const checkPostedCategory = (req, res, next) => {
     // getShopCategoriesメソッドで取得したres.localsの内容を取得して変数に代入
     const presentShopCategories = res.locals.shopCategories;
@@ -180,6 +184,7 @@ const checkPostedCategory = (req, res, next) => {
     if (Object.keys(errors).length > 0) {
         res.render("createCategory", {
             errors: errors,
+            category: postedCategory,
         });
     }
     else {
@@ -187,6 +192,35 @@ const checkPostedCategory = (req, res, next) => {
     }
 };
 exports.checkPostedCategory = checkPostedCategory;
+// カテゴリー更新における入力値の空チェック&既存カテゴリーチェック
+const checkUpdatedCategory = (req, res, next) => {
+    // getShopCategoriesメソッドで取得したres.localsの内容を取得して変数に代入
+    const presentShopCategories = res.locals.shopCategories;
+    // postされた値を取得して変数に代入
+    const postedCategory = req.body.category;
+    // error文格納用の配列
+    const errors = {};
+    // errorチェック
+    if (postedCategory === "") {
+        errors["category"] = "入力してください";
+    }
+    if (presentShopCategories.includes(postedCategory)) {
+        errors["duplication"] = "既に登録されたカテゴリーです";
+    }
+    if (Object.keys(errors).length > 0) {
+        // getSelectedCategoryメソッドで取得したindexを変数に格納
+        const selectedCategoryIndex = res.locals.index;
+        res.render("editCategory", {
+            errors: errors,
+            selectedCategoryIndex: selectedCategoryIndex,
+            selectedCategory: postedCategory,
+        });
+    }
+    else {
+        next();
+    }
+};
+exports.checkUpdatedCategory = checkUpdatedCategory;
 const renderDeleteCategoryPage = (req, res) => {
     // passportのsessionからid,user_nameを取得
     const loginedUserId = req.user.id;

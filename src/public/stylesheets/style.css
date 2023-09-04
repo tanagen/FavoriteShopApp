@@ -377,6 +377,10 @@ header a:hover {
   margin: 21px 0px;
 }
 
+.edit-category:hover {
+  color:rgb(197, 114, 96);
+}
+
 .edit-button {
   display: inline-block;
   text-align: center;

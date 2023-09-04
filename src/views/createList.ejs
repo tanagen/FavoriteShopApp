@@ -45,7 +45,7 @@
           <% if (Object.keys(errors).length > 0) { %>
           <p class="error"><%= errors.shopLocation %></p>
           <% } %>
-
+          <!-- <form action="" method="post"> -->
           <input
             id="place"
             class="place"
@@ -54,6 +54,9 @@
             placeholder="〇〇駅"
             value="<%= shopLocation %>"
           />
+          <!-- <input class="show-map-button" type="submit" value="表示" />
+          </form> -->
+
           <label for="memo">メモ</label>
 
           <!-- 入力値のエラー表示 -->
