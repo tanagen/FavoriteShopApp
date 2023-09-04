@@ -13,8 +13,13 @@ import {
 const router = express.Router();
 
 router.get("/", checkAuthenticated, getShopCategories, renderShopCategoryPage);
-router.post("/", getShopCategories, checkPostedCategory, createShopCategory);
 router.get("/create", renderCreateCategoryPage);
+router.post(
+  "/create",
+  getShopCategories,
+  checkPostedCategory,
+  createShopCategory
+);
 router.get("/delete", renderDeleteCategoryPage);
 router.post("/delete", deleteCategory);
 

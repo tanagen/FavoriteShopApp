@@ -14,8 +14,10 @@ import {
 } from "../handlers/list";
 
 import {
+  getShopCategories,
   getDBIdOfUpdateCategory,
   renderEditCategoryPage,
+  checkUpdatedCategory,
   updateCategory,
 } from "../handlers/category";
 
@@ -33,9 +35,11 @@ router.get(
 );
 router.get("/:index/edit", getSelectedCategory, renderEditCategoryPage);
 router.post(
-  "/:index/update",
+  "/:index/edit",
+  getShopCategories,
   getSelectedCategory,
   getDBIdOfUpdateCategory,
+  checkUpdatedCategory,
   updateCategory
 );
 router.post("/:index/:id", deleteList);

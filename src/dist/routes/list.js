@@ -13,7 +13,7 @@ router.get("/:index", checkAuthenticated_1.checkAuthenticated, list_1.getSelecte
 router.post("/:index", list_1.getSelectedCategory, list_1.checkPostedNewList, list_1.createList);
 router.get("/:index/create", checkAuthenticated_1.checkAuthenticated, list_1.getSelectedCategory, list_1.renderCreateListPage);
 router.get("/:index/edit", list_1.getSelectedCategory, category_1.renderEditCategoryPage);
-router.post("/:index/update", list_1.getSelectedCategory, category_1.getDBIdOfUpdateCategory, category_1.updateCategory);
+router.post("/:index/edit", category_1.getShopCategories, list_1.getSelectedCategory, category_1.getDBIdOfUpdateCategory, category_1.checkUpdatedCategory, category_1.updateCategory);
 router.post("/:index/:id", list_1.deleteList);
 router.get("/:index/edit/:id", checkAuthenticated_1.checkAuthenticated, list_1.getSelectedCategory, list_1.renderEditListPage);
 router.post("/:index/update/:id", list_1.getSelectedCategory, list_1.checkPostedUpdateList, list_1.updateList);
