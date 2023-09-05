@@ -479,6 +479,17 @@ table th,table td{
   max-width: 1500px;
 }
 
+.shop-location {
+  display: block;
+  text-align: center;
+  max-width: 1500px;
+}
+.show-map {
+  display: block;
+  width: 400px;
+  height: 400px;
+}
+
 .shop-name, .place {
   margin: 10px auto 0px;
   width: 80%;
