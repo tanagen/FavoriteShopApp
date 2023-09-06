@@ -76,9 +76,7 @@
           <br />
           <input class="create-button" type="submit" value="作成" />
         </form>
-      </div>
 
-      <div class="shop-location">
         <form id="shop-form">
           <label for="shop-name">店名・施設名</label>
           <input
@@ -90,10 +88,12 @@
             value="<%= shopName %>"
           />
           <button type="submit">表示</button>
+
+          <div class="show-map" id="show-map"></div>
         </form>
+      </div>
 
-        <div class="show-map" id="show-map"></div>
-
+      <div class="shop-location">
         <script type="text/javascripts" src="/javascripts/showMap.js"></script>
       </div>
     </main>
