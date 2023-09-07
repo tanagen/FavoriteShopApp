@@ -30,6 +30,7 @@ router.post("/:index", getSelectedCategory, checkPostedNewList, createList);
 router.get(
   "/:index/create",
   checkAuthenticated,
+  getAPIKey,
   getSelectedCategory,
   renderCreateListPage
 );
