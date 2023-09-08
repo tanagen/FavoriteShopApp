@@ -11,6 +11,7 @@ const map_1 = require("../handlers/map");
 const router = express_1.default.Router();
 router.get("/:index", checkAuthenticated_1.checkAuthenticated, list_1.getSelectedCategory, list_1.renderListPage);
 router.post("/:index", list_1.getSelectedCategory, list_1.checkPostedNewList, list_1.createList);
+router.post("/saveCoordinate", map_1.saveCoordinate);
 router.get("/:index/create", checkAuthenticated_1.checkAuthenticated, map_1.getAPIKey, list_1.getSelectedCategory, list_1.renderCreateListPage);
 router.get("/:index/edit", list_1.getSelectedCategory, category_1.renderEditCategoryPage);
 router.post("/:index/edit", category_1.getShopCategories, list_1.getSelectedCategory, category_1.getDBIdOfUpdateCategory, category_1.checkUpdatedCategory, category_1.updateCategory);

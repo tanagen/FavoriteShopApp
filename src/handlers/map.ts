@@ -28,3 +28,8 @@ export const showMap = (req: Request, res: Response) => {
     shopInfo: selectedShopInfo,
   });
 };
+
+export const saveCoordinate = (req: Request, res: Response) => {
+  const { lat, lng } = req.body;
+  console.log(`サーバー側：${lat} ${lng}`);
+};

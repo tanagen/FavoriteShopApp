@@ -21,12 +21,13 @@ import {
   updateCategory,
 } from "../handlers/category";
 
-import { getAPIKey, showMap } from "../handlers/map";
+import { getAPIKey, showMap, saveCoordinate } from "../handlers/map";
 
 const router = express.Router();
 
 router.get("/:index", checkAuthenticated, getSelectedCategory, renderListPage);
 router.post("/:index", getSelectedCategory, checkPostedNewList, createList);
+router.post("/saveCoordinate", saveCoordinate);
 router.get(
   "/:index/create",
   checkAuthenticated,
