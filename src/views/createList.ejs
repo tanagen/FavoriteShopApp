@@ -69,21 +69,21 @@
         <h1>Create New List</h1>
 
         <form action="/list/<%= categoryIndex %>" method="post">
-          <label for="shop-name">店名・施設名</label>
+          <!-- <label for="shop-name">店名・施設名</label> -->
 
           <!-- 入力値のエラー表示 -->
           <% if (Object.keys(errors).length > 0) { %>
           <p class="error"><%= errors.shopName %></p>
           <% } %>
 
-          <input
+          <!-- <input
             id="shop-name"
             class="shop-name"
             name="name"
             type="text"
             placeholder="〇〇ショップ"
             value="<%= shopName %>"
-          />
+          /> -->
           <label for="place">場所</label>
 
           <!-- 入力値のエラー表示 -->
@@ -116,30 +116,30 @@
             rows="10"
             placeholder="あいうえお"
           >
-<%= shopDescription %></textarea
+          <%= shopDescription %></textarea
           >
           <br />
           <input class="create-button" type="submit" value="作成" />
         </form>
 
-        <form id="shop-location">
-          <label for="shop-name">店名・施設名</label>
-          <input
-            id="shop-name"
-            class="shop-name"
-            name="shop-name"
-            type="text"
-            placeholder="〇〇ショップ"
-            value="<%= shopName %>"
-          />
-          <button type="submit">表示</button>
+        <!-- <form id="shop-location"> -->
+        <label for="shop-name">店名・施設名</label>
+        <input
+          id="shop-name"
+          class="shop-name"
+          name="shop-name"
+          type="text"
+          placeholder="〇〇ショップ"
+          value="<%= shopName %>"
+        />
+        <button id="show-button">表示</button>
+        <!-- </form> -->
 
-          <div class="map" id="map"></div>
-          <script
-            defer
-            src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&callback=initMap&libraries=places"
-          ></script>
-        </form>
+        <div class="map" id="map"></div>
+        <script
+          defer
+          src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&callback=initMap&libraries=places"
+        ></script>
       </div>
     </main>
   </body>

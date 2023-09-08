@@ -16,14 +16,15 @@ let service;
 let infowindow;
 let marker;
 // フォーム送信時の処理
-document.getElementById("shop-location").addEventListener("submit", (event) => {
-    event.preventDefault(); // フォームの通常の送信を防止
+document.getElementById("show-button").addEventListener("click", () => {
+    // event.preventDefault(); // フォームの通常の送信を防止
     // フォームデータを取得
-    const formData = new FormData(event.target);
+    // const formData = new FormData(event.target);
     // フォームデータからメッセージを取得
-    const shopLocation = formData.get("shop-name");
+    // const shopLocatino = formData.get("shop-name");
+    const shopName = document.getElementById("shop-name").value;
     // google mapを表示する関数を呼び出す
-    displayMap(shopLocation);
+    displayMap(shopName);
 });
 function initMap() {
     // 地図の中心の初期値
@@ -35,32 +36,7 @@ function initMap() {
     });
     // クリックでマーカーを立てるイベントリスナーを追加
     google.maps.event.addListener(map, "click", (event) => clickListener(event, map));
-    // const requestLocation = document.getElementById("map-request").innerHTML;
-    // const request = {
-    //   query: requestLocation,
-    //   fields: ["name", "geometry"],
-    // };
-    // service = new google.maps.places.PlacesService(map);
-    // service.findPlaceFromQuery(request, (results, status) => {
-    //   if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-    //     for (let i = 0; i < results.length; i++) {
-    //       createMarker(results[i]);
-    //     }
-    //     map.setCenter(results[0].geometry.location);
-    //   }
-    // });
 }
-// function createMarker(place) {
-//   if (!place.geometry || !place.geometry.location) return;
-//   const marker = new google.maps.Marker({
-//     map,
-//     position: place.geometry.location,
-//   });
-//   google.maps.event.addListener(marker, "click", () => {
-//     infowindow.setContent(place.name || "");
-//     infowindow.open(map);
-//   });
-// }
 function displayMap(location) {
     // 地図を表示するためのオプションを設定
     const mapOptions = {
@@ -76,12 +52,13 @@ function displayMap(location) {
     geocoder.geocode({ address: location }, (results, status) => {
         if (status === "OK") {
             // 地名が正しく解決された場合、地図上にマーカーを表示
-            const locationLatLng = results[0].geometry.location;
-            new google.maps.Marker({
+            let locationLatLng = results[0].geometry.location;
+            marker = new google.maps.Marker({
                 position: locationLatLng,
                 map: map,
                 title: location,
             });
+            marker.setMap(map);
             // 地図の中心を地名の位置に指定
             map.setCenter(locationLatLng);
         }
@@ -90,6 +67,8 @@ function displayMap(location) {
             alert("地名が見つかりませんでした。");
         }
     });
+    // クリックでマーカーを立てるイベントリスナーを追加
+    google.maps.event.addListener(map, "click", (event) => clickListener(event, map));
 }
 function clickListener(event, map) {
     console.log("call clickListener");
@@ -105,6 +84,27 @@ function clickListener(event, map) {
     marker = new google.maps.Marker({ position: { lat: lat, lng: lng } }, map);
     marker.setMap(map);
     // 地図の中心を地名の位置に指定;
-    // map.setCenter(latLng);
+    let latlng = new google.maps.LatLng(lat, lng);
+    map.setCenter(latlng);
+    // サーバーに座標情報を送信するためのAjaxリクエストを追加
+    // sendCoordinateToServer(lat, lng);
+}
+// Ajaxリクエストをサーバーに送信
+function sendCoordinateToServer(lat, lng) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/list/saveCoordinate", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    // データをJSON形式で送信
+    const data = JSON.stringify({ lat, lng });
+    console.log(`data:${data}`);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            console.log("座標情報がサーバーに送信されました。");
+        }
+        else {
+            console.error("サーバーへのリクエストに失敗しました。");
+        }
+    };
+    xhr.send(data);
 }
 window.initMap = initMap;

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.showMap = exports.getAPIKey = void 0;
+exports.saveCoordinate = exports.showMap = exports.getAPIKey = void 0;
 const path_1 = __importDefault(require("path"));
 const dotenv_1 = __importDefault(require("dotenv")); // dotenvモジュールは.envファイルに定義された値を環境変数として使える
 const ENV_PATH = path_1.default.join(__dirname, "../../../app.env");
@@ -30,3 +30,8 @@ const showMap = (req, res) => {
     });
 };
 exports.showMap = showMap;
+const saveCoordinate = (req, res) => {
+    const { lat, lng } = req.body;
+    console.log(`サーバー側：${lat} ${lng}`);
+};
+exports.saveCoordinate = saveCoordinate;
