@@ -29,7 +29,17 @@ export const showMap = (req: Request, res: Response) => {
   });
 };
 
-export const saveCoordinate = (req: Request, res: Response) => {
+export const saveCoordinate = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { lat, lng } = req.body;
   console.log(`サーバー側：${lat} ${lng}`);
+  res.locals.lat = lat;
+  res.locals.lng = lng;
+
+  res.sendStatus(200); // 成功を返す
+
+  // next();
 };
