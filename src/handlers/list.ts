@@ -92,7 +92,11 @@ export const renderCreateListPage = (req: Request, res: Response) => {
   // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
   const categoryIndex = res.locals.index;
   const selectedCategory = res.locals.selectedCategory;
+  // getAPIKeyメソッドからローカル変数を取得して変数に格納
+  const API_KEY = res.locals.apiKey;
+
   res.render("createList", {
+    apiKey: API_KEY,
     categoryIndex: categoryIndex,
     selectedCategory: selectedCategory,
     shopName: "",
@@ -112,10 +116,14 @@ export const checkPostedNewList = (
   const categoryIndex = res.locals.index;
   const selectedCategory = res.locals.selectedCategory;
 
+  // getAPIKeyメソッドからローカル変数を取得して変数に格納
+  const API_KEY = res.locals.apiKey;
+
   // postされた値を変数に代入
   const postedShopName = req.body.name;
   const postedShopLocation = req.body.location;
   const postedShopDescription = req.body.description;
+  console.log(req.body);
 
   // error文格納用の配列
   const errors: { [key: string]: string } = {};
@@ -133,6 +141,7 @@ export const checkPostedNewList = (
 
   if (Object.keys(errors).length > 0) {
     res.render("createList", {
+      apiKey: API_KEY,
       categoryIndex: categoryIndex,
       selectedCategory: selectedCategory,
       shopName: postedShopName,

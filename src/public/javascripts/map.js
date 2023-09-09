@@ -16,6 +16,7 @@ let map;
 let service;
 let infowindow;
 let marker;
+let coordinate = null; // 座標情報を一時的に保存する変数
 
 // フォーム送信時の処理
 document.getElementById("show-button").addEventListener("click", () => {
@@ -26,7 +27,7 @@ document.getElementById("show-button").addEventListener("click", () => {
 
   // フォームデータからメッセージを取得
   // const shopLocatino = formData.get("shop-name");
-  const shopName = document.getElementById("shop-name").value;
+  const shopName = document.getElementById("name").value;
 
   // google mapを表示する関数を呼び出す
   displayMap(shopName);
@@ -95,8 +96,8 @@ function clickListener(event, map) {
   // const latLng = event.latLng();
   const lat = event.latLng.lat();
   const lng = event.latLng.lng();
-  console.log(lat);
-  console.log(lng);
+  coordinate = { lat: lat, lng: lng };
+  console.log(coordinate);
 
   // 既存マーカーを削除(1つのマーカーのみを表示したいため)
   if (marker) {
@@ -108,8 +109,8 @@ function clickListener(event, map) {
   marker.setMap(map);
 
   // 地図の中心を地名の位置に指定;
-  let latlng = new google.maps.LatLng(lat, lng);
-  map.setCenter(latlng);
+  // let latlng = new google.maps.LatLng(lat, lng);
+  // map.setCenter(latlng);
 
   // サーバーに座標情報を送信するためのAjaxリクエストを追加
   // sendCoordinateToServer(lat, lng);

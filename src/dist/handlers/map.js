@@ -30,8 +30,12 @@ const showMap = (req, res) => {
     });
 };
 exports.showMap = showMap;
-const saveCoordinate = (req, res) => {
+const saveCoordinate = (req, res, next) => {
     const { lat, lng } = req.body;
     console.log(`サーバー側：${lat} ${lng}`);
+    res.locals.lat = lat;
+    res.locals.lng = lng;
+    res.sendStatus(200); // 成功を返す
+    // next();
 };
 exports.saveCoordinate = saveCoordinate;
