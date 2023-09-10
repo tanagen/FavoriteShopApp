@@ -12,34 +12,42 @@ export const getAPIKey = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
+export const getLatLng = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {};
+
 export const showMap = (req: Request, res: Response) => {
   // getAPIKeyメソッドからローカル変数を取得して変数に格納
   const API_KEY = res.locals.apiKey;
   // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
   const categoryIndex = res.locals.index;
   const selectedCategory = res.locals.selectedCategory;
-  // ルートパラメータから選択したリストIdを取得
+  // getSelectedListメソッドで取得したres.lcoalsを変数に代入
   const selectedShopInfo = res.locals.selectedShopInfo;
+  const errorMessage = res.locals.errorMessage;
 
   res.render("map", {
     apiKey: API_KEY,
     categoryIndex: categoryIndex,
     selectedCategory: selectedCategory,
     shopInfo: selectedShopInfo,
+    errorMessage: errorMessage,
   });
 };
 
-export const saveCoordinate = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const { lat, lng } = req.body;
-  console.log(`サーバー側：${lat} ${lng}`);
-  res.locals.lat = lat;
-  res.locals.lng = lng;
+// export const saveCoordinate = (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   const { lat, lng } = req.body;
+//   console.log(`サーバー側：${lat} ${lng}`);
+//   res.locals.lat = lat;
+//   res.locals.lng = lng;
 
-  res.sendStatus(200); // 成功を返す
+//   res.sendStatus(200); // 成功を返す
 
-  // next();
-};
+//   // next();
+// };

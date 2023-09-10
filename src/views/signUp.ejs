@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/stylesheets/style.css" />
-    <title>sign up</title>
+    <title>Sign up</title>
   </head>
   <body>
     <header>
@@ -20,45 +20,46 @@
       <div class="signup">
         <h1>ユーザー登録</h1>
         <form action="/signUp" method="post">
-          <label for="username">ユーザー名</label>
+          <label for="user-name">ユーザー名</label>
 
-          <!-- 入力値のエラー表示 -->
+          <!-- 入力値が空の場合のエラー表示 -->
           <% if (Object.keys(errors).length > 0) { %>
           <p class="error"><%= errors.userName %></p>
           <% } %>
 
           <input
-            id="username"
             type="text"
+            id="user-name"
             name="userName"
             placeholder="tarou"
             value="<%= userName %>"
           />
           <label for="email">メールアドレス</label>
 
-          <!-- 入力値のエラー表示 -->
+          <!-- 入力値が空の場合のエラー表示 -->
           <% if (Object.keys(errors).length > 0) { %>
           <p class="error"><%= errors.email %></p>
           <% } %>
 
           <input
-            id="email"
             type="text"
+            id="email"
             name="email"
             placeholder="〇〇@test.com"
             value="<%= email %>"
           />
+
           <label for="password">パスワード</label>
 
-          <!-- 入力値のエラー表示 -->
+          <!-- 入力値が空の場合のエラー表示 -->
           <% if (Object.keys(errors).length > 0) { %>
           <p class="error"><%= errors.password %></p>
           <% } %>
 
           <input id="password" type="password" name="password" />
           <input
-            class="button"
             type="submit"
+            class="button"
             value="登録"
             onclick="return confirm('登録してよろしいですか？');"
           />

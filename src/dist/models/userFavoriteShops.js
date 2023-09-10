@@ -30,7 +30,7 @@ class UserFavoriteShops extends sequelize_1.Model {
                 defaultValue: "",
             },
             shop_location: {
-                type: sequelize_1.DataTypes.STRING,
+                type: sequelize_1.DataTypes.JSON,
                 allowNull: true,
                 defaultValue: "",
             },

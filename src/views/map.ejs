@@ -49,7 +49,7 @@
         // Add other bootstrap parameters as needed, using camel case.
       });
     </script>
-    <script type="module" src="/javascripts/map.js"></script>
+    <script type="module" src="/javascripts/showMap.js"></script>
   </head>
   <body>
     <header>
@@ -67,14 +67,23 @@
 
     <main>
       <div class="map-container">
-        <h1 id="map-request"><%= shopInfo.shop_location %></h1>
+        <!-- DBに緯度経度情報がない場合 -->
+        <% if (errorMessage.length !== 0) { %>
+        <h1><%= errorMessage %></h1>
 
+        <!-- DBに緯度経度情報がある場合 -->
+        <% } else { %>
+        <h1 id="name"><%= shopInfo.shop_name %></h1>
+
+        <div hidden id="latlng"><%= shopInfo.shop_location %></div>
         <div class="map" id="map"></div>
 
         <script
           defer
           src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&callback=initMap&libraries=places"
         ></script>
+
+        <% } %>
       </div>
     </main>
   </body>

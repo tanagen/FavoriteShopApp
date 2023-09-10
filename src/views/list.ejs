@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/stylesheets/style.css" />
-    <title>memo list</title>
+    <title>Memo list</title>
   </head>
   <body>
     <header>
@@ -19,41 +19,38 @@
     </header>
 
     <main>
-      <div class="list">
+      <div class="memo-list">
         <a href="/list/<%= categoryIndex %>/edit" class="edit-category"
           ><%= locals.selectedCategory %></a
         >
-        <a href=""></a>
 
-        <!-- user_favorite_shopDBに情報がない場合の表示 -->
+        <!-- DBに情報がない場合の表示 -->
         <% if (errorMessage.length !== 0) { %>
-        <h2><%= errorMessage %></h2>
+        <h1><%= errorMessage %></h1>
 
-        <!-- user_favorite_shopDBに情報がある場合の表示 -->
+        <!-- DBに情報がある場合の表示 -->
         <% } else { %>
         <table>
           <tr>
-            <th class="table-name">名称</th>
-            <th class="table-place">場所</th>
+            <th class="table-name">ショップ</th>
             <th class="table-memo">メモ</th>
           </tr>
 
           <% allShopInfo.forEach((shopInfo) => { %>
           <tr>
-            <td class="name-column"><%= shopInfo.shop_name %></td>
-            <td class="location-column">
+            <td>
               <a
-                class="location"
                 href="/list/<%= categoryIndex %>/map/<%= shopInfo.id %>"
-                ><%= shopInfo.shop_location %></a
+                class="map-link"
+                ><%= shopInfo.shop_name %></a
               >
             </td>
-            <td class="description-column"><%= shopInfo.shop_description %></td>
+            <td class="description-td"><%= shopInfo.shop_description %></td>
             <!-- 編集ボタン -->
-            <td class="list-edit">
+            <td class="memo-edit">
               <a
-                class="edit-button"
                 href="/list/<%= categoryIndex %>/edit/<%= shopInfo.id %>"
+                class="memo-edit-button"
                 >編集</a
               >
             </td>

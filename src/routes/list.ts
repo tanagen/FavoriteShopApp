@@ -21,12 +21,12 @@ import {
   updateCategory,
 } from "../handlers/category";
 
-import { getAPIKey, showMap, saveCoordinate } from "../handlers/map";
+import { getAPIKey, showMap } from "../handlers/map";
 
 const router = express.Router();
 
 router.get("/:index", checkAuthenticated, getSelectedCategory, renderListPage);
-router.post("/saveCoordinate", saveCoordinate);
+// router.post("/saveCoordinate", saveCoordinate);
 router.get(
   "/:index/create",
   checkAuthenticated,
@@ -54,12 +54,14 @@ router.post("/:index/:id", deleteList);
 router.get(
   "/:index/edit/:id",
   checkAuthenticated,
+  getAPIKey,
   getSelectedCategory,
   renderEditListPage
 );
 router.post(
   "/:index/update/:id",
   getSelectedCategory,
+  getAPIKey,
   checkPostedUpdateList,
   updateList
 );
