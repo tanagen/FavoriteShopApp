@@ -34,14 +34,41 @@ document.getElementById("show-button").addEventListener("click", () => {
 });
 
 function initMap() {
+  let center;
+
+  // hiddenタグの緯度経度情報有無で分岐
+  if (document.getElementById("latlng").value) {
+    let latlng = document.getElementById("latlng").value;
+    console.log(latlng);
+    let latlngJSON = JSON.parse(latlng);
+    console.log(latlngJSON);
+
+    // 地図の中心値
+    center = new google.maps.LatLng(latlngJSON.lat, latlngJSON.lng);
+  } else {
+    center = new google.maps.LatLng(35.6811673, 139.7670516);
+  }
+
+  console.log(center);
+
   // 地図の中心の初期値
-  const tokyo = new google.maps.LatLng(35.6811673, 139.7670516);
+  // const tokyo = new google.maps.LatLng(35.6811673, 139.7670516);
 
   // infowindow = new google.maps.InfoWindow();
+  // Mapクラスのインスタンス作成
   map = new google.maps.Map(document.getElementById("map"), {
-    center: tokyo,
+    center: center,
     zoom: 15,
   });
+
+  // Markerクラスのインスタンス作成
+  marker = new google.maps.Marker({
+    position: center,
+    map: map,
+  });
+
+  // mapにmarkerをセット
+  marker.setMap(map);
 
   // クリックでマーカーを立てるイベントリスナーを追加
   google.maps.event.addListener(map, "click", (event) =>
@@ -79,6 +106,9 @@ function displayMap(location) {
 
       // 地図の中心を地名の位置に指定
       map.setCenter(locationLatLng);
+
+      // 緯度経度情報をhiddenタグに一時的に保存
+      document.getElementById("latlng").value = JSON.stringify(locationLatLng);
     } else {
       // 地名が解決できなかった場合のエラーメッセージ
       alert("地名が見つかりませんでした。");
@@ -97,7 +127,9 @@ function clickListener(event, map) {
   const lat = event.latLng.lat();
   const lng = event.latLng.lng();
   coordinate = { lat: lat, lng: lng };
-  console.log(coordinate);
+
+  // 緯度経度情報をhiddenタグに一時的に保存
+  document.getElementById("latlng").value = JSON.stringify(coordinate);
 
   // 既存マーカーを削除(1つのマーカーのみを表示したいため)
   if (marker) {
@@ -117,24 +149,24 @@ function clickListener(event, map) {
 }
 
 // Ajaxリクエストをサーバーに送信
-function sendCoordinateToServer(lat, lng) {
-  const xhr = new XMLHttpRequest();
-  xhr.open("POST", "/list/saveCoordinate", true);
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+// function sendCoordinateToServer(lat, lng) {
+//   const xhr = new XMLHttpRequest();
+//   xhr.open("POST", "/list/saveCoordinate", true);
+//   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-  // データをJSON形式で送信
-  const data = JSON.stringify({ lat, lng });
-  console.log(`data:${data}`);
+//   // データをJSON形式で送信
+//   const data = JSON.stringify({ lat, lng });
+//   console.log(`data:${data}`);
 
-  xhr.onload = function () {
-    if (xhr.status === 200) {
-      console.log("座標情報がサーバーに送信されました。");
-    } else {
-      console.error("サーバーへのリクエストに失敗しました。");
-    }
-  };
+//   xhr.onload = function () {
+//     if (xhr.status === 200) {
+//       console.log("座標情報がサーバーに送信されました。");
+//     } else {
+//       console.error("サーバーへのリクエストに失敗しました。");
+//     }
+//   };
 
-  xhr.send(data);
-}
+//   xhr.send(data);
+// }
 
 window.initMap = initMap;

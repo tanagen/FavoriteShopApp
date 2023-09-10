@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.saveCoordinate = exports.showMap = exports.getAPIKey = void 0;
+exports.showMap = exports.getLatLng = exports.getAPIKey = void 0;
 const path_1 = __importDefault(require("path"));
 const dotenv_1 = __importDefault(require("dotenv")); // dotenvモジュールは.envファイルに定義された値を環境変数として使える
 const ENV_PATH = path_1.default.join(__dirname, "../../../app.env");
@@ -14,28 +14,35 @@ const getAPIKey = (req, res, next) => {
     next();
 };
 exports.getAPIKey = getAPIKey;
+const getLatLng = (req, res, next) => { };
+exports.getLatLng = getLatLng;
 const showMap = (req, res) => {
     // getAPIKeyメソッドからローカル変数を取得して変数に格納
     const API_KEY = res.locals.apiKey;
     // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
     const categoryIndex = res.locals.index;
     const selectedCategory = res.locals.selectedCategory;
-    // ルートパラメータから選択したリストIdを取得
+    // getSelectedListメソッドで取得したres.lcoalsを変数に代入
     const selectedShopInfo = res.locals.selectedShopInfo;
+    const errorMessage = res.locals.errorMessage;
     res.render("map", {
         apiKey: API_KEY,
         categoryIndex: categoryIndex,
         selectedCategory: selectedCategory,
         shopInfo: selectedShopInfo,
+        errorMessage: errorMessage,
     });
 };
 exports.showMap = showMap;
-const saveCoordinate = (req, res, next) => {
-    const { lat, lng } = req.body;
-    console.log(`サーバー側：${lat} ${lng}`);
-    res.locals.lat = lat;
-    res.locals.lng = lng;
-    res.sendStatus(200); // 成功を返す
-    // next();
-};
-exports.saveCoordinate = saveCoordinate;
+// export const saveCoordinate = (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   const { lat, lng } = req.body;
+//   console.log(`サーバー側：${lat} ${lng}`);
+//   res.locals.lat = lat;
+//   res.locals.lng = lng;
+//   res.sendStatus(200); // 成功を返す
+//   // next();
+// };

@@ -100,7 +100,7 @@ export const renderCreateListPage = (req: Request, res: Response) => {
     categoryIndex: categoryIndex,
     selectedCategory: selectedCategory,
     shopName: "",
-    shopLocation: "",
+    latlng: "",
     shopDescription: "",
     errors: {},
   });
@@ -121,7 +121,7 @@ export const checkPostedNewList = (
 
   // postされた値を変数に代入
   const postedShopName = req.body.name;
-  const postedShopLocation = req.body.location;
+  const postedShopLocation = req.body.latlng;
   const postedShopDescription = req.body.description;
   console.log(req.body);
 
@@ -145,7 +145,7 @@ export const checkPostedNewList = (
       categoryIndex: categoryIndex,
       selectedCategory: selectedCategory,
       shopName: postedShopName,
-      shopLocation: postedShopLocation,
+      latlng: postedShopLocation,
       shopDescription: postedShopDescription,
       errors: errors,
     });
@@ -169,7 +169,7 @@ export const checkPostedUpdateList = (
 
   // postされた内容を変数に代入
   const postedShopName = req.body.name;
-  const postedShopLocation = req.body.location;
+  const postedShopLocation = req.body.latlng;
   const postedShopDescription = req.body.description;
 
   // error文格納用の配列
@@ -192,7 +192,7 @@ export const checkPostedUpdateList = (
       errorMessage: "",
       shopId: selectedShopId,
       shopName: postedShopName,
-      shopLocation: postedShopLocation,
+      latlng: postedShopLocation,
       shopDescription: postedShopDescription,
       categoryIndex: categoryIndex,
       errors: errors,
@@ -212,8 +212,10 @@ export const createList = (req: Request, res: Response) => {
   const selectedCategory = res.locals.selectedCategory;
   // formでpostされた内容を取得
   const createdShopName = req.body.name;
-  const createdLocation = req.body.location;
+  const createdLatLng = req.body.latlng;
   const createdDescription = req.body.description;
+
+  console.log(createdLatLng);
 
   // postされた内容をuser_favorite_shopsDBに格納
   (async () => {
@@ -225,7 +227,7 @@ export const createList = (req: Request, res: Response) => {
         user_id: loginedUserId,
         shop_category: selectedCategory,
         shop_name: createdShopName,
-        shop_location: createdLocation,
+        shop_location: createdLatLng,
         shop_description: createdDescription,
       });
 
@@ -330,7 +332,7 @@ export const renderEditListPage = (req: Request, res: Response) => {
         const shopInfo: UserFavoriteShops = data[0];
         const shopId = shopInfo.id;
         const shopName = shopInfo.shop_name;
-        const shopLocation = shopInfo.shop_location;
+        const shopLatLng = shopInfo.shop_location;
         const shopDescription = shopInfo.shop_description;
 
         // レンダリング
@@ -339,7 +341,7 @@ export const renderEditListPage = (req: Request, res: Response) => {
           errorMessage: errorMessage,
           shopId: shopId,
           shopName: shopName,
-          shopLocation: shopLocation,
+          latlng: shopLatLng,
           shopDescription: shopDescription,
           categoryIndex: categoryIndex,
           errors: "",
@@ -349,7 +351,7 @@ export const renderEditListPage = (req: Request, res: Response) => {
         const errorMessage = "情報取得エラー";
         const shopId: any = "";
         const shopName: any = "";
-        const shopLocation: any = "";
+        const shopLatLng: any = "";
         const shopDescription: any = "";
 
         // レンダリング
@@ -358,7 +360,7 @@ export const renderEditListPage = (req: Request, res: Response) => {
           errorMessage: errorMessage,
           shopId: shopId,
           shopName: shopName,
-          shopLocation: shopLocation,
+          latlng: shopLatLng,
           shopDescription: shopDescription,
           categoryIndex: categoryIndex,
           errors: "",
@@ -379,7 +381,7 @@ export const updateList = (req: Request, res: Response) => {
       await db.UserFavoriteShops.update(
         {
           shop_name: req.body.name,
-          shop_location: req.body.location,
+          shop_location: req.body.latlng,
           shop_description: req.body.description,
         },
         { where: { id: selectedShopId } }

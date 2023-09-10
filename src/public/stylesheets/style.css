@@ -52,7 +52,7 @@ header {
 .top {
   text-align: center;
 }
-.top-logo img{
+.logo img{
   width:50%;
   height:50%;
 }
@@ -364,7 +364,7 @@ header a:hover {
 
 
 /* list.ejs ================================ */
-.list {
+.memo-list {
   text-align: center;
   width: 100%;
   max-width: 1500px;
@@ -381,13 +381,13 @@ header a:hover {
   color:rgb(197, 114, 96);
 }
 
-.edit-button {
+.memo-edit-button {
   display: inline-block;
   text-align: center;
   padding: 0 5px;
 }
 
-.edit-button:hover {
+.memo-edit-button:hover {
   color:rgb(197, 114, 96);
 }
 
@@ -448,27 +448,31 @@ table th,table td{
   padding: 15px 5px;
 }
 
-.list-edit, .list-delete {
-  width: 6%;
+.memo-edit {
+  width: 7%;
+}
+
+.memo-delete {
+  width: 7%;
 }
 
 .table-name {
-  width: 14%;
+  width: 20%;
 }
 
-.table-place {
+/* .table-place {
   width: 14%;
-}
+} */
 
 .table-memo {
-  width: 60%;
+  width: 66%;
 }
 
-.location:hover {
+.map-link:hover {
   color:rgb(197, 114, 96);
 }
 
-.description-column {
+.description-td {
   white-space: pre-wrap;  /* 改行コードを含む文字列を改行表示するための設定 */
 }
 
@@ -579,7 +583,7 @@ table th,table td{
   margin: 0 auto;
   width: 100%;
   aspect-ratio: 5 / 3;
-  max-width: 800px;
+  max-width: 600px;
   /* height: 300px; */
   
 }

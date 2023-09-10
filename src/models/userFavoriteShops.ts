@@ -37,7 +37,7 @@ export default class UserFavoriteShops extends Model {
           defaultValue: "",
         },
         shop_location: {
-          type: DataTypes.STRING,
+          type: DataTypes.JSON,
           allowNull: true,
           defaultValue: "",
         },

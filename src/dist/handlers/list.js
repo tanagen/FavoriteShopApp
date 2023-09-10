@@ -100,7 +100,7 @@ const renderCreateListPage = (req, res) => {
         categoryIndex: categoryIndex,
         selectedCategory: selectedCategory,
         shopName: "",
-        shopLocation: "",
+        latlng: "",
         shopDescription: "",
         errors: {},
     });
@@ -115,7 +115,7 @@ const checkPostedNewList = (req, res, next) => {
     const API_KEY = res.locals.apiKey;
     // postされた値を変数に代入
     const postedShopName = req.body.name;
-    const postedShopLocation = req.body.location;
+    const postedShopLocation = req.body.latlng;
     const postedShopDescription = req.body.description;
     console.log(req.body);
     // error文格納用の配列
@@ -136,7 +136,7 @@ const checkPostedNewList = (req, res, next) => {
             categoryIndex: categoryIndex,
             selectedCategory: selectedCategory,
             shopName: postedShopName,
-            shopLocation: postedShopLocation,
+            latlng: postedShopLocation,
             shopDescription: postedShopDescription,
             errors: errors,
         });
@@ -155,7 +155,7 @@ const checkPostedUpdateList = (req, res, next) => {
     const selectedShopId = req.params.id;
     // postされた内容を変数に代入
     const postedShopName = req.body.name;
-    const postedShopLocation = req.body.location;
+    const postedShopLocation = req.body.latlng;
     const postedShopDescription = req.body.description;
     // error文格納用の配列
     const errors = {};
@@ -175,7 +175,7 @@ const checkPostedUpdateList = (req, res, next) => {
             errorMessage: "",
             shopId: selectedShopId,
             shopName: postedShopName,
-            shopLocation: postedShopLocation,
+            latlng: postedShopLocation,
             shopDescription: postedShopDescription,
             categoryIndex: categoryIndex,
             errors: errors,
@@ -196,8 +196,9 @@ const createList = (req, res) => {
     const selectedCategory = res.locals.selectedCategory;
     // formでpostされた内容を取得
     const createdShopName = req.body.name;
-    const createdLocation = req.body.location;
+    const createdLatLng = req.body.latlng;
     const createdDescription = req.body.description;
+    console.log(createdLatLng);
     // postされた内容をuser_favorite_shopsDBに格納
     (() => __awaiter(void 0, void 0, void 0, function* () {
         // const t = await db.UserFavoriteShops.sequelize!.transaction();
@@ -207,7 +208,7 @@ const createList = (req, res) => {
                 user_id: loginedUserId,
                 shop_category: selectedCategory,
                 shop_name: createdShopName,
-                shop_location: createdLocation,
+                shop_location: createdLatLng,
                 shop_description: createdDescription,
             });
             // await t?.commit;
@@ -302,7 +303,7 @@ const renderEditListPage = (req, res) => {
                 const shopInfo = data[0];
                 const shopId = shopInfo.id;
                 const shopName = shopInfo.shop_name;
-                const shopLocation = shopInfo.shop_location;
+                const shopLatLng = shopInfo.shop_location;
                 const shopDescription = shopInfo.shop_description;
                 // レンダリング
                 res.render("editList", {
@@ -310,7 +311,7 @@ const renderEditListPage = (req, res) => {
                     errorMessage: errorMessage,
                     shopId: shopId,
                     shopName: shopName,
-                    shopLocation: shopLocation,
+                    latlng: shopLatLng,
                     shopDescription: shopDescription,
                     categoryIndex: categoryIndex,
                     errors: "",
@@ -321,7 +322,7 @@ const renderEditListPage = (req, res) => {
                 const errorMessage = "情報取得エラー";
                 const shopId = "";
                 const shopName = "";
-                const shopLocation = "";
+                const shopLatLng = "";
                 const shopDescription = "";
                 // レンダリング
                 res.render("editList", {
@@ -329,7 +330,7 @@ const renderEditListPage = (req, res) => {
                     errorMessage: errorMessage,
                     shopId: shopId,
                     shopName: shopName,
-                    shopLocation: shopLocation,
+                    latlng: shopLatLng,
                     shopDescription: shopDescription,
                     categoryIndex: categoryIndex,
                     errors: "",
@@ -348,7 +349,7 @@ const updateList = (req, res) => {
         try {
             yield index_1.default.UserFavoriteShops.update({
                 shop_name: req.body.name,
-                shop_location: req.body.location,
+                shop_location: req.body.latlng,
                 shop_description: req.body.description,
             }, { where: { id: selectedShopId } });
         }
