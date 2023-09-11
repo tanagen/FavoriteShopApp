@@ -44,8 +44,8 @@ export const getSelectedCategory = (
   })();
 };
 
-// リスト一覧の表示
-export const renderListPage = (req: Request, res: Response) => {
+// メモ一覧の表示
+export const renderMemoPage = (req: Request, res: Response) => {
   // passportのsessionからid,user_nameを取得
   const loginedUserId: number = req.user!.id;
   // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
@@ -66,7 +66,7 @@ export const renderListPage = (req: Request, res: Response) => {
         const allShopInfo: UserFavoriteShops[] = data;
 
         // レンダリング
-        res.render("list", {
+        res.render("memo", {
           errorMessage: errorMessage,
           allShopInfo: allShopInfo,
           categoryIndex: res.locals.index,
@@ -77,7 +77,7 @@ export const renderListPage = (req: Request, res: Response) => {
         const allShopInfo: string[] = [];
 
         // レンダリング
-        res.render("list", {
+        res.render("memo", {
           errorMessage: errorMessage,
           allShopInfo: allShopInfo,
           categoryIndex: selectedCategoryIndex,
@@ -87,27 +87,29 @@ export const renderListPage = (req: Request, res: Response) => {
   })();
 };
 
-// リスト新規登録画面の表示
-export const renderCreateListPage = (req: Request, res: Response) => {
+// メモ新規登録画面の表示
+export const renderCreateMemoPage = (req: Request, res: Response) => {
   // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
   const categoryIndex = res.locals.index;
   const selectedCategory = res.locals.selectedCategory;
   // getAPIKeyメソッドからローカル変数を取得して変数に格納
   const API_KEY = res.locals.apiKey;
+  // 緯度経度情報の初期値(東京駅)
+  const initLatLng = JSON.stringify({ lat: 35.6811673, lng: 139.7670516 });
 
-  res.render("createList", {
+  res.render("createMemo", {
     apiKey: API_KEY,
     categoryIndex: categoryIndex,
     selectedCategory: selectedCategory,
     shopName: "",
-    latlng: "",
+    latlng: initLatLng,
     shopDescription: "",
     errors: {},
   });
 };
 
-// リスト新規登録における入力値の空チェックミドルウェア
-export const checkPostedNewList = (
+// メモ新規登録における入力値の空チェック
+export const checkCreatingMemo = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -140,7 +142,7 @@ export const checkPostedNewList = (
   }
 
   if (Object.keys(errors).length > 0) {
-    res.render("createList", {
+    res.render("createMemo", {
       apiKey: API_KEY,
       categoryIndex: categoryIndex,
       selectedCategory: selectedCategory,
@@ -154,8 +156,8 @@ export const checkPostedNewList = (
   }
 };
 
-// リスト更新における入力値の空チェックミドルウェア
-export const checkPostedUpdateList = (
+// メモ更新における入力値の空チェックミドルウェア
+export const checkUpdatingMemo = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -187,7 +189,7 @@ export const checkPostedUpdateList = (
   }
 
   if (Object.keys(errors).length > 0) {
-    res.render("editList", {
+    res.render("editMemo", {
       selectedCategory: selectedCategory,
       errorMessage: "",
       shopId: selectedShopId,
@@ -202,8 +204,8 @@ export const checkPostedUpdateList = (
   }
 };
 
-// リストの新規登録
-export const createList = (req: Request, res: Response) => {
+// メモの新規登録
+export const createMemo = (req: Request, res: Response) => {
   // passportのsessionからidを取得
   const loginedUserId: number = req.user!.id;
   // ルートパラメータからcategoryIndexを取得して変数に代入
@@ -238,13 +240,13 @@ export const createList = (req: Request, res: Response) => {
     }
 
     // redirect
-    const redirectURL = "/list/" + selectedCategoryIndex;
+    const redirectURL = "/memo/" + selectedCategoryIndex;
     res.redirect(redirectURL);
   })();
 };
 
-// リストの削除
-export const deleteList = (req: Request, res: Response) => {
+// メモの削除
+export const deleteMemo = (req: Request, res: Response) => {
   const selectedCategoryIndex = req.params.index;
 
   (async () => {
@@ -260,13 +262,13 @@ export const deleteList = (req: Request, res: Response) => {
     }
 
     // redirect
-    const redirectURL = "/list/" + selectedCategoryIndex;
+    const redirectURL = "/memo/" + selectedCategoryIndex;
     res.redirect(redirectURL);
   })();
 };
 
-// 選択したリストの情報取得
-export const getSelectedList = (
+// 選択したメモの情報取得
+export const getInfoOfSelectedMemo = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -311,7 +313,7 @@ export const getSelectedList = (
 };
 
 // リスト編集画面の表示
-export const renderEditListPage = (req: Request, res: Response) => {
+export const renderEditMemoPage = (req: Request, res: Response) => {
   // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
   const categoryIndex = res.locals.index;
   const selectedCategory = res.locals.selectedCategory;
@@ -336,7 +338,7 @@ export const renderEditListPage = (req: Request, res: Response) => {
         const shopDescription = shopInfo.shop_description;
 
         // レンダリング
-        res.render("editList", {
+        res.render("editMemo", {
           selectedCategory: selectedCategory,
           errorMessage: errorMessage,
           shopId: shopId,
@@ -355,7 +357,7 @@ export const renderEditListPage = (req: Request, res: Response) => {
         const shopDescription: any = "";
 
         // レンダリング
-        res.render("editList", {
+        res.render("editMemo", {
           selectedCategory: selectedCategory,
           errorMessage: errorMessage,
           shopId: shopId,
@@ -370,7 +372,7 @@ export const renderEditListPage = (req: Request, res: Response) => {
   })();
 };
 
-export const updateList = (req: Request, res: Response) => {
+export const updateMemo = (req: Request, res: Response) => {
   // post先URLのルートパラメータを変数に代入
   const selectedCategoryIndex = req.params.index;
   const selectedShopId = req.params.id;
@@ -391,7 +393,7 @@ export const updateList = (req: Request, res: Response) => {
     }
 
     // redirect
-    const redirectURL = "/list/" + selectedCategoryIndex;
+    const redirectURL = "/memo/" + selectedCategoryIndex;
     res.redirect(redirectURL);
   })();
 };

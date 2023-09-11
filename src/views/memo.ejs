@@ -20,7 +20,7 @@
 
     <main>
       <div class="memo-list">
-        <a href="/list/<%= categoryIndex %>/edit" class="edit-category"
+        <a href="/memo/<%= categoryIndex %>/edit" class="edit-category"
           ><%= locals.selectedCategory %></a
         >
 
@@ -40,7 +40,7 @@
           <tr>
             <td>
               <a
-                href="/list/<%= categoryIndex %>/map/<%= shopInfo.id %>"
+                href="/memo/<%= categoryIndex %>/map/<%= shopInfo.id %>"
                 class="map-link"
                 ><%= shopInfo.shop_name %></a
               >
@@ -49,20 +49,20 @@
             <!-- 編集ボタン -->
             <td class="memo-edit">
               <a
-                href="/list/<%= categoryIndex %>/edit/<%= shopInfo.id %>"
+                href="/memo/<%= categoryIndex %>/edit/<%= shopInfo.id %>"
                 class="memo-edit-button"
                 >編集</a
               >
             </td>
             <!-- 削除ボタン -->
-            <td class="list-delete">
+            <td class="memo-delete">
               <form
-                action="/list/<%= categoryIndex %>/<%= shopInfo.id %>"
+                action="/memo/<%= categoryIndex %>/<%= shopInfo.id %>"
                 method="post"
               >
                 <input
-                  class="delete-button"
                   type="submit"
+                  class="memo-delete-button"
                   value="削除"
                   onclick="return confirm('削除してよろしいですか？');"
                 />
@@ -74,7 +74,7 @@
         <% } %>
 
         <!-- 新規登録ボタン -->
-        <a class="register-button" href="/list/<%= categoryIndex %>/create"
+        <a class="register-button" href="/memo/<%= categoryIndex %>/create"
           >新規作成</a
         >
       </div>

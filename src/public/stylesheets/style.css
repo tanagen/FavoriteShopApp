@@ -391,7 +391,7 @@ header a:hover {
   color:rgb(197, 114, 96);
 }
 
-.delete-button {
+.memo-delete-button {
   /* submitボタンの見た目を消す設定 */
   -moz-appearance: none;
 	-webkit-appearance: none;
@@ -405,7 +405,7 @@ header a:hover {
   white-space: normal; /* 文字がはみ出た時のルールを文字送りに指定 */
 }
 
-.delete-button:hover {
+.memo-delete-button:hover {
   color:rgb(197, 114, 96);
 }
 
@@ -477,7 +477,7 @@ table th,table td{
 }
 
 /* createList.ejs ================================ */
-.create-list {
+.create-memo {
   text-align: center;
   width: 100%;
   max-width: 1500px;
@@ -500,7 +500,7 @@ table th,table td{
   max-width: 350px;
 }
 
-.create-list textarea {
+.create-memo textarea {
   margin: 10px auto 0px;
   width: 100%;
   max-width: 650px;
@@ -531,7 +531,7 @@ table th,table td{
 
 
 /* editList.ejs ================================ */
-.edit-list {
+.edit-memo {
   text-align: center;
   width: 100%;
   max-width: 1500px;
@@ -543,7 +543,7 @@ table th,table td{
   max-width: 350px;
 }
 
-.edit-list textarea {
+.edit-memo textarea {
   margin: 10px auto 0px;
   width: 100%;
   max-width: 650px;

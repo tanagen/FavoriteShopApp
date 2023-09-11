@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-export const getShopCategories = (
+export const getInfoOfCategories = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -43,7 +43,7 @@ export const getShopCategories = (
   })();
 };
 
-export const renderShopCategoryPage = (req: Request, res: Response) => {
+export const renderCategoryPage = (req: Request, res: Response) => {
   // passportのsessionからid,user_nameを取得
   // const loginedUserId: number = req.user!.id;
   const loginedUserName: string = req.user!.user_name;
@@ -164,13 +164,13 @@ export const updateCategory = (req: Request, res: Response) => {
       console.log(error);
     } finally {
       // redirect
-      const redirectURL = "/list/" + selectedCategoryIndex;
+      const redirectURL = "/memo/" + selectedCategoryIndex;
       res.redirect(redirectURL);
     }
   })();
 };
 
-export const createShopCategory = (req: Request, res: Response) => {
+export const createCategory = (req: Request, res: Response) => {
   const loginedUserId: number = req.user!.id;
   // formでpostされたcateogryを取得
   const createdCategory = req.body.category;
@@ -192,7 +192,7 @@ export const createShopCategory = (req: Request, res: Response) => {
 };
 
 // カテゴリー新規登録における入力値の空チェック&既存カテゴリーチェック
-export const checkPostedCategory = (
+export const checkCreatingCategory = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -225,7 +225,7 @@ export const checkPostedCategory = (
 };
 
 // カテゴリー更新における入力値の空チェック&既存カテゴリーチェック
-export const checkUpdatedCategory = (
+export const checkUpdatingCategory = (
   req: Request,
   res: Response,
   next: NextFunction

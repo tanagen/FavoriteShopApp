@@ -1,24 +1,24 @@
 import express from "express";
 import { checkAuthenticated } from "../handlers/checkAuthenticated";
 import {
-  renderShopCategoryPage,
+  renderCategoryPage,
   renderCreateCategoryPage,
-  checkPostedCategory,
-  createShopCategory,
+  checkCreatingCategory,
+  createCategory,
   renderDeleteCategoryPage,
   deleteCategory,
-  getShopCategories,
+  getInfoOfCategories,
 } from "../handlers/category";
 
 const router = express.Router();
 
-router.get("/", checkAuthenticated, getShopCategories, renderShopCategoryPage);
+router.get("/", checkAuthenticated, getInfoOfCategories, renderCategoryPage);
 router.get("/create", renderCreateCategoryPage);
 router.post(
   "/create",
-  getShopCategories,
-  checkPostedCategory,
-  createShopCategory
+  getInfoOfCategories,
+  checkCreatingCategory,
+  createCategory
 );
 router.get("/delete", renderDeleteCategoryPage);
 router.post("/delete", deleteCategory);
