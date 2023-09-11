@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.showMap = exports.getLatLng = exports.getAPIKey = void 0;
+exports.showMap = exports.getAPIKey = void 0;
 const path_1 = __importDefault(require("path"));
 const dotenv_1 = __importDefault(require("dotenv")); // dotenvモジュールは.envファイルに定義された値を環境変数として使える
 const ENV_PATH = path_1.default.join(__dirname, "../../../app.env");
@@ -14,8 +14,11 @@ const getAPIKey = (req, res, next) => {
     next();
 };
 exports.getAPIKey = getAPIKey;
-const getLatLng = (req, res, next) => { };
-exports.getLatLng = getLatLng;
+// export const getLatLng = (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {};
 const showMap = (req, res) => {
     // getAPIKeyメソッドからローカル変数を取得して変数に格納
     const API_KEY = res.locals.apiKey;

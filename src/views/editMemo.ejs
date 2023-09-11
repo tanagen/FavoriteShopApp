@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/stylesheets/style.css" />
-    <title>create memo</title>
+    <title>Edit memo</title>
 
     <!-- Dynamic Library Importを使用してMaps JavaScript APIを読み込む -->
     <script>
@@ -60,50 +60,38 @@
         &nbsp;>&nbsp;
         <a href="/category">カテゴリー</a>
         &nbsp;>&nbsp;
-        <a href="/list/<%= categoryIndex %>"><%= selectedCategory %></a>
-        &nbsp;>&nbsp;メモ作成
+        <a href="/memo/<%= categoryIndex %>"><%= selectedCategory %></a>
+        &nbsp;>&nbsp;編集
       </div>
     </header>
+
     <main>
-      <div class="create-list">
-        <h1>Create New List</h1>
+      <div class="edit-memo">
+        <!-- DBに情報がない場合 -->
+        <% if (errorMessage.length !== 0) { %>
+        <h1><%= errorMessage %></h1>
 
-        <form method="post" id="create-list">
-          <!-- <label for="name">店名・施設名</label> -->
-          <label for="name">店名・施設名</label>
+        <!-- DBに情報がある場合 -->
+        <% } else { %>
+        <form method="post" id="update-memo">
+          <label for="shop-name">店名・施設名</label>
 
-          <!-- 入力値のエラー表示 -->
+          <!-- 入力値が空の場合のエラー表示 -->
           <% if (Object.keys(errors).length > 0) { %>
           <p class="error"><%= errors.shopName %></p>
           <% } %>
 
           <input
+            type="text"
             id="name"
             class="shop-name"
             name="name"
-            type="text"
-            placeholder="〇〇ショップ"
             value="<%= shopName %>"
           />
           <button form="form2" id="show-button">表示</button>
-          <!-- formaction="/list/saveCoordinate" -->
+
           <div class="map" id="map"></div>
 
-          <!-- <input
-            id="name"
-            class="shop-name"
-            name="name"
-            type="text"
-            placeholder="〇〇ショップ"
-            value="<%= shopName %>"
-          /> -->
-          <!-- <label for="place">場所</label> -->
-
-          <!-- 入力値のエラー表示 -->
-          <!-- <% if (Object.keys(errors).length > 0) { %>
-          <p class="error"><%= errors.shopLocation %></p>
-          <% } %> -->
-          <!-- <form action="" method="post"> -->
           <input
             type="hidden"
             id="latlng"
@@ -112,43 +100,32 @@
             value="<%= latlng %>"
           />
 
-          <!-- <input class="show-map-button" type="submit" value="表示" />
-          </form> -->
-
           <label for="memo">メモ</label>
 
-          <!-- 入力値のエラー表示 -->
+          <!-- 入力値が空の場合のエラー表示 -->
           <% if (Object.keys(errors).length > 0) { %>
           <p class="error"><%= errors.shopDescription %></p>
           <% } %>
 
-          <textarea
-            name="description"
-            id="memo"
-            cols="30"
-            rows="10"
-            placeholder="あいうえお"
-          >
+          <textarea name="description" id="memo" cols="30" rows="10">
 <%= shopDescription %></textarea
           >
           <br />
           <input
-            formaction="/list/<%= categoryIndex %>/create"
-            class="create-button"
+            formaction="/memo/<%= categoryIndex %>/update/<%= shopId %>"
             type="submit"
-            value="作成"
-            form="create-list"
+            form="update-memo"
+            class="update-button"
+            value="更新"
           />
         </form>
-
-        <!-- <form id="shop-location"> -->
-
-        <!-- </form> -->
 
         <script
           defer
           src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&callback=initMap&libraries=places"
         ></script>
+
+        <% } %>
       </div>
     </main>
   </body>

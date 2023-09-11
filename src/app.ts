@@ -9,7 +9,7 @@ import topRoutes from "./routes/top";
 import loginRoutes from "./routes/login";
 import signUpRoutes from "./routes/signUp";
 import categoryRoutes from "./routes/category";
-import listRoutes from "./routes/list";
+import memoRoutes from "./routes/memo";
 import logoutRoutes from "./routes/logout";
 
 import db from "./models/index";
@@ -74,7 +74,7 @@ app.use("/login", loginRoutes);
 app.use("/signUp", signUpRoutes);
 app.use("/logout", logoutRoutes);
 app.use("/category", categoryRoutes);
-app.use("/list", listRoutes);
+app.use("/memo", memoRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req: any, res: any, next: any) {

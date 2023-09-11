@@ -12,11 +12,11 @@ export const getAPIKey = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
-export const getLatLng = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {};
+// export const getLatLng = (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {};
 
 export const showMap = (req: Request, res: Response) => {
   // getAPIKeyメソッドからローカル変数を取得して変数に格納

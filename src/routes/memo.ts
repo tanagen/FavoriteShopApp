@@ -2,22 +2,22 @@ import express from "express";
 import { checkAuthenticated } from "../handlers/checkAuthenticated";
 import {
   getSelectedCategory,
-  renderListPage,
-  renderCreateListPage,
-  checkPostedNewList,
-  createList,
-  deleteList,
-  renderEditListPage,
-  updateList,
-  checkPostedUpdateList,
-  getSelectedList,
-} from "../handlers/list";
+  renderMemoPage,
+  renderCreateMemoPage,
+  checkCreatingMemo,
+  createMemo,
+  deleteMemo,
+  renderEditMemoPage,
+  updateMemo,
+  checkUpdatingMemo,
+  getInfoOfSelectedMemo,
+} from "../handlers/memo";
 
 import {
-  getShopCategories,
+  getInfoOfCategories,
   getDBIdOfUpdateCategory,
   renderEditCategoryPage,
-  checkUpdatedCategory,
+  checkUpdatingCategory,
   updateCategory,
 } from "../handlers/category";
 
@@ -25,45 +25,45 @@ import { getAPIKey, showMap } from "../handlers/map";
 
 const router = express.Router();
 
-router.get("/:index", checkAuthenticated, getSelectedCategory, renderListPage);
+router.get("/:index", checkAuthenticated, getSelectedCategory, renderMemoPage);
 // router.post("/saveCoordinate", saveCoordinate);
 router.get(
   "/:index/create",
   checkAuthenticated,
   getAPIKey,
   getSelectedCategory,
-  renderCreateListPage
+  renderCreateMemoPage
 );
 router.post(
   "/:index/create",
   getSelectedCategory,
   getAPIKey,
-  checkPostedNewList,
-  createList
+  checkCreatingMemo,
+  createMemo
 );
 router.get("/:index/edit", getSelectedCategory, renderEditCategoryPage);
 router.post(
   "/:index/edit",
-  getShopCategories,
+  getInfoOfCategories,
   getSelectedCategory,
   getDBIdOfUpdateCategory,
-  checkUpdatedCategory,
+  checkUpdatingCategory,
   updateCategory
 );
-router.post("/:index/:id", deleteList);
+router.post("/:index/:id", deleteMemo);
 router.get(
   "/:index/edit/:id",
   checkAuthenticated,
   getAPIKey,
   getSelectedCategory,
-  renderEditListPage
+  renderEditMemoPage
 );
 router.post(
   "/:index/update/:id",
   getSelectedCategory,
   getAPIKey,
-  checkPostedUpdateList,
-  updateList
+  checkUpdatingMemo,
+  updateMemo
 );
 
 router.get(
@@ -71,7 +71,7 @@ router.get(
   checkAuthenticated,
   getSelectedCategory,
   getAPIKey,
-  getSelectedList,
+  getInfoOfSelectedMemo,
   showMap
 );
 

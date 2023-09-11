@@ -12,7 +12,7 @@ const top_1 = __importDefault(require("./routes/top"));
 const login_1 = __importDefault(require("./routes/login"));
 const signUp_1 = __importDefault(require("./routes/signUp"));
 const category_1 = __importDefault(require("./routes/category"));
-const list_1 = __importDefault(require("./routes/list"));
+const memo_1 = __importDefault(require("./routes/memo"));
 const logout_1 = __importDefault(require("./routes/logout"));
 const express_session_1 = __importDefault(require("express-session"));
 const auth_1 = __importDefault(require("./auth"));
@@ -63,7 +63,7 @@ app.use("/login", login_1.default);
 app.use("/signUp", signUp_1.default);
 app.use("/logout", logout_1.default);
 app.use("/category", category_1.default);
-app.use("/list", list_1.default);
+app.use("/memo", memo_1.default);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next((0, http_errors_1.default)(404));

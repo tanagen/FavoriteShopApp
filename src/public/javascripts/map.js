@@ -36,20 +36,14 @@ document.getElementById("show-button").addEventListener("click", () => {
 function initMap() {
   let center;
 
-  // hiddenタグの緯度経度情報有無で分岐
-  if (document.getElementById("latlng").value) {
-    let latlng = document.getElementById("latlng").value;
-    console.log(latlng);
-    let latlngJSON = JSON.parse(latlng);
-    console.log(latlngJSON);
+  // hiddenタグの緯度経度情報を取得
+  let latlng = document.getElementById("latlng").value;
+  console.log(latlng);
+  let latlngJSON = JSON.parse(latlng);
+  console.log(latlngJSON);
 
-    // 地図の中心値
-    center = new google.maps.LatLng(latlngJSON.lat, latlngJSON.lng);
-  } else {
-    center = new google.maps.LatLng(35.6811673, 139.7670516);
-  }
-
-  console.log(center);
+  // 地図の中心値
+  center = new google.maps.LatLng(latlngJSON.lat, latlngJSON.lng);
 
   // 地図の中心の初期値
   // const tokyo = new google.maps.LatLng(35.6811673, 139.7670516);

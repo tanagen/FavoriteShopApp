@@ -12,9 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCategory = exports.renderDeleteCategoryPage = exports.checkUpdatedCategory = exports.checkPostedCategory = exports.createShopCategory = exports.updateCategory = exports.getDBIdOfUpdateCategory = exports.renderEditCategoryPage = exports.renderCreateCategoryPage = exports.renderShopCategoryPage = exports.getShopCategories = void 0;
+exports.deleteCategory = exports.renderDeleteCategoryPage = exports.checkUpdatingCategory = exports.checkCreatingCategory = exports.createCategory = exports.updateCategory = exports.getDBIdOfUpdateCategory = exports.renderEditCategoryPage = exports.renderCreateCategoryPage = exports.renderCategoryPage = exports.getInfoOfCategories = void 0;
 const index_1 = __importDefault(require("../models/index"));
-const getShopCategories = (req, res, next) => {
+const getInfoOfCategories = (req, res, next) => {
     // passportのsessionからid,user_nameを取得
     const loginedUserId = req.user.id;
     (() => __awaiter(void 0, void 0, void 0, function* () {
@@ -38,8 +38,8 @@ const getShopCategories = (req, res, next) => {
         });
     }))();
 };
-exports.getShopCategories = getShopCategories;
-const renderShopCategoryPage = (req, res) => {
+exports.getInfoOfCategories = getInfoOfCategories;
+const renderCategoryPage = (req, res) => {
     // passportのsessionからid,user_nameを取得
     // const loginedUserId: number = req.user!.id;
     const loginedUserName = req.user.user_name;
@@ -65,7 +65,7 @@ const renderShopCategoryPage = (req, res) => {
         shopCategories: userShopCategories,
     });
 };
-exports.renderShopCategoryPage = renderShopCategoryPage;
+exports.renderCategoryPage = renderCategoryPage;
 const renderCreateCategoryPage = (req, res) => {
     // const loginedUserId: number = req.user!.id;
     res.render("createCategory", { errors: {}, category: "" });
@@ -138,13 +138,13 @@ const updateCategory = (req, res) => {
         }
         finally {
             // redirect
-            const redirectURL = "/list/" + selectedCategoryIndex;
+            const redirectURL = "/memo/" + selectedCategoryIndex;
             res.redirect(redirectURL);
         }
     }))();
 };
 exports.updateCategory = updateCategory;
-const createShopCategory = (req, res) => {
+const createCategory = (req, res) => {
     const loginedUserId = req.user.id;
     // formでpostされたcateogryを取得
     const createdCategory = req.body.category;
@@ -165,9 +165,9 @@ const createShopCategory = (req, res) => {
         }
     }))();
 };
-exports.createShopCategory = createShopCategory;
+exports.createCategory = createCategory;
 // カテゴリー新規登録における入力値の空チェック&既存カテゴリーチェック
-const checkPostedCategory = (req, res, next) => {
+const checkCreatingCategory = (req, res, next) => {
     // getShopCategoriesメソッドで取得したres.localsの内容を取得して変数に代入
     const presentShopCategories = res.locals.shopCategories;
     // postされた値を取得して変数に代入
@@ -191,9 +191,9 @@ const checkPostedCategory = (req, res, next) => {
         next();
     }
 };
-exports.checkPostedCategory = checkPostedCategory;
+exports.checkCreatingCategory = checkCreatingCategory;
 // カテゴリー更新における入力値の空チェック&既存カテゴリーチェック
-const checkUpdatedCategory = (req, res, next) => {
+const checkUpdatingCategory = (req, res, next) => {
     // getShopCategoriesメソッドで取得したres.localsの内容を取得して変数に代入
     const presentShopCategories = res.locals.shopCategories;
     // postされた値を取得して変数に代入
@@ -220,7 +220,7 @@ const checkUpdatedCategory = (req, res, next) => {
         next();
     }
 };
-exports.checkUpdatedCategory = checkUpdatedCategory;
+exports.checkUpdatingCategory = checkUpdatingCategory;
 const renderDeleteCategoryPage = (req, res) => {
     // passportのsessionからid,user_nameを取得
     const loginedUserId = req.user.id;
