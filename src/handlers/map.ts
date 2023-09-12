@@ -1,8 +1,8 @@
-import path from "path";
-import dotenv from "dotenv"; // dotenvモジュールは.envファイルに定義された値を環境変数として使える
-const ENV_PATH = path.join(__dirname, "../../../app.env");
-dotenv.config({ path: ENV_PATH });
-
+// import * as dotenv from "dotenv"; // dotenvモジュールは.envファイルに定義された値を環境変数として使え
+// import path from "path";
+// const APP_ENV_PATH = path.resolve(__dirname, "../../../app.env");
+// dotenv.config({ path: APP_ENV_PATH.slice(1) }); // pathの設定方法が腑に落ちないが、envファイル名を記載すると正常に読み込んでくれる
+// console.log(dotenv.config({ path: APP_ENV_PATH.slice(1) }));
 import { Request, Response, NextFunction } from "express";
 
 export const getAPIKey = (req: Request, res: Response, next: NextFunction) => {
