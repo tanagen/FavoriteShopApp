@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <title>Map</title>
-
     <!-- Dynamic Library Importを使用してMaps JavaScript APIを読み込む -->
     <script>
       ((g) => {
@@ -49,7 +48,6 @@
         // Add other bootstrap parameters as needed, using camel case.
       });
     </script>
-    <script type="module" src="/javascripts/showMap.js"></script>
   </head>
 
   <body>
@@ -78,6 +76,8 @@
 
         <div hidden id="latlng"><%= shopInfo.shop_location %></div>
         <div class="map" id="map"></div>
+
+        <script type="module" src="/javascripts/showMap.js"></script>
 
         <script
           defer

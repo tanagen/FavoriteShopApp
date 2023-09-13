@@ -20,10 +20,15 @@
 
         <form action="/login" method="post">
           <label for="email">メールアドレス</label>
-          <input type="text" name="email" id="email" />
+          <input type="text" name="email" id="email" autocomplete="email" />
 
           <label for="password">パスワード</label>
-          <input type="password" name="password" id="password" />
+          <input
+            type="password"
+            name="password"
+            id="password"
+            autocomplete="current-password"
+          />
           <p></p>
           <input type="submit" value="ログイン" />
         </form>
