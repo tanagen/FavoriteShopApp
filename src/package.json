@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
+    "deploy": "node ./bin/www",
     "build": "npx tsc",
     "build:watch": "npx tsc -w",
     "dev": "npm run build:watch & npm start"

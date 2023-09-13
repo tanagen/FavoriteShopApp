@@ -23,10 +23,12 @@
     <main>
       <div class="category">
         <h1>favorite shop categories</h1>
-        <ul class="category-list">
+        <ul id="sortable-list" class="category-list">
           <% shopCategories.forEach((shopCategory, index) => { %>
           <li>
-            <a href="/memo/<%= index %>"><%= shopCategory %></a>
+            <a href="/memo/<%= index %>" class="draggable" draggable="true"
+              ><%= shopCategory %></a
+            >
           </li>
           <% }) %>
         </ul>
@@ -38,6 +40,8 @@
           </form>
         </div>
       </div>
+
+      <script type="module" src="/javascripts/sortList.js"></script>
     </main>
 
     <footer></footer>

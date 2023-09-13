@@ -38,9 +38,7 @@ function initMap() {
 
   // hiddenタグの緯度経度情報を取得
   let latlng = document.getElementById("latlng").value;
-  console.log(latlng);
   let latlngJSON = JSON.parse(latlng);
-  console.log(latlngJSON);
 
   // 地図の中心値
   center = new google.maps.LatLng(latlngJSON.lat, latlngJSON.lng);

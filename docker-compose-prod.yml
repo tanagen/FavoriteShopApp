@@ -4,7 +4,7 @@ services:
     image: mysql:8.0.32
     container_name: favorite_shop_db_container
     # platform: linux/amd64
-    env_file: ./mysql/mysql.env
+    env_file: ./src/app.env
     #環境変数設定。タイムゾーンを日本時間に設定。
     environment:
       - TZ=Asia/Tokyo
@@ -22,7 +22,7 @@ services:
   app:
     build: .
     container_name: favorite_shop_app_container
-    env_file: ./app.env
+    env_file: ./src/app.env
     #環境変数設定。タイムゾーンを日本時間に設定。
     environment:
       - TZ=Asia/Tokyo
@@ -33,7 +33,7 @@ services:
     volumes:
       - ./src:/app
     working_dir: /app
-    command: npm run dev
+    command: npm run deploy
     networks:
       - container-link
     #mysqlに依存しているので、mysqlコンテナ作成後、appコンテナが作られる。
