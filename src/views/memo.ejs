@@ -37,7 +37,7 @@
           </tr>
 
           <% allShopInfo.forEach((shopInfo) => { %>
-          <tr>
+          <tr class="draggable" draggable="true">
             <td>
               <a
                 href="/memo/<%= categoryIndex %>/map/<%= shopInfo.id %>"
@@ -78,6 +78,8 @@
           >新規作成</a
         >
       </div>
+
+      <script type="module" src="/javascripts/sortMemo.js"></script>
     </main>
     <footer></footer>
   </body>
