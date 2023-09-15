@@ -48,7 +48,9 @@ function handleDrop(event) {
       categories[targetIndex] = categories[temp];
 
       // リスト順序をローカルストレージに保存
-      const savedCategories = categories;
+      const savedCategories = categories.map((category) =>
+        category.querySelector("a").getAttribute("href")
+      );
       localStorage.setItem("savedCategories", JSON.stringify(savedCategories));
 
       // ドラッグアンドドロップ操作をUIに反映
@@ -76,7 +78,7 @@ function updateCategoryList(categories) {
   categoryList.innerHTML = "";
   categories.forEach((category) => {
     console.log(category);
-    categoryList.innerHTML(category);
+    categoryList.appendChild(category);
   });
 }
 

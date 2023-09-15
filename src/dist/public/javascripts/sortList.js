@@ -40,7 +40,7 @@ function handleDrop(event) {
             categories[draggedIndex] = categories[targetIndex];
             categories[targetIndex] = categories[temp];
             // リスト順序をローカルストレージに保存
-            const savedCategories = categories;
+            const savedCategories = categories.map((category) => category.querySelector("a").getAttribute("href"));
             localStorage.setItem("savedCategories", JSON.stringify(savedCategories));
             // ドラッグアンドドロップ操作をUIに反映
             updateCategoryList(categories);
@@ -64,7 +64,7 @@ function updateCategoryList(categories) {
     categoryList.innerHTML = "";
     categories.forEach((category) => {
         console.log(category);
-        categoryList.innerHTML(category);
+        categoryList.appendChild(category);
     });
 }
 // ドロップエリア（<ul>要素）にドラッグオーバーとドロップのイベントリスナーを設定
