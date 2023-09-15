@@ -25,7 +25,7 @@
         <h1>favorite shop categories</h1>
         <ul id="sortable-list" class="category-list">
           <% shopCategories.forEach((shopCategory, index) => { %>
-          <li>
+          <li draggable="true">
             <a href="/memo/<%= index %>" class="draggable" draggable="true"
               ><%= shopCategory %></a
             >
