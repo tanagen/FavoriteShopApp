@@ -4,8 +4,6 @@ const categoryArray = Array.from(categoryList.querySelectorAll("a"));
 const loginedUserName = document.querySelector("p").textContent;
 let draggedItem = null;
 let savedCategories;
-console.log(JSON.stringify(categoryArray.map((category) => category.textContent).sort()));
-console.log(JSON.stringify(JSON.parse(localStorage.getItem(loginedUserName.slice(5))).text.sort()));
 // カテゴリーのリスト順序をローカルストレージから読み込む
 // ローカルストレージにデータが存在する場合
 if (JSON.parse(localStorage.getItem(loginedUserName.slice(5)))) {
@@ -14,6 +12,7 @@ if (JSON.parse(localStorage.getItem(loginedUserName.slice(5)))) {
     const DBCategories = JSON.stringify(categoryArray.map((category) => category.textContent).sort());
     const LSCategories = JSON.stringify(JSON.parse(localStorage.getItem(loginedUserName.slice(5))).text.sort());
     if (DBCategories !== LSCategories) {
+        // DBCategoriesを表示
         savedCategories = {
             href: categoryArray.map((category) => category.getAttribute("href")),
             text: categoryArray.map((category) => category.textContent),
@@ -52,7 +51,6 @@ function handleDrop(event) {
             const draggedIndex = categoryArray.indexOf(draggedItem);
             const targetIndex = categoryArray.indexOf(dropTarget);
             const temp = categoryArray[draggedIndex];
-            console.log(temp);
             categoryArray[draggedIndex] = categoryArray[targetIndex];
             categoryArray[targetIndex] = temp;
             // 入れ替え後のリスト順序で、<a>要素のhrefとtextContentをローカルストレージに保存
