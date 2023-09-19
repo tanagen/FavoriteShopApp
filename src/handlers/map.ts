@@ -1,8 +1,10 @@
+// 環境変数の更新を行いたい場合は、以下のコメントアウトを解除してリロードする
 // import * as dotenv from "dotenv"; // dotenvモジュールは.envファイルに定義された値を環境変数として使え
 // import path from "path";
 // const APP_ENV_PATH = path.resolve(__dirname, "../../../app.env");
 // dotenv.config({ path: APP_ENV_PATH.slice(1) }); // pathの設定方法が腑に落ちないが、envファイル名を記載すると正常に読み込んでくれる
-// console.log(dotenv.config({ path: APP_ENV_PATH.slice(1) }));
+// console.log(process.env);
+
 import { Request, Response, NextFunction } from "express";
 
 export const getAPIKey = (req: Request, res: Response, next: NextFunction) => {
@@ -11,12 +13,6 @@ export const getAPIKey = (req: Request, res: Response, next: NextFunction) => {
 
   next();
 };
-
-// export const getLatLng = (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {};
 
 export const showMap = (req: Request, res: Response) => {
   // getAPIKeyメソッドからローカル変数を取得して変数に格納
@@ -36,18 +32,3 @@ export const showMap = (req: Request, res: Response) => {
     errorMessage: errorMessage,
   });
 };
-
-// export const saveCoordinate = (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   const { lat, lng } = req.body;
-//   console.log(`サーバー側：${lat} ${lng}`);
-//   res.locals.lat = lat;
-//   res.locals.lng = lng;
-
-//   res.sendStatus(200); // 成功を返す
-
-//   // next();
-// };

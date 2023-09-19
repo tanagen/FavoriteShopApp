@@ -94,11 +94,14 @@ export const renderCreateMemoPage = (req: Request, res: Response) => {
   const selectedCategory = res.locals.selectedCategory;
   // getAPIKeyメソッドからローカル変数を取得して変数に格納
   const API_KEY = res.locals.apiKey;
+  // getHotPepperApiKeyメソッドからローカル変数を取得して変数に格納
+  const HOT_PEPPER_API_KEY = res.locals.hotpepperApiKey;
   // 緯度経度情報の初期値(東京駅)
   const initLatLng = JSON.stringify({ lat: 35.6811673, lng: 139.7670516 });
 
   res.render("createMemo", {
     apiKey: API_KEY,
+    hotpepperApiKey: HOT_PEPPER_API_KEY,
     categoryIndex: categoryIndex,
     selectedCategory: selectedCategory,
     shopName: "",

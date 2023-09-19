@@ -43,7 +43,7 @@
           ? console.warn(p + " only loads once. Ignoring:", g)
           : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
       })({
-        key: "<%= apiKey %>",
+        key: "<% apiKey %>",
         v: "weekly",
         // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
         // Add other bootstrap parameters as needed, using camel case.
@@ -65,7 +65,7 @@
     </header>
     <main>
       <div class="create-memo">
-        <h1>Create New List</h1>
+        <h1>Create New Memo</h1>
 
         <form method="post" id="create-memo">
           <label for="name">店名・施設名</label>
@@ -121,7 +121,10 @@
           />
         </form>
 
+        <p type="hidden" id="hotpepper-api-key"><% hotpepperApiKey%></p>
+
         <script type="module" src="/javascripts/map.js"></script>
+        <script type="module" src="/javascripts/hotpepper.js"></script>
 
         <script
           defer

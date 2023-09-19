@@ -1,32 +1,9 @@
-// Google Mapsの初期化
-// async function initMap() {
-//   const { Map } = await google.maps.importLibrary("maps");
-
-//   let map = new Map(document.getElementById("map"), {
-//     center: { lat: 35.6811673, lng: 139.7670516 },
-//     zoom: 15,
-//     mapTypeId: "roadmap",
-//   });
-// }
-
-// This example requires the Places library. Include the libraries=places
-// parameter when you first load the API. For example:
-// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 let map;
-let service;
-let infowindow;
 let marker;
 let coordinate = null; // 座標情報を一時的に保存する変数
 
 // フォーム送信時の処理
 document.getElementById("show-button").addEventListener("click", () => {
-  // event.preventDefault(); // フォームの通常の送信を防止
-
-  // フォームデータを取得
-  // const formData = new FormData(event.target);
-
-  // フォームデータからメッセージを取得
-  // const shopLocatino = formData.get("shop-name");
   const shopName = document.getElementById("name").value;
 
   // google mapを表示する関数を呼び出す
@@ -34,19 +11,13 @@ document.getElementById("show-button").addEventListener("click", () => {
 });
 
 function initMap() {
-  let center;
-
   // hiddenタグの緯度経度情報を取得
   let latlng = document.getElementById("latlng").value;
   let latlngJSON = JSON.parse(latlng);
 
   // 地図の中心値
-  center = new google.maps.LatLng(latlngJSON.lat, latlngJSON.lng);
+  let center = new google.maps.LatLng(latlngJSON.lat, latlngJSON.lng);
 
-  // 地図の中心の初期値
-  // const tokyo = new google.maps.LatLng(35.6811673, 139.7670516);
-
-  // infowindow = new google.maps.InfoWindow();
   // Mapクラスのインスタンス作成
   map = new google.maps.Map(document.getElementById("map"), {
     center: center,
@@ -131,34 +102,6 @@ function clickListener(event, map) {
   marker = new google.maps.Marker({ position: { lat: lat, lng: lng } }, map);
 
   marker.setMap(map);
-
-  // 地図の中心を地名の位置に指定;
-  // let latlng = new google.maps.LatLng(lat, lng);
-  // map.setCenter(latlng);
-
-  // サーバーに座標情報を送信するためのAjaxリクエストを追加
-  // sendCoordinateToServer(lat, lng);
 }
-
-// Ajaxリクエストをサーバーに送信
-// function sendCoordinateToServer(lat, lng) {
-//   const xhr = new XMLHttpRequest();
-//   xhr.open("POST", "/list/saveCoordinate", true);
-//   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-//   // データをJSON形式で送信
-//   const data = JSON.stringify({ lat, lng });
-//   console.log(`data:${data}`);
-
-//   xhr.onload = function () {
-//     if (xhr.status === 200) {
-//       console.log("座標情報がサーバーに送信されました。");
-//     } else {
-//       console.error("サーバーへのリクエストに失敗しました。");
-//     }
-//   };
-
-//   xhr.send(data);
-// }
 
 window.initMap = initMap;
