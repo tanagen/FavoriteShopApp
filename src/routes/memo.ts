@@ -22,6 +22,7 @@ import {
 } from "../handlers/category";
 
 import { getAPIKey, showMap } from "../handlers/map";
+import { getHotPepperApiKey } from "../handlers/hotpepper";
 
 const router = express.Router();
 
@@ -31,6 +32,7 @@ router.get(
   "/:index/create",
   checkAuthenticated,
   getAPIKey,
+  getHotPepperApiKey,
   getSelectedCategory,
   renderCreateMemoPage
 );
