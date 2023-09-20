@@ -31,8 +31,3 @@ items.forEach((item) => {
   item.addEventListener("dragover", handleDragOver);
   item.addEventListener("drop", handleDrop);
 });
-
-// ドロップエリア（<ul>要素）にドラッグオーバーとドロップのイベントリスナーを設定
-// const dropArea = document.getElementById("sortable-list");
-// dropArea.addEventListener("dragover", handleDragOver);
-// dropArea.addEventListener("drop", handleDrop);

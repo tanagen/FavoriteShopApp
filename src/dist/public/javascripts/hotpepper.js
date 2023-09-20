@@ -1,3 +1,4 @@
 "use strict";
-const hoppepperApiKey = document.getElementById("hotpepper-api-key").innerHTML;
-console.log(hoppepperApiKey);
+const hotpepperApiKey = document.getElementById("hotpepper-api-key").innerHTML;
+console.log(hotpepperApiKey);
+console.log(hotpepperURL);

@@ -1,5 +1,8 @@
+// DBから取得したカテゴリー一覧を取得
 let categoryList = document.getElementById("sortable-list");
 let categoryArray = Array.from(categoryList.querySelectorAll("a"));
+
+// ローカルストレージのkeyに設定するユーザー名を取得
 const loginedUserName = document.querySelector("p").textContent;
 let draggedItem = null;
 let savedCategories;
