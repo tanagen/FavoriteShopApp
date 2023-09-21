@@ -40,6 +40,7 @@ router.post(
   "/:index/create",
   getSelectedCategory,
   getAPIKey,
+  getHotPepperApiKey,
   checkCreatingMemo,
   createMemo
 );
@@ -57,6 +58,7 @@ router.get(
   "/:index/edit/:id",
   checkAuthenticated,
   getAPIKey,
+  getHotPepperApiKey,
   getSelectedCategory,
   renderEditMemoPage
 );
@@ -64,6 +66,7 @@ router.post(
   "/:index/update/:id",
   getSelectedCategory,
   getAPIKey,
+  getHotPepperApiKey,
   checkUpdatingMemo,
   updateMemo
 );
@@ -73,6 +76,7 @@ router.get(
   checkAuthenticated,
   getSelectedCategory,
   getAPIKey,
+  getHotPepperApiKey,
   getInfoOfSelectedMemo,
   showMap
 );

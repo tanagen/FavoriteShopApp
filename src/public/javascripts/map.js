@@ -85,8 +85,6 @@ function displayMap(location) {
 }
 
 function clickListener(event, map) {
-  console.log("call clickListener");
-  // const latLng = event.latLng();
   const lat = event.latLng.lat();
   const lng = event.latLng.lng();
   coordinate = { lat: lat, lng: lng };
