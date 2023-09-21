@@ -51,7 +51,7 @@
     </script>
     <script>
       const hotpepperURL =
-        "http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=<%= hotpepperApiKey%>&keyword=ラーメン";
+        "http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=<%= hotpepperApiKey%>";
     </script>
   </head>
   <body>
@@ -87,7 +87,8 @@
             placeholder="〇〇ショップ"
             value="<%= shopName %>"
           />
-          <button form="form2" id="show-button">表示</button>
+          <button form="form2" id="show-button">地図表示</button>
+          <button form="form3" id="search-button">HOTPEPPER検索</button>
           <div class="map" id="map"></div>
 
           <!-- 施設の緯度経度を一次保存するためのhidden属性input -->
@@ -124,8 +125,6 @@
             value="作成"
           />
         </form>
-
-        <p type="hidden" id="hotpepper-api-key"><% hotpepperApiKey%></p>
 
         <script type="module" src="/javascripts/map.js"></script>
         <script type="module" src="/javascripts/hotpepper.js"></script>
