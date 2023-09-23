@@ -14,9 +14,11 @@ const signUp_1 = __importDefault(require("./routes/signUp"));
 const category_1 = __importDefault(require("./routes/category"));
 const memo_1 = __importDefault(require("./routes/memo"));
 const logout_1 = __importDefault(require("./routes/logout"));
+const hotpepper_1 = __importDefault(require("./routes/hotpepper"));
 const express_session_1 = __importDefault(require("express-session"));
 const auth_1 = __importDefault(require("./auth"));
 const connect_flash_1 = __importDefault(require("connect-flash"));
+// import cors from "cors";
 const app = (0, express_1.default)();
 // // モデルをdbに同期
 // (async () => {
@@ -44,6 +46,7 @@ app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.static(path_1.default.join("public")));
 app.use((0, connect_flash_1.default)());
+// app.use(cors());
 // sessionの設定
 app.use((0, express_session_1.default)({
     secret: "my_secret_key",
@@ -64,6 +67,7 @@ app.use("/signUp", signUp_1.default);
 app.use("/logout", logout_1.default);
 app.use("/category", category_1.default);
 app.use("/memo", memo_1.default);
+app.use("/hotpepper", hotpepper_1.default);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next((0, http_errors_1.default)(404));
