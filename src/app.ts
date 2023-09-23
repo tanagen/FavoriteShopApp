@@ -11,11 +11,13 @@ import signUpRoutes from "./routes/signUp";
 import categoryRoutes from "./routes/category";
 import memoRoutes from "./routes/memo";
 import logoutRoutes from "./routes/logout";
+import hotpepperRoutes from "./routes/hotpepper";
 
 import db from "./models/index";
 import session from "express-session";
 import passport from "./auth";
 import flash from "connect-flash";
+// import cors from "cors";
 
 const app = express();
 
@@ -50,6 +52,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join("public")));
 app.use(flash());
+// app.use(cors());
 
 // sessionの設定
 app.use(
@@ -75,6 +78,7 @@ app.use("/signUp", signUpRoutes);
 app.use("/logout", logoutRoutes);
 app.use("/category", categoryRoutes);
 app.use("/memo", memoRoutes);
+app.use("/hotpepper", hotpepperRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req: any, res: any, next: any) {

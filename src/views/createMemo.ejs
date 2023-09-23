@@ -49,10 +49,6 @@
         // Add other bootstrap parameters as needed, using camel case.
       });
     </script>
-    <script>
-      const hotpepperURL =
-        "http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=<%= hotpepperApiKey%>";
-    </script>
   </head>
   <body>
     <header>
@@ -99,6 +95,8 @@
             name="latlng"
             value="<%= latlng %>"
           />
+
+          <ul class="hotpepper" id="hotpepper"></ul>
 
           <label for="memo">メモ</label>
 

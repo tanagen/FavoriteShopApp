@@ -1,41 +1,45 @@
-const shopName = "ラーメン";
-const shopLat = JSON.parse(document.getElementById("latlng").value).lat;
-const shopLng = JSON.parse(document.getElementById("latlng").value).lng;
-// ある地点からの範囲内のお店を検索するクエリ
-const params = new URLSearchParams({
-  lat: JSON.parse(document.getElementById("latlng").value).lat,
-  lng: JSON.parse(document.getElementById("latlng").value).lng,
-  range: "2", // 1: 300m, 2: 500m, 3: 1000m (初期値), 4: 2000m, 5: 3000m
-  keyword: "ラーメン",
-});
-const requestURL =
-  hotpepperURL +
-  "&lat=" +
-  shopLat +
-  "&lng=" +
-  shopLng +
-  "&range=" +
-  "2" + // 1: 300m, 2: 500m, 3: 1000m (初期値), 4: 2000m, 5: 3000m
-  "&keyword=" +
-  shopName;
-
 document.getElementById("search-button").addEventListener("click", () => {
-  console.log(requestURL);
-  hoppepperSearch(requestURL);
-});
+  // HTMLからデータ取得
+  const keyword = document.getElementById("name").value;
+  const shopLat = JSON.parse(document.getElementById("latlng").value).lat;
+  const shopLng = JSON.parse(document.getElementById("latlng").value).lng;
 
-async function hoppepperSearch(url = "") {
-  await fetch(url)
-    .then((res) => {
-      // サーバーエラーの場合
-      if (!res.ok) {
-        throw new Error(`${res.status}: ${res.statusText}`);
+  // Node.jsサーバーにHTTPリクエストを送信するためのコードを追加
+  fetch("/hotpepper", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ keyword: keyword, lat: shopLat, lng: shopLng }), // サーバーに送信するデータ
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("サーバーレスポンス:", data);
+      // 一旦リセット
+      document.getElementById("hotpepper").innerHTML = "";
+
+      if (data.shops[0] !== "該当データなし") {
+        data.shops.forEach((element) => {
+          // 新たに<li>要素と<a>要素を作成
+          const newListElement = document.createElement("li");
+          const newLinkElement = document.createElement("a");
+
+          // <a>要素に情報追加
+          newLinkElement.textContent = element[0];
+          newLinkElement.href = element[1];
+
+          // <ul>要素 <li>要素 <a>要素の親子関係を追加
+          newListElement.appendChild(newLinkElement);
+          document.getElementById("hotpepper").appendChild(newListElement);
+
+          // document.getElementById("hotpepper").textContent = data.shopNames;
+          // document.getElementById("hotpepper").href = data.shopURLs;
+        });
+      } else {
+        document.getElementById("hotpepper").textContent = data.shops[0];
       }
-      // 成功時の処理
-      const data = res.json();
-      console.log(data);
     })
     .catch((error) => {
-      console.log("エラーが発生しました", error);
+      console.log("サーバーへのHTTPリクエストエラー: ", error);
     });
-}
+});
