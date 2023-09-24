@@ -4,7 +4,7 @@ const MYSQL_ENV_PATH = path.join(__dirname, "../../../app.env");
 dotenv.config({ path: MYSQL_ENV_PATH.slice(1) }); // pathの設定方法が腑に落ちないが、envファイル名を記載すると正常に読み込んでくれる
 import { Sequelize, Model } from "sequelize";
 import Users from "./users";
-import UserFavoriteShops from "./userFavoriteShops";
+import UserMemos from "./userMemos";
 import ShopCategories from "./shopCategories";
 // import { database, username, userpassword } from "../mysqlConfig.js";
 
@@ -24,7 +24,7 @@ const sequelize = new Sequelize(database, username, userpassword, {
 // モデルを一つのオブジェクトにまとめる
 const db = {
   Users: Users.initialize(sequelize),
-  UserFavoriteShops: UserFavoriteShops.initialize(sequelize),
+  UserMemos: UserMemos.initialize(sequelize),
   ShopCategories: ShopCategories.initialize(sequelize),
 };
 
@@ -32,7 +32,7 @@ const db = {
 Object.keys(db).forEach((tableName) => {
   if (
     tableName === "Users" ||
-    tableName === "UserFavoriteShops" ||
+    tableName === "UserMemos" ||
     tableName === "ShopCategories"
   ) {
     const model = db[tableName];

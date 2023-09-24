@@ -50,6 +50,7 @@
       });
     </script>
     <script type="module" src="/javascripts/map.js"></script>
+    <script type="module" src="/javascripts/hotpepper.js"></script>
   </head>
   <body>
     <header>
@@ -88,7 +89,8 @@
             name="name"
             value="<%= shopName %>"
           />
-          <button form="form2" id="show-button">表示</button>
+          <button form="form2" id="show-button">地図表示</button>
+          <button form="form3" id="search-button">HOTPEPPER検索</button>
 
           <div class="map" id="map"></div>
 
@@ -99,6 +101,21 @@
             name="latlng"
             value="<%= latlng %>"
           />
+
+          <% if (hotpepperLink) { %>
+          <ul class="current-hotpepper">
+            <input
+              type="checkbox"
+              name="hotpepper"
+              value="<%= hotpepperLink %>"
+              checked
+            />
+            <a href="<%= hotpepperLink %>" target="_blank">HOTPEPPERリンク</a>
+          </ul>
+
+          <% }%>
+
+          <ul class="hotpepper" id="hotpepper"></ul>
 
           <label for="memo">メモ</label>
 

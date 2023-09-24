@@ -1,5 +1,6 @@
 let map;
 let marker;
+let infowindow;
 let coordinate = null; // 座標情報を一時的に保存する変数
 
 // フォーム送信時の処理
@@ -17,6 +18,8 @@ function initMap() {
 
   // 地図の中心値
   let center = new google.maps.LatLng(latlngJSON.lat, latlngJSON.lng);
+
+  infowindow = new google.maps.InfoWindow();
 
   // Mapクラスのインスタンス作成
   map = new google.maps.Map(document.getElementById("map"), {
@@ -52,31 +55,60 @@ function displayMap(location) {
   // 地図のオブジェクトを作成
   map = new google.maps.Map(mapElement, mapOptions);
 
-  // Google Geocoding APIを使用して地名を緯度経度に変換
-  const geocoder = new google.maps.Geocoder();
-  geocoder.geocode({ address: location }, (results, status) => {
-    if (status === "OK") {
+  // Find Place from Queryを使用してテキスト入力から場所を返す
+  let request = {
+    query: location,
+    fields: ["name", "geometry"], // fields（必須）: 返す場所データのタイプを指定する 1 つ以上のフィールド。
+  };
+
+  let service = new google.maps.places.PlacesService(map);
+
+  service.findPlaceFromQuery(request, (results, status) => {
+    console.log(status);
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
       // 地名が正しく解決された場合、地図上にマーカーを表示
-      let locationLatLng = results[0].geometry.location;
 
-      marker = new google.maps.Marker({
-        position: locationLatLng,
-        map: map,
-        title: location,
+      results.forEach((result) => {
+        createMarker(result);
+        // marker = new google.maps.Marker({
+        //   position: result.geometry.location,
+        //   map: map,
+        //   title: location,
+        // });
       });
-
-      marker.setMap(map);
-
-      // 地図の中心を地名の位置に指定
-      map.setCenter(locationLatLng);
-
-      // 緯度経度情報をhiddenタグに一時的に保存
-      document.getElementById("latlng").value = JSON.stringify(locationLatLng);
+      map.setCenter(results[0].geometry.location);
     } else {
       // 地名が解決できなかった場合のエラーメッセージ
       alert("地名が見つかりませんでした。");
     }
   });
+
+  // Google Geocoding APIを使用して地名を緯度経度に変換
+  // const geocoder = new google.maps.Geocoder();
+  // geocoder.geocode({ address: location }, (results, status) => {
+  //   if (status === "OK") {
+  //     // 地名が正しく解決された場合、地図上にマーカーを表示
+
+  //     let locationLatLng = results[0].geometry.location;
+
+  //     marker = new google.maps.Marker({
+  //       position: locationLatLng,
+  //       map: map,
+  //       title: location,
+  //     });
+
+  //     marker.setMap(map);
+
+  //     // 地図の中心を地名の位置に指定
+  //     map.setCenter(locationLatLng);
+
+  //     // 緯度経度情報をhiddenタグに一時的に保存
+  //     document.getElementById("latlng").value = JSON.stringify(locationLatLng);
+  //   } else {
+  //     // 地名が解決できなかった場合のエラーメッセージ
+  //     alert("地名が見つかりませんでした。");
+  //   }
+  // });
 
   // クリックでマーカーを立てるイベントリスナーを追加
   google.maps.event.addListener(map, "click", (event) =>
@@ -100,6 +132,20 @@ function clickListener(event, map) {
   marker = new google.maps.Marker({ position: { lat: lat, lng: lng } }, map);
 
   marker.setMap(map);
+}
+
+function createMarker(place) {
+  if (!place.geometry || !place.geometry.location) return;
+
+  marker = new google.maps.Marker({
+    map,
+    position: place.geometry.location,
+  });
+
+  google.maps.event.addListener(marker, "click", () => {
+    infowindow.setContent(place.name || "");
+    infowindow.open(map);
+  });
 }
 
 window.initMap = initMap;

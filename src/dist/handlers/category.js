@@ -103,7 +103,7 @@ const getDBIdOfUpdateCategory = (req, res, next) => {
             res.locals.targetCategoryDBId = shopCategoryDBIds[selectedCategoryIndex];
             // res.locals.presentCategory = shopCategories[selectedCategoryIndex];
         });
-        yield index_1.default.UserFavoriteShops.findAll({
+        yield index_1.default.UserMemos.findAll({
             where: { user_id: loginedUserId, shop_category: presentCategory },
         }).then((allData) => {
             const userFavoriteShopDBIds = [];
@@ -131,7 +131,7 @@ const updateCategory = (req, res) => {
     (() => __awaiter(void 0, void 0, void 0, function* () {
         try {
             yield index_1.default.ShopCategories.update({ shop_category: updatedCategory }, { where: { id: targetCategoryDBId } });
-            yield index_1.default.UserFavoriteShops.update({ shop_category: updatedCategory }, { where: { id: targetUserFavoriteShopDBIds } });
+            yield index_1.default.UserMemos.update({ shop_category: updatedCategory }, { where: { id: targetUserFavoriteShopDBIds } });
         }
         catch (error) {
             console.log(error);
@@ -254,7 +254,7 @@ const deleteCategory = (req, res) => {
             yield index_1.default.ShopCategories.destroy({
                 where: { user_id: loginedUserId, shop_category: postedCategories },
             });
-            yield index_1.default.UserFavoriteShops.destroy({
+            yield index_1.default.UserMemos.destroy({
                 where: { user_id: loginedUserId, shop_category: postedCategories },
             });
             // await t.commit;

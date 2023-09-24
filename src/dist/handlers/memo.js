@@ -56,7 +56,7 @@ const renderMemoPage = (req, res) => {
     const selectedCategory = res.locals.selectedCategory;
     // user_favorite_shopsDBからデータ取得
     (() => __awaiter(void 0, void 0, void 0, function* () {
-        yield index_1.default.UserFavoriteShops.findAll({
+        yield index_1.default.UserMemos.findAll({
             where: {
                 user_id: loginedUserId,
                 shop_category: selectedCategory,
@@ -202,6 +202,7 @@ const createMemo = (req, res) => {
     // formでpostされた内容を取得
     const createdShopName = req.body.name;
     const createdLatLng = req.body.latlng;
+    const createdHotpepperLink = req.body.hotpepper;
     const createdDescription = req.body.description;
     console.log(createdLatLng);
     // postされた内容をuser_favorite_shopsDBに格納
@@ -209,11 +210,12 @@ const createMemo = (req, res) => {
         // const t = await db.UserFavoriteShops.sequelize!.transaction();
         try {
             // createメソッドはbuild+saveを一度に行い、データベースにinsertまで行う
-            yield index_1.default.UserFavoriteShops.create({
+            yield index_1.default.UserMemos.create({
                 user_id: loginedUserId,
                 shop_category: selectedCategory,
                 shop_name: createdShopName,
                 shop_location: createdLatLng,
+                shop_hotpepperlink: createdHotpepperLink,
                 shop_description: createdDescription,
             });
             // await t?.commit;
@@ -234,7 +236,7 @@ const deleteMemo = (req, res) => {
     (() => __awaiter(void 0, void 0, void 0, function* () {
         try {
             // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
-            yield index_1.default.UserFavoriteShops.destroy({
+            yield index_1.default.UserMemos.destroy({
                 where: {
                     id: req.params.id,
                 },
@@ -256,7 +258,7 @@ const getInfoOfSelectedMemo = (req, res, next) => {
     // 選択したリストIdの情報をuser_favorite_shopsDBから取得
     (() => __awaiter(void 0, void 0, void 0, function* () {
         // user_favorite_shopsDBからデータ取得
-        yield index_1.default.UserFavoriteShops.findAll({
+        yield index_1.default.UserMemos.findAll({
             where: {
                 id: selectedShopId,
             },
@@ -297,7 +299,7 @@ const renderEditMemoPage = (req, res) => {
     // 選択したリストIdの情報をuser_favorite_shopsDBから取得
     (() => __awaiter(void 0, void 0, void 0, function* () {
         // user_favorite_shopsDBからデータ取得
-        yield index_1.default.UserFavoriteShops.findAll({
+        yield index_1.default.UserMemos.findAll({
             where: {
                 id: selectedShopId,
             },
@@ -309,6 +311,7 @@ const renderEditMemoPage = (req, res) => {
                 const shopId = shopInfo.id;
                 const shopName = shopInfo.shop_name;
                 const shopLatLng = shopInfo.shop_location;
+                const hotpepperLink = shopInfo.shop_hotpepperlink;
                 const shopDescription = shopInfo.shop_description;
                 // レンダリング
                 res.render("editMemo", {
@@ -317,6 +320,7 @@ const renderEditMemoPage = (req, res) => {
                     shopId: shopId,
                     shopName: shopName,
                     latlng: shopLatLng,
+                    hotpepperLink: hotpepperLink,
                     shopDescription: shopDescription,
                     categoryIndex: categoryIndex,
                     errors: "",
@@ -352,9 +356,10 @@ const updateMemo = (req, res) => {
     // user_favorite_shopsDBの選択したリストIdの情報を更新
     (() => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            yield index_1.default.UserFavoriteShops.update({
+            yield index_1.default.UserMemos.update({
                 shop_name: req.body.name,
                 shop_location: req.body.latlng,
+                shop_hotpepperlink: req.body.hotpepper,
                 shop_description: req.body.description,
             }, { where: { id: selectedShopId } });
         }

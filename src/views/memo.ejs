@@ -45,7 +45,12 @@
                 ><%= shopInfo.shop_name %></a
               >
             </td>
+            <% if(shopInfo.shop_hotpepperlink) { %>
+            <!-- prettier-ignore -->
+            <td class="description-td"><%= shopInfo.shop_description %><br /><a href="<%= shopInfo.shop_hotpepperlink %>" target="_blank" >HOTPEPPER</a></td>
+            <% } else { %>
             <td class="description-td"><%= shopInfo.shop_description %></td>
+            <% } %>
             <!-- 編集ボタン -->
             <td class="memo-edit">
               <a

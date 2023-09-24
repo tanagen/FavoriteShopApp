@@ -20,22 +20,11 @@ const auth_1 = __importDefault(require("./auth"));
 const connect_flash_1 = __importDefault(require("connect-flash"));
 // import cors from "cors";
 const app = (0, express_1.default)();
-// // モデルをdbに同期
+// モデルをdbに同期
 // (async () => {
 //   await db.Users.sync({ force: true });
-//   // await db.UserFavoriteShops.sync({ force: true });
-//   // await db.ShopCategories.sync({ force: true });
-//   const t = await db.Users.sequelize?.transaction();
-//   try {
-//     await db.Users.create({
-//       user_name: "gen",
-//       user_email: "gen@test.com",
-//       user_password: bcrypt.hashSync("passw0rd", bcrypt.genSaltSync(8)),
-//     });
-//     await t?.commit;
-//   } catch (error) {
-//     await t?.rollback();
-//   }
+//   await db.UserMemos.sync({ force: true });
+//   await db.ShopCategories.sync({ force: true });
 // })();
 // view engine setup
 app.set("views", path_1.default.join("views"));

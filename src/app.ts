@@ -21,25 +21,11 @@ import flash from "connect-flash";
 
 const app = express();
 
-// // モデルをdbに同期
+// モデルをdbに同期
 // (async () => {
 //   await db.Users.sync({ force: true });
-//   // await db.UserFavoriteShops.sync({ force: true });
-//   // await db.ShopCategories.sync({ force: true });
-
-//   const t = await db.Users.sequelize?.transaction();
-
-//   try {
-//     await db.Users.create({
-//       user_name: "gen",
-//       user_email: "gen@test.com",
-//       user_password: bcrypt.hashSync("passw0rd", bcrypt.genSaltSync(8)),
-//     });
-
-//     await t?.commit;
-//   } catch (error) {
-//     await t?.rollback();
-//   }
+//   await db.UserMemos.sync({ force: true });
+//   await db.ShopCategories.sync({ force: true });
 // })();
 
 // view engine setup
