@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const users_1 = __importDefault(require("./users"));
 const TABLE_NAME = "user_memos";
-class UserFavoriteShops extends sequelize_1.Model {
+class UserMemos extends sequelize_1.Model {
     static initialize(sequelize) {
         this.init({
             id: {
@@ -35,7 +35,7 @@ class UserFavoriteShops extends sequelize_1.Model {
                 defaultValue: "",
             },
             shop_hotpepperlink: {
-                type: sequelize_1.DataTypes.STRING,
+                type: sequelize_1.DataTypes.TEXT,
                 allowNull: true,
                 defaultValue: "",
             },
@@ -60,7 +60,7 @@ class UserFavoriteShops extends sequelize_1.Model {
             timestamps: true,
             sequelize: sequelize,
         });
-        return UserFavoriteShops;
+        return UserMemos;
     }
     static associate() {
         this.belongsTo(users_1.default, {
@@ -70,4 +70,4 @@ class UserFavoriteShops extends sequelize_1.Model {
         });
     }
 }
-exports.default = UserFavoriteShops;
+exports.default = UserMemos;

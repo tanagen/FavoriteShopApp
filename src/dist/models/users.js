@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
-const userFavoriteShops_1 = __importDefault(require("./userFavoriteShops"));
+const userMemos_1 = __importDefault(require("./userMemos"));
 const shopCategories_1 = __importDefault(require("./shopCategories"));
 const TABLE_NAME = "users";
 class Users extends sequelize_1.Model {
@@ -51,7 +51,7 @@ class Users extends sequelize_1.Model {
     }
     // テーブル関係の記述
     static associate() {
-        this.hasMany(userFavoriteShops_1.default, {
+        this.hasMany(userMemos_1.default, {
             sourceKey: "id",
             foreignKey: "user_id",
             constraints: false, // 制約情報(外部キー)の有効化フラグ Project.sync({ force: true })を動作させるために false に設定。

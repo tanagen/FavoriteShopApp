@@ -121,7 +121,7 @@ export const getDBIdOfUpdateCategory = (
       // res.locals.presentCategory = shopCategories[selectedCategoryIndex];
     });
 
-    await db.UserFavoriteShops.findAll({
+    await db.UserMemos.findAll({
       where: { user_id: loginedUserId, shop_category: presentCategory },
     }).then((allData) => {
       const userFavoriteShopDBIds: number[] = [];
@@ -156,7 +156,7 @@ export const updateCategory = (req: Request, res: Response) => {
         { where: { id: targetCategoryDBId } }
       );
 
-      await db.UserFavoriteShops.update(
+      await db.UserMemos.update(
         { shop_category: updatedCategory },
         { where: { id: targetUserFavoriteShopDBIds } }
       );
@@ -300,7 +300,7 @@ export const deleteCategory = (req: Request, res: Response) => {
         where: { user_id: loginedUserId, shop_category: postedCategories },
       });
 
-      await db.UserFavoriteShops.destroy({
+      await db.UserMemos.destroy({
         where: { user_id: loginedUserId, shop_category: postedCategories },
       });
 

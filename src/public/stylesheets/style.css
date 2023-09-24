@@ -363,7 +363,7 @@ header a:hover {
 }
 
 
-/* list.ejs ================================ */
+/* memo.ejs ================================ */
 .memo-list {
   text-align: center;
   width: 100%;
@@ -476,7 +476,16 @@ table th,table td{
   white-space: pre-wrap;  /* 改行コードを含む文字列を改行表示するための設定 */
 }
 
-/* createList.ejs ================================ */
+.description-td a {
+  font-size: 12px;
+}
+
+.description-td a:hover {
+  color:rgb(197, 114, 96);
+}
+
+
+/* createMemo.ejs ================================ */
 .create-memo {
   text-align: center;
   width: 100%;
@@ -529,8 +538,26 @@ table th,table td{
   background: linear-gradient(270deg, rgb(26, 34, 47, 1) 0%, rgb(23, 28, 47, 1) 100%);
 }
 
+.hotpepper input[type="checkbox"] {
+  display: inline-block;
+}
 
-/* editList.ejs ================================ */
+.hotpepper input[type="checkbox"]:hover {
+ cursor: pointer;
+}
+
+.hotpepper label {
+  display: inline-block;
+  text-align: left;
+}
+
+.hotpepper label:hover {
+  cursor: pointer;
+  color: rgb(208, 44, 44);
+}
+
+
+/* editMemo.ejs ================================ */
 .edit-memo {
   text-align: center;
   width: 100%;
@@ -571,6 +598,25 @@ table th,table td{
   background: rgb(30,42,65);
   background: linear-gradient(270deg, rgb(26, 34, 47, 1) 0%, rgb(23, 28, 47, 1) 100%);
 }
+
+.current-hotpepper input[type="checkbox"] {
+  display: inline-block;
+}
+
+.current-hotpepper input[type="checkbox"]:hover {
+ cursor: pointer;
+}
+
+.current-hotpepper a {
+  display: inline-block;
+  text-align: left;
+}
+
+.current-hotpepper a:hover {
+  cursor: pointer;
+  color: rgb(208, 44, 44);
+}
+
 
 /* map.ejs ================================ */
 .map-container {

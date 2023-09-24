@@ -1,9 +1,9 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
 import Users from "./users";
 
-const TABLE_NAME = "user_favorite_shops";
+const TABLE_NAME = "user_memos";
 
-export default class UserFavoriteShops extends Model {
+export default class UserMemos extends Model {
   public id!: number;
   public user_id!: number;
   public shop_category!: string;
@@ -41,6 +41,11 @@ export default class UserFavoriteShops extends Model {
           allowNull: true,
           defaultValue: "",
         },
+        shop_hotpepperlink: {
+          type: DataTypes.TEXT,
+          allowNull: true,
+          defaultValue: "",
+        },
         shop_description: {
           type: DataTypes.TEXT,
           allowNull: true,
@@ -67,7 +72,7 @@ export default class UserFavoriteShops extends Model {
       }
     );
 
-    return UserFavoriteShops;
+    return UserMemos;
   }
 
   public static associate() {

@@ -1,6 +1,6 @@
 import db from "../models/index";
 import { Request, Response, NextFunction } from "express";
-import UserFavoriteShops from "../models/userFavoriteShops";
+import UserMemos from "../models/userMemos";
 
 // 操作中のカテゴリー名を取得
 export const getSelectedCategory = (
@@ -54,7 +54,7 @@ export const renderMemoPage = (req: Request, res: Response) => {
 
   // user_favorite_shopsDBからデータ取得
   (async () => {
-    await db.UserFavoriteShops.findAll({
+    await db.UserMemos.findAll({
       where: {
         user_id: loginedUserId,
         shop_category: selectedCategory,
@@ -63,7 +63,7 @@ export const renderMemoPage = (req: Request, res: Response) => {
       // データが存在する場合
       if (data.length !== 0) {
         const errorMessage: string = "";
-        const allShopInfo: UserFavoriteShops[] = data;
+        const allShopInfo: UserMemos[] = data;
 
         // レンダリング
         res.render("memo", {
@@ -218,6 +218,7 @@ export const createMemo = (req: Request, res: Response) => {
   // formでpostされた内容を取得
   const createdShopName = req.body.name;
   const createdLatLng = req.body.latlng;
+  const createdHotpepperLink = req.body.hotpepper;
   const createdDescription = req.body.description;
 
   console.log(createdLatLng);
@@ -228,11 +229,12 @@ export const createMemo = (req: Request, res: Response) => {
 
     try {
       // createメソッドはbuild+saveを一度に行い、データベースにinsertまで行う
-      await db.UserFavoriteShops.create({
+      await db.UserMemos.create({
         user_id: loginedUserId,
         shop_category: selectedCategory,
         shop_name: createdShopName,
         shop_location: createdLatLng,
+        shop_hotpepperlink: createdHotpepperLink,
         shop_description: createdDescription,
       });
 
@@ -255,7 +257,7 @@ export const deleteMemo = (req: Request, res: Response) => {
   (async () => {
     try {
       // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
-      await db.UserFavoriteShops.destroy({
+      await db.UserMemos.destroy({
         where: {
           id: req.params.id,
         },
@@ -282,7 +284,7 @@ export const getInfoOfSelectedMemo = (
   // 選択したリストIdの情報をuser_favorite_shopsDBから取得
   (async () => {
     // user_favorite_shopsDBからデータ取得
-    await db.UserFavoriteShops.findAll({
+    await db.UserMemos.findAll({
       where: {
         id: selectedShopId,
       },
@@ -290,7 +292,7 @@ export const getInfoOfSelectedMemo = (
       // データが存在する場合
       if (data.length !== 0) {
         const errorMessage: string = "";
-        const shopInfo: UserFavoriteShops = data[0];
+        const shopInfo: UserMemos = data[0];
         // const shopId = shopInfo.id;
         // const shopName = shopInfo.shop_name;
         // const shopLocation = shopInfo.shop_location;
@@ -326,7 +328,7 @@ export const renderEditMemoPage = (req: Request, res: Response) => {
   // 選択したリストIdの情報をuser_favorite_shopsDBから取得
   (async () => {
     // user_favorite_shopsDBからデータ取得
-    await db.UserFavoriteShops.findAll({
+    await db.UserMemos.findAll({
       where: {
         id: selectedShopId,
       },
@@ -334,10 +336,11 @@ export const renderEditMemoPage = (req: Request, res: Response) => {
       // データが存在する場合
       if (data.length !== 0) {
         const errorMessage: string = "";
-        const shopInfo: UserFavoriteShops = data[0];
+        const shopInfo: any = data[0];
         const shopId = shopInfo.id;
         const shopName = shopInfo.shop_name;
         const shopLatLng = shopInfo.shop_location;
+        const hotpepperLink = shopInfo.shop_hotpepperlink;
         const shopDescription = shopInfo.shop_description;
 
         // レンダリング
@@ -347,6 +350,7 @@ export const renderEditMemoPage = (req: Request, res: Response) => {
           shopId: shopId,
           shopName: shopName,
           latlng: shopLatLng,
+          hotpepperLink: hotpepperLink,
           shopDescription: shopDescription,
           categoryIndex: categoryIndex,
           errors: "",
@@ -383,10 +387,11 @@ export const updateMemo = (req: Request, res: Response) => {
   // user_favorite_shopsDBの選択したリストIdの情報を更新
   (async () => {
     try {
-      await db.UserFavoriteShops.update(
+      await db.UserMemos.update(
         {
           shop_name: req.body.name,
           shop_location: req.body.latlng,
+          shop_hotpepperlink: req.body.hotpepper,
           shop_description: req.body.description,
         },
         { where: { id: selectedShopId } }

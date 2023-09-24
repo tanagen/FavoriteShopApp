@@ -4,7 +4,7 @@ import {
   DataTypes,
   HasManyCreateAssociationMixin,
 } from "sequelize";
-import UserFavoriteShops from "./userFavoriteShops";
+import UserFavoriteShops from "./userMemos";
 import ShopCategories from "./shopCategories";
 
 const TABLE_NAME = "users";

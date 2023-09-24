@@ -36,7 +36,7 @@ export const searchFromHotPepper = async (
         "&lng=" +
         lng +
         "&range=" +
-        "4" + // 1: 300m, 2: 500m, 3: 1000m (初期値), 4: 2000m, 5: 3000m
+        "5" + // 1: 300m, 2: 500m, 3: 1000m (初期値), 4: 2000m, 5: 3000m
         "&keyword=" +
         keyword +
         "&count=" +
