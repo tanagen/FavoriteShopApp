@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <title>Create memo</title>
 
@@ -83,8 +87,16 @@
             placeholder="〇〇ショップ"
             value="<%= shopName %>"
           />
-          <button form="form2" id="show-button">地図表示</button>
-          <button form="form3" id="search-button">HOTPEPPER検索</button>
+          <div class="search-button">
+            <button form="form2" id="show-button">
+              <i class="fa-solid fa-map-pin fa-2x"></i>
+            </button>
+
+            <button form="form3" id="search-button">
+              <img src="/images/hotpepper.png" alt="hotpepper" width="25" />
+            </button>
+          </div>
+
           <div class="map" id="map"></div>
 
           <!-- 施設の緯度経度を一次保存するためのhidden属性input -->
@@ -96,7 +108,10 @@
             value="<%= latlng %>"
           />
 
-          <ul class="hotpepper" id="hotpepper"></ul>
+          <p>HOTPEPPER検索結果</p>
+          <ul class="hotpepper" id="hotpepper">
+            <p>未検索</p>
+          </ul>
 
           <label for="memo">メモ</label>
 

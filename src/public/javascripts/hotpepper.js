@@ -18,28 +18,35 @@ document.getElementById("search-button").addEventListener("click", () => {
       // 一旦リセット
       document.getElementById("hotpepper").innerHTML = "";
 
-      if (data.shops[0] !== "該当データなし") {
+      if (
+        data.shops[0] === "該当データなし" ||
+        data.shops[0][0] === "検索ワードを入れてください"
+      ) {
+        document.getElementById("hotpepper").textContent = data.shops[0];
+      } else {
         data.shops.forEach((element) => {
-          // 新たに<input>要素と<label>要素を作成
+          // 新たに<input>要素と<a>要素を作成
+          const newListElement = document.createElement("list");
           const newInputElement = document.createElement("input");
-          const newLabelElement = document.createElement("label");
-          newInputElement.type = "checkbox";
+          const newLinkElement = document.createElement("a");
+          newInputElement.type = "radio";
           newInputElement.name = "hotpepper";
           newInputElement.value = element[1]; // hotpepperURL
-          newInputElement.id = element[0]; // 店名
-          newLabelElement.textContent = element[0];
-          newLabelElement.htmlFor = element[0];
+          // newInputElement.id = element[0]; // 店名
+          newLinkElement.textContent = element[0];
+          newLinkElement.href = element[1];
+          newLinkElement.target = "_blank";
 
           // <ul>要素 <li>要素 <a>要素の親子関係を追加
           // newInputElement.appendChild(newLabelElement);
-          document.getElementById("hotpepper").appendChild(newInputElement);
-          document.getElementById("hotpepper").appendChild(newLabelElement);
+          newListElement.appendChild(newInputElement);
+          newListElement.appendChild(newLinkElement);
+
+          document.getElementById("hotpepper").appendChild(newListElement);
 
           // document.getElementById("hotpepper").textContent = data.shopNames;
           // document.getElementById("hotpepper").href = data.shopURLs;
         });
-      } else {
-        document.getElementById("hotpepper").textContent = data.shops[0];
       }
     })
     .catch((error) => {

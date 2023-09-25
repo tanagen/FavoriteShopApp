@@ -70,13 +70,15 @@ function displayMap(location) {
 
       results.forEach((result) => {
         createMarker(result);
-        // marker = new google.maps.Marker({
-        //   position: result.geometry.location,
-        //   map: map,
-        //   title: location,
-        // });
       });
-      map.setCenter(results[0].geometry.location);
+
+      let locationLatLng = results[0].geometry.location;
+
+      // 地図の中心を設定
+      map.setCenter(locationLatLng);
+
+      // 緯度経度情報をhiddenタグに一時的に保存
+      document.getElementById("latlng").value = JSON.stringify(locationLatLng);
     } else {
       // 地名が解決できなかった場合のエラーメッセージ
       alert("地名が見つかりませんでした。");
