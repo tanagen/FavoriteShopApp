@@ -84,6 +84,7 @@ header {
 /* login.ejs ================================ */
 .login {
   text-align: center;
+  width: 100%;
 }
 
 .login input {
@@ -170,12 +171,12 @@ header a:hover {
 .logined-user-name {
   display: block;
   text-align: center;
-  margin:0;
+  margin:20px 0 10px 0;
 }
 
 .logined-user-name p {
   margin: 10px 0 0 0 ;
-  font-size: 26px;
+  font-size: 22px;
 }
 
 .logout{
@@ -448,6 +449,16 @@ table th,table td{
   padding: 15px 5px;
 }
 
+.memo-shop-name {
+  padding: 0;
+  margin: 5px 0;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+}
+
 .memo-edit {
   width: 7%;
 }
@@ -468,21 +479,22 @@ table th,table td{
   width: 66%;
 }
 
-.map-link:hover {
+.map-link {
+  margin-right: 5px;
+}
+
+/* .map-link:hover {
   color:rgb(197, 114, 96);
-}
+} */
 
-.description-td {
-  white-space: pre-wrap;  /* 改行コードを含む文字列を改行表示するための設定 */
-}
-
-.description-td a {
+/* .hotpepper-link {
   font-size: 12px;
-}
+} */
 
-.description-td a:hover {
+/* .hotpepper-link:hover {
   color:rgb(197, 114, 96);
-}
+} */
+
 
 
 /* createMemo.ejs ================================ */
@@ -503,24 +515,37 @@ table th,table td{
   height: 400px;
 }
 
-.shop-name, .place {
-  margin: 10px 0px 0px;
+.shop-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shop-name {
+  /* margin: 10px 0px 20px 0px; */
+  height: 20px;
   width: 80%;
   max-width: 350px;
 }
 
+.search-button {
+  display: flex;
+  margin: 0 5px;
+}
+
 .search-button button {
-  display: inline;
+  display: inline-block;
   background-color: transparent;
   border: none;
   cursor: pointer;
   outline: none;
   padding: 0;
   appearance: none;
+  margin: 0 2px;
 }
 
 .search-button img {
-  padding-top: 2px;
+  padding: auto;
 }
 
 .create-memo textarea {
@@ -553,7 +578,7 @@ table th,table td{
 }
 
 .hotpepper {
-  width: 100%;
+  width: 80%;
   max-width: 500px;
   margin: auto;
   padding: 0;
@@ -590,11 +615,6 @@ table th,table td{
   max-width: 1500px;
 }
 
-.shop-name, .place {
-  margin: 10px auto 0px;
-  width: 80%;
-  max-width: 350px;
-}
 
 .edit-memo textarea {
   margin: 10px auto 0px;
@@ -625,6 +645,10 @@ table th,table td{
   background: linear-gradient(270deg, rgb(26, 34, 47, 1) 0%, rgb(23, 28, 47, 1) 100%);
 }
 
+.current-hotpepper {
+  padding: 0;
+}
+
 .current-hotpepper input[type="radio"] {
   display: inline-block;
 }
@@ -652,7 +676,7 @@ table th,table td{
 }
 
 .map {
-  margin: 0 auto;
+  margin: 15px auto 30px auto;
   width: 100%;
   aspect-ratio: 5 / 3;
   max-width: 600px;

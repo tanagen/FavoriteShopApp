@@ -48,7 +48,6 @@ function displayMap(location) {
     };
     let service = new google.maps.places.PlacesService(map);
     service.findPlaceFromQuery(request, (results, status) => {
-        console.log(status);
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             // 地名が正しく解決された場合、地図上にマーカーを表示
             results.forEach((result) => {
@@ -60,9 +59,12 @@ function displayMap(location) {
             // 緯度経度情報をhiddenタグに一時的に保存
             document.getElementById("latlng").value = JSON.stringify(locationLatLng);
         }
+        else if (location === "") {
+            alert("検索ワードを入れてください");
+        }
         else {
             // 地名が解決できなかった場合のエラーメッセージ
-            alert("地名が見つかりませんでした。");
+            alert("地名が見つかりませんでした");
         }
     });
     // Google Geocoding APIを使用して地名を緯度経度に変換

@@ -69,32 +69,34 @@
     </header>
     <main>
       <div class="create-memo">
-        <h1>Create New Memo</h1>
+        <h1>メモ新規作成</h1>
 
         <form method="post" id="create-memo">
           <label for="name">店名・施設名</label>
 
-          <!-- 入力値が空の場合のエラーを表示 -->a <% if
-          (Object.keys(errors).length > 0) { %>
+          <!-- 入力値が空の場合のエラーを表示 -->
+          <% if (Object.keys(errors).length > 0) { %>
           <p class="error"><%= errors.shopName %></p>
           <% } %>
 
-          <input
-            type="text"
-            id="name"
-            class="shop-name"
-            name="name"
-            placeholder="〇〇ショップ"
-            value="<%= shopName %>"
-          />
-          <div class="search-button">
-            <button form="form2" id="show-button">
-              <i class="fa-solid fa-map-pin fa-2x"></i>
-            </button>
+          <div class="shop-search">
+            <input
+              type="text"
+              id="name"
+              class="shop-name"
+              name="name"
+              placeholder="〇〇ショップ"
+              value="<%= shopName %>"
+            />
+            <div class="search-button">
+              <button form="form2" id="show-button">
+                <img src="/images/google-map.png" alt="google-map" width="35" />
+              </button>
 
-            <button form="form3" id="search-button">
-              <img src="/images/hotpepper.png" alt="hotpepper" width="25" />
-            </button>
+              <button form="form3" id="search-button">
+                <img src="/images/hotpepper.png" alt="hotpepper" width="30" />
+              </button>
+            </div>
           </div>
 
           <div class="map" id="map"></div>
