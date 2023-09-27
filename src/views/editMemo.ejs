@@ -82,15 +82,23 @@
           <p class="error"><%= errors.shopName %></p>
           <% } %>
 
-          <input
-            type="text"
-            id="name"
-            class="shop-name"
-            name="name"
-            value="<%= shopName %>"
-          />
-          <button form="form2" id="show-button">地図表示</button>
-          <button form="form3" id="search-button">HOTPEPPER検索</button>
+          <div class="shop-search">
+            <input
+              type="text"
+              id="name"
+              class="shop-name"
+              name="name"
+              value="<%= shopName %>"
+            />
+            <div class="search-button">
+              <button form="form2" id="show-button">
+                <img src="/images/google-map.png" alt="google-map" width="35" />
+              </button>
+              <button form="form3" id="search-button">
+                <img src="/images/hotpepper.png" alt="hotpepper" width="30" />
+              </button>
+            </div>
+          </div>
 
           <div class="map" id="map"></div>
 
@@ -102,6 +110,7 @@
             value="<%= latlng %>"
           />
 
+          <p>HOTPEPPERリンク</p>
           <% if (hotpepperLink) { %>
           <ul class="current-hotpepper">
             <input
@@ -113,7 +122,9 @@
             <a href="<%= hotpepperLink %>" target="_blank">HOTPEPPERリンク</a>
           </ul>
 
-          <% }%>
+          <% } else { %>
+          <p>データなし</p>
+          <% } %>
 
           <ul class="hotpepper" id="hotpepper"></ul>
 

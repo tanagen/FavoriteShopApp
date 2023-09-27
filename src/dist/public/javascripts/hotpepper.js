@@ -15,13 +15,18 @@ document.getElementById("search-button").addEventListener("click", () => {
         .then((res) => res.json())
         .then((data) => {
         console.log("サーバーレスポンス:", data);
-        // 一旦リセット
-        document.getElementById("hotpepper").innerHTML = "";
-        if (data.shops[0] === "該当データなし" ||
-            data.shops[0][0] === "検索ワードを入れてください") {
+        // サーバーから取得したデータに応じて対応を分ける
+        if (data.shops[0] === "該当データなし") {
+            // 一旦HTMLをリセット
+            document.getElementById("hotpepper").innerHTML = "";
             document.getElementById("hotpepper").textContent = data.shops[0];
         }
+        else if (data.shops[0][0] === "検索ワードを入れてください") {
+            alert("検索ワードを入れてください");
+        }
         else {
+            // 一旦HTMLをリセット
+            document.getElementById("hotpepper").innerHTML = "";
             data.shops.forEach((element) => {
                 // 新たに<input>要素と<a>要素を作成
                 const newListElement = document.createElement("list");

@@ -38,19 +38,40 @@
 
           <% allShopInfo.forEach((shopInfo) => { %>
           <tr class="draggable">
+            <% if(shopInfo.shop_hotpepperlink) { %>
             <td>
+              <p class="memo-shop-name"><%= shopInfo.shop_name %></p>
+              <div class="link">
+                <a
+                  href="/memo/<%= categoryIndex %>/map/<%= shopInfo.id %>"
+                  class="map-link"
+                  ><img
+                    src="/images/google-map.png"
+                    alt="google-map"
+                    width="25" /></a
+                ><br />
+                <a
+                  href="<%= shopInfo.shop_hotpepperlink %>"
+                  target="_blank"
+                  class="hotpepper-link"
+                  ><img src="/images/hotpepper.png" alt="hotpepper" width="20"
+                /></a>
+              </div>
+            </td>
+            <% } else { %>
+            <td>
+              <p class="memo-shop-name"><%= shopInfo.shop_name %></p>
               <a
                 href="/memo/<%= categoryIndex %>/map/<%= shopInfo.id %>"
                 class="map-link"
-                ><%= shopInfo.shop_name %></a
-              >
+                ><img src="/images/google-map.png" alt="google-map" width="25"
+              /></a>
             </td>
-            <% if(shopInfo.shop_hotpepperlink) { %>
-            <!-- prettier-ignore -->
-            <td class="description-td"><%= shopInfo.shop_description %><br /><a href="<%= shopInfo.shop_hotpepperlink %>" target="_blank" >HOTPEPPER</a></td>
-            <% } else { %>
-            <td class="description-td"><%= shopInfo.shop_description %></td>
+
             <% } %>
+
+            <td><%= shopInfo.shop_description %></td>
+
             <!-- 編集ボタン -->
             <td class="memo-edit">
               <a
