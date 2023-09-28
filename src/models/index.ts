@@ -8,18 +8,36 @@ import UserMemos from "./userMemos";
 import ShopCategories from "./shopCategories";
 // import { database, username, userpassword } from "../mysqlConfig.js";
 
+interface DB {
+  database: string;
+  username: string;
+  userpassword: string;
+}
+
+// mysqlの設定定義
+const dbConfig: DB = {
+  database: process.env.MYSQL_DATABASE,
+  username: process.env.MYSQL_USER,
+  userpassword: process.env.MYSQL_PASSWORD,
+};
+
 // mysql環境変数を取得して変数に格納
-const database = process.env.MYSQL_DATABASE!;
-const username = process.env.MYSQL_USER!;
-const userpassword = process.env.MYSQL_PASSWORD!;
+// const database = process.env.MYSQL_DATABASE!;
+// const username = process.env.MYSQL_USER!;
+// const userpassword = process.env.MYSQL_PASSWORD!;
 // console.log(database, username, userpassword);
 // console.log(process.env);
 
 // sequelizeインスタンスの作成
-const sequelize = new Sequelize(database, username, userpassword, {
-  host: "mysql", // docker-compose.ymlで設定したDBコンテナのコンテナ名mysqlに変更
-  dialect: "mysql", //ここはmysql固定
-});
+const sequelize = new Sequelize(
+  dbConfig.database,
+  dbConfig.username,
+  dbConfig.userpassword,
+  {
+    host: "mysql", // docker-compose.ymlで設定したDBコンテナのコンテナ名mysqlに変更
+    dialect: "mysql", //ここはmysql固定
+  }
+);
 
 // モデルを一つのオブジェクトにまとめる
 const db = {
