@@ -34,15 +34,20 @@ const sequelize_1 = require("sequelize");
 const users_1 = __importDefault(require("./users"));
 const userMemos_1 = __importDefault(require("./userMemos"));
 const shopCategories_1 = __importDefault(require("./shopCategories"));
-// import { database, username, userpassword } from "../mysqlConfig.js";
+// mysqlの設定定義
+const dbConfig = {
+    database: process.env.MYSQL_DATABASE,
+    username: process.env.MYSQL_USER,
+    userpassword: process.env.MYSQL_PASSWORD,
+};
 // mysql環境変数を取得して変数に格納
-const database = process.env.MYSQL_DATABASE;
-const username = process.env.MYSQL_USER;
-const userpassword = process.env.MYSQL_PASSWORD;
+// const database = process.env.MYSQL_DATABASE!;
+// const username = process.env.MYSQL_USER!;
+// const userpassword = process.env.MYSQL_PASSWORD!;
 // console.log(database, username, userpassword);
 // console.log(process.env);
 // sequelizeインスタンスの作成
-const sequelize = new sequelize_1.Sequelize(database, username, userpassword, {
+const sequelize = new sequelize_1.Sequelize(dbConfig.database, dbConfig.username, dbConfig.userpassword, {
     host: "mysql",
     dialect: "mysql", //ここはmysql固定
 });
