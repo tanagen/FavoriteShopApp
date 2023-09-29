@@ -29,12 +29,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = __importDefault(require("path"));
 const dotenv = __importStar(require("dotenv")); // dotenvモジュールは.envファイルに定義された値を環境変数として使える
 const MYSQL_ENV_PATH = path_1.default.join(__dirname, "../../../app.env");
-dotenv.config({ path: MYSQL_ENV_PATH.slice(1) }); // pathの設定方法が腑に落ちないが、envファイル名を記載すると正常に読み込んでくれる
+dotenv.config({ path: MYSQL_ENV_PATH.slice(1) }); // FIXME: パスではなくenvファイル名を記載すると正常に読み込んでくれる
 const sequelize_1 = require("sequelize");
 const users_1 = __importDefault(require("./users"));
 const userMemos_1 = __importDefault(require("./userMemos"));
 const shopCategories_1 = __importDefault(require("./shopCategories"));
-// mysqlの設定定義
 const dbConfig = {
     database: process.env.MYSQL_DATABASE,
     username: process.env.MYSQL_USER,

@@ -1,7 +1,7 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
 import Users from "./users";
 
-const TABLE_NAME = "user_memos";
+const TABLE_NAME: string = "user_memos";
 
 export default class UserMemos extends Model {
   public id!: number;
@@ -78,7 +78,7 @@ export default class UserMemos extends Model {
   public static associate() {
     this.belongsTo(Users, {
       foreignKey: "user_id",
-      targetKey: "id", // targetのUsersテーブルのカラム名を指定
+      targetKey: "id", // targetとなるUsersテーブルのカラム名を指定
       constraints: false,
     });
   }
