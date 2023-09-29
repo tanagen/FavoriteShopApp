@@ -25,7 +25,7 @@ class Users extends sequelize_1.Model {
                 type: sequelize_1.DataTypes.STRING,
                 allowNull: false,
                 defaultValue: "",
-                unique: true,
+                unique: true, // ユニークキーに設定
             },
             user_password: {
                 type: sequelize_1.DataTypes.STRING,
@@ -59,7 +59,7 @@ class Users extends sequelize_1.Model {
         this.hasMany(shopCategories_1.default, {
             sourceKey: "id",
             foreignKey: "user_id",
-            constraints: false, // 制約情報(外部キー)の有効化フラグ Project.sync({ force: true })を動作させるために false に設定。
+            constraints: false,
         });
     }
 }

@@ -17,11 +17,10 @@ import db from "./models/index";
 import session from "express-session";
 import passport from "./auth";
 import flash from "connect-flash";
-// import cors from "cors";
 
 const app = express();
 
-// モデルをdbに同期
+// DBを初期化
 // (async () => {
 //   await db.Users.sync({ force: true });
 //   await db.UserMemos.sync({ force: true });
@@ -38,7 +37,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join("public")));
 app.use(flash());
-// app.use(cors());
 
 // sessionの設定
 app.use(
@@ -67,12 +65,12 @@ app.use("/memo", memoRoutes);
 app.use("/hotpepper", hotpepperRoutes);
 
 // catch 404 and forward to error handler
-app.use(function (req: any, res: any, next: any) {
+app.use(function (req: Request, res: Response, next: NextFunction) {
   next(createError(404));
 });
 
 // error handler
-app.use(function (err: any, req: any, res: any, next: any) {
+app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};

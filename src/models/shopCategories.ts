@@ -1,7 +1,7 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
 import Users from "./users";
 
-const TABLE_NAME = "shop_categories";
+const TABLE_NAME: string = "shop_categories";
 
 export default class ShopCategories extends Model {
   public id!: number;
@@ -58,7 +58,7 @@ export default class ShopCategories extends Model {
     this.belongsTo(Users, {
       foreignKey: "user_id",
       targetKey: "id",
-      constraints: false,
+      constraints: false, // 「制約」 制約情報(外部キー)の有効化フラグ Project.sync({ force: true })を動作させるために false に設定。
     });
   }
 }

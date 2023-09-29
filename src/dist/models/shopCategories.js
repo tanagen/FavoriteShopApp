@@ -48,7 +48,7 @@ class ShopCategories extends sequelize_1.Model {
         this.belongsTo(users_1.default, {
             foreignKey: "user_id",
             targetKey: "id",
-            constraints: false,
+            constraints: false, // 「制約」 制約情報(外部キー)の有効化フラグ Project.sync({ force: true })を動作させるために false に設定。
         });
     }
 }
