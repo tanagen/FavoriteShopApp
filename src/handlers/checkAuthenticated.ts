@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import passport from "passport";
 
 // サインイン状態を判断するミドルウェア
 export const checkAuthenticated = (

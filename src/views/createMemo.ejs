@@ -47,7 +47,7 @@
           ? console.warn(p + " only loads once. Ignoring:", g)
           : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
       })({
-        key: "<% apiKey %>",
+        key: "<% googleMapsApiKey %>",
         v: "weekly",
         // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
         // Add other bootstrap parameters as needed, using camel case.
@@ -63,7 +63,7 @@
         &nbsp;>&nbsp;
         <a href="/category">カテゴリー</a>
         &nbsp;>&nbsp;
-        <a href="/memo/<%= categoryIndex %>"><%= selectedCategory %></a>
+        <a href="/memo/<%= selectedCategoryIndex %>"><%= selectedCategory %></a>
         &nbsp;>&nbsp;メモ作成
       </div>
     </header>
@@ -107,13 +107,28 @@
             id="latlng"
             class="latlng"
             name="latlng"
-            value="<%= latlng %>"
+            value="<%= shopLatLng %>"
           />
 
+          <% if (hotpepperLink) { %>
+          <ul class="current-hotpepper">
+            <input
+              type="radio"
+              name="hotpepper"
+              value="<%= hotpepperLink %>"
+              checked
+            />
+            <a href="<%= hotpepperLink %>" target="_blank">HOTPEPPERリンク</a>
+          </ul>
+
+          <ul class="hotpepper" id="hotpepper"></ul>
+
+          <% } else { %>
           <p>HOTPEPPER検索結果</p>
           <ul class="hotpepper" id="hotpepper">
             <p>未検索</p>
           </ul>
+          <% } %>
 
           <label for="memo">メモ</label>
 
@@ -133,7 +148,7 @@
           >
           <br />
           <input
-            formaction="/memo/<%= categoryIndex %>/create"
+            formaction="/memo/<%= selectedCategoryIndex %>/create"
             type="submit"
             form="create-memo"
             class="create-button"
@@ -146,7 +161,7 @@
 
         <script
           defer
-          src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&callback=initMap&libraries=places"
+          src="https://maps.googleapis.com/maps/api/js?key=<%= googleMapsApiKey %>&callback=initMap&libraries=places"
         ></script>
       </div>
     </main>

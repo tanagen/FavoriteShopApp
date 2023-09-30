@@ -14,14 +14,14 @@
         <a href="/login">ログイン</a>
         &nbsp;>&nbsp;
         <a href="/category">カテゴリー</a>
-        &nbsp;>&nbsp;<%=locals.selectedCategory%>
+        &nbsp;>&nbsp;<%=selectedCategory%>
       </div>
     </header>
 
     <main>
       <div class="memo-list">
-        <a href="/memo/<%= categoryIndex %>/edit" class="edit-category"
-          ><%= locals.selectedCategory %></a
+        <a href="/memo/<%= selectedCategoryIndex %>/edit" class="edit-category"
+          ><%= selectedCategory %></a
         >
 
         <!-- DBに情報がない場合の表示 -->
@@ -36,14 +36,14 @@
             <th class="table-memo">メモ</th>
           </tr>
 
-          <% allShopInfo.forEach((shopInfo) => { %>
+          <% memos.forEach((memo) => { %>
           <tr class="draggable">
-            <% if(shopInfo.shop_hotpepperlink) { %>
+            <% if(memo.shop_hotpepperlink) { %>
             <td>
-              <p class="memo-shop-name"><%= shopInfo.shop_name %></p>
+              <p class="memo-shop-name"><%= memo.shop_name %></p>
               <div class="link">
                 <a
-                  href="/memo/<%= categoryIndex %>/map/<%= shopInfo.id %>"
+                  href="/memo/<%= selectedCategoryIndex %>/map/<%= memo.id %>"
                   class="map-link"
                   ><img
                     src="/images/google-map.png"
@@ -51,7 +51,7 @@
                     width="25" /></a
                 ><br />
                 <a
-                  href="<%= shopInfo.shop_hotpepperlink %>"
+                  href="<%= memo.shop_hotpepperlink %>"
                   target="_blank"
                   class="hotpepper-link"
                   ><img src="/images/hotpepper.png" alt="hotpepper" width="20"
@@ -60,9 +60,9 @@
             </td>
             <% } else { %>
             <td>
-              <p class="memo-shop-name"><%= shopInfo.shop_name %></p>
+              <p class="memo-shop-name"><%= memo.shop_name %></p>
               <a
-                href="/memo/<%= categoryIndex %>/map/<%= shopInfo.id %>"
+                href="/memo/<%= selectedCategoryIndex %>/map/<%= memo.id %>"
                 class="map-link"
                 ><img src="/images/google-map.png" alt="google-map" width="25"
               /></a>
@@ -70,12 +70,12 @@
 
             <% } %>
 
-            <td><%= shopInfo.shop_description %></td>
+            <td><%= memo.shop_description %></td>
 
             <!-- 編集ボタン -->
             <td class="memo-edit">
               <a
-                href="/memo/<%= categoryIndex %>/edit/<%= shopInfo.id %>"
+                href="/memo/<%= selectedCategoryIndex %>/edit/<%= memo.id %>"
                 class="memo-edit-button"
                 >編集</a
               >
@@ -83,7 +83,7 @@
             <!-- 削除ボタン -->
             <td class="memo-delete">
               <form
-                action="/memo/<%= categoryIndex %>/<%= shopInfo.id %>"
+                action="/memo/<%= selectedCategoryIndex %>/<%= memo.id %>"
                 method="post"
               >
                 <input
@@ -100,7 +100,9 @@
         <% } %>
 
         <!-- 新規登録ボタン -->
-        <a class="register-button" href="/memo/<%= categoryIndex %>/create"
+        <a
+          class="register-button"
+          href="/memo/<%= selectedCategoryIndex %>/create"
           >新規作成</a
         >
       </div>

@@ -43,7 +43,7 @@
           ? console.warn(p + " only loads once. Ignoring:", g)
           : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
       })({
-        key: "<%= apiKey %>",
+        key: "<% googleMapsApiKey %>",
         v: "weekly",
         // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
         // Add other bootstrap parameters as needed, using camel case.
@@ -61,7 +61,7 @@
         &nbsp;>&nbsp;
         <a href="/category">カテゴリー</a>
         &nbsp;>&nbsp;
-        <a href="/memo/<%= categoryIndex %>"><%= selectedCategory %></a>
+        <a href="/memo/<%= selectedCategoryIndex %>"><%= selectedCategory %></a>
         &nbsp;>&nbsp;編集
       </div>
     </header>
@@ -107,10 +107,9 @@
             id="latlng"
             class="latlng"
             name="latlng"
-            value="<%= latlng %>"
+            value="<%= shopLatLng %>"
           />
 
-          <p>HOTPEPPERリンク</p>
           <% if (hotpepperLink) { %>
           <ul class="current-hotpepper">
             <input
@@ -123,6 +122,7 @@
           </ul>
 
           <% } else { %>
+          <p>HOTPEPPERリンク</p>
           <p>データなし</p>
           <% } %>
 
@@ -140,7 +140,7 @@
           >
           <br />
           <input
-            formaction="/memo/<%= categoryIndex %>/update/<%= shopId %>"
+            formaction="/memo/<%= selectedCategoryIndex %>/update/<%= selectedMemoId %>"
             type="submit"
             form="update-memo"
             class="update-button"
@@ -150,7 +150,7 @@
 
         <script
           defer
-          src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&callback=initMap&libraries=places"
+          src="https://maps.googleapis.com/maps/api/js?key=<%= googleMapsApiKey %>&callback=initMap&libraries=places"
         ></script>
 
         <% } %>

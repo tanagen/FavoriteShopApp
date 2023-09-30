@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import db from "../models/index";
-import session from "express-session";
 import passport from "passport";
 
 // エラー回避用のアンビエント宣言
