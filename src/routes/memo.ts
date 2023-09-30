@@ -10,18 +10,18 @@ import {
   renderEditMemoPage,
   updateMemo,
   checkUpdatingMemo,
-  getInfoOfSelectedMemo,
+  getSelectedMemo,
 } from "../handlers/memo";
 
 import {
-  getInfoOfCategories,
-  getDBIdOfUpdateCategory,
+  getAllCategories,
+  getDBIdOfUpdatingCategory,
   renderEditCategoryPage,
   checkUpdatingCategory,
   updateCategory,
 } from "../handlers/category";
 
-import { getAPIKey, showMap } from "../handlers/map";
+import { getGoogleMapsApiKey, showMap } from "../handlers/map";
 import { getHotPepperApiKey } from "../handlers/hotpepper";
 
 const router = express.Router();
@@ -31,7 +31,7 @@ router.get("/:index", checkAuthenticated, getSelectedCategory, renderMemoPage);
 router.get(
   "/:index/create",
   checkAuthenticated,
-  getAPIKey,
+  getGoogleMapsApiKey,
   getHotPepperApiKey,
   getSelectedCategory,
   renderCreateMemoPage
@@ -39,7 +39,7 @@ router.get(
 router.post(
   "/:index/create",
   getSelectedCategory,
-  getAPIKey,
+  getGoogleMapsApiKey,
   getHotPepperApiKey,
   checkCreatingMemo,
   createMemo
@@ -47,9 +47,9 @@ router.post(
 router.get("/:index/edit", getSelectedCategory, renderEditCategoryPage);
 router.post(
   "/:index/edit",
-  getInfoOfCategories,
+  getAllCategories,
   getSelectedCategory,
-  getDBIdOfUpdateCategory,
+  getDBIdOfUpdatingCategory,
   checkUpdatingCategory,
   updateCategory
 );
@@ -57,7 +57,7 @@ router.post("/:index/:id", deleteMemo);
 router.get(
   "/:index/edit/:id",
   checkAuthenticated,
-  getAPIKey,
+  getGoogleMapsApiKey,
   getHotPepperApiKey,
   getSelectedCategory,
   renderEditMemoPage
@@ -65,7 +65,7 @@ router.get(
 router.post(
   "/:index/update/:id",
   getSelectedCategory,
-  getAPIKey,
+  getGoogleMapsApiKey,
   getHotPepperApiKey,
   checkUpdatingMemo,
   updateMemo
@@ -75,9 +75,9 @@ router.get(
   "/:index/map/:id",
   checkAuthenticated,
   getSelectedCategory,
-  getAPIKey,
+  getGoogleMapsApiKey,
   getHotPepperApiKey,
-  getInfoOfSelectedMemo,
+  getSelectedMemo,
   showMap
 );
 

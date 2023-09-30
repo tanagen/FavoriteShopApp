@@ -43,7 +43,7 @@
           ? console.warn(p + " only loads once. Ignoring:", g)
           : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
       })({
-        key: "<% apiKey %>",
+        key: "<% googleMapsApiKey %>",
         v: "weekly",
         // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
         // Add other bootstrap parameters as needed, using camel case.
@@ -60,8 +60,8 @@
         &nbsp;>&nbsp;
         <a href="/category">カテゴリー</a>
         &nbsp;>&nbsp;
-        <a href="/memo/<%= categoryIndex %>"><%= selectedCategory %></a>
-        &nbsp;>&nbsp; <%= shopInfo.shop_name %> &nbsp;>&nbsp;マップ
+        <a href="/memo/<%= selectedCategoryIndex %>"><%= selectedCategory %></a>
+        &nbsp;>&nbsp; <%= selectedMemo.shop_name %> &nbsp;>&nbsp;マップ
       </div>
     </header>
 
@@ -73,16 +73,16 @@
 
         <!-- DBに緯度経度情報がある場合 -->
         <% } else { %>
-        <h1 id="name"><%= shopInfo.shop_name %></h1>
+        <h1 id="name"><%= selectedMemo.shop_name %></h1>
 
-        <div hidden id="latlng"><%= shopInfo.shop_location %></div>
+        <div hidden id="latlng"><%= selectedMemo.shop_location %></div>
         <div class="map" id="map"></div>
 
         <script type="module" src="/javascripts/showMap.js"></script>
 
         <script
           defer
-          src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&callback=initMap&libraries=places"
+          src="https://maps.googleapis.com/maps/api/js?key=<%= googleMapsApiKey %>&callback=initMap&libraries=places"
         ></script>
 
         <% } %>

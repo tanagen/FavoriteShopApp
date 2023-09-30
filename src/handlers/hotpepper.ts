@@ -1,6 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import fetch from "node-fetch";
 
+interface APIResult {
+  name: string;
+  urls: {
+    pc: string;
+  };
+}
+
 export const getHotPepperApiKey = (
   req: Request,
   res: Response,
@@ -44,29 +51,36 @@ export const searchFromHotPepper = async (
         "&format=" +
         "json";
 
-      // hotpepperAPIにフェッチリクエストを送り、返されたデータからお店の情報を取得
+      // hotpepperAPIにフェッチリクエストを送りResultを取得
       const response = await fetch(requestURL);
       const data = await response.text();
       const json = JSON.parse(data);
-      console.log(json.results.shop);
-      // 店名の配列を作成 (検索結果がない場合は文字)
-      let shopNames = json.results.shop.map((shops: any) => shops.name);
-      let shopURLs = json.results.shop.map((shops: any) => shops.urls.pc);
 
-      // pythonのzip風の関数がjavascriptに無いので自作関数を定義
-      const zip = (Array1: any, Array2: any) =>
-        Array1.map((_: any, i: any) => [Array1[i], Array2[i]]);
-      const shops = zip(shopNames, shopURLs);
+      // APIResultにshopデータが存在する場合
+      if (json.results.shop.length !== 0) {
+        // 店名とHotPepperURLの配列を作成
+        let shopNames: [] = json.results.shop.map(
+          (shopInfo: APIResult) => shopInfo.name
+        );
+        let shopURLs: [] = json.results.shop.map(
+          (shopInfo: APIResult) => shopInfo.urls.pc
+        );
 
-      if (shops.length === 0) {
-        shops[0] = "該当データなし";
+        // 各配列をzip関数でまとめる
+        const shops: string[][] = zip(shopNames, shopURLs);
+
+        // クライアントにレスポンスを送信
+        res.json({
+          status: "success",
+          shops: shops,
+        });
+      } else {
+        // APIResultにshopデータが存在しない場合
+        res.json({
+          status: "success",
+          shops: [["該当データなし"]],
+        });
       }
-
-      // クライアントにレスポンスを送信
-      res.json({
-        status: "success",
-        shops: shops,
-      });
     } else {
       // 検索keywordが入力されていない場合
       res.json({
@@ -75,7 +89,11 @@ export const searchFromHotPepper = async (
       });
     }
   } catch (error) {
-    console.error("hotpepperAPIへのフェッチリクエストエラー", error);
+    console.error("フェッチリクエストエラー", error);
     res.status(500).json({ error: "エラーが発生しました" });
   }
 };
+
+// pythonのzip風の関数がjavascriptに無いので自作で関数定義
+const zip = (Array1: [], Array2: []) =>
+  Array1.map((_: number, i: number) => [Array1[i], Array2[i]]); // アンダーバーのみの変数は、「引数として書く必要はあるため記述はしたが特に使われていない」を示すために使用

@@ -8,7 +8,8 @@ export default class UserMemos extends Model {
   public user_id!: number;
   public shop_category!: string;
   public shop_name!: string;
-  public shop_location!: string;
+  public shop_location!: JSON;
+  public shop_hotpepperlink!: string;
   public shop_description!: string;
   public created_at!: Date;
   public updated_at!: Date;

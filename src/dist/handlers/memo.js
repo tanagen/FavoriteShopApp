@@ -12,49 +12,43 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateMemo = exports.renderEditMemoPage = exports.getInfoOfSelectedMemo = exports.deleteMemo = exports.createMemo = exports.checkUpdatingMemo = exports.checkCreatingMemo = exports.renderCreateMemoPage = exports.renderMemoPage = exports.getSelectedCategory = void 0;
+exports.updateMemo = exports.renderEditMemoPage = exports.getSelectedMemo = exports.deleteMemo = exports.createMemo = exports.checkUpdatingMemo = exports.checkCreatingMemo = exports.renderCreateMemoPage = exports.renderMemoPage = exports.getSelectedCategory = void 0;
 const index_1 = __importDefault(require("../models/index"));
-// 操作中のカテゴリー名を取得
+// 選択したカテゴリーの情報を取得
 const getSelectedCategory = (req, res, next) => {
-    // passportのsessionからidを取得
+    // ログインユーザーのIDをpassportのsessionから取得
     const loginedUserId = req.user.id;
-    // ルートパラメータからカテゴリーのインデックス番号を取得
+    // 選択したカテゴリーのインデックス番号をルートパラメータから取得し、ローカル変数に格納
     const categoryIndex = Number(req.params.index);
     res.locals.index = categoryIndex;
-    // shop_categoriesDBから選択中のカテゴリーのid,shop_categoryを取得
+    // 選択中のカテゴリーのDBにおけるIDとカテゴリー名の情報を取得
     (() => __awaiter(void 0, void 0, void 0, function* () {
         yield index_1.default.ShopCategories.findAll({
             where: { user_id: loginedUserId },
         }).then((allData) => {
-            // shop_categoryを配列に格納
-            // const shopCategoryObj: {} = {};
-            const shopCategoryIds = [];
-            const shopCategories = [];
+            // 配列に格納
+            const CategoryDBIDs = [];
+            const Categories = [];
             allData.forEach((data) => {
-                // const key: string = data.dataValues.id;
-                // shopCategoryObj[key] = data.dataValues.shop_category;
-                shopCategoryIds.push(Number(data.dataValues.id));
-                shopCategories.push(data.dataValues.shop_category);
+                CategoryDBIDs.push(Number(data.dataValues.id));
+                Categories.push(data.dataValues.shop_category);
             });
-            // 重複排除
-            // const setedShopCategories: string[] = Array.from(new Set(shopCategories));
-            // ルートパラメータで渡されたcategoryIndexのカテゴリー名をres.localsに格納
-            // res.locals.selectedCategory = setedShopCategories[categoryIndex];
-            res.locals.selectedCategoryDBId = shopCategoryIds[categoryIndex];
-            res.locals.selectedCategory = shopCategories[categoryIndex];
+            // res.localsに格納
+            res.locals.selectedCategoryDBId = CategoryDBIDs[categoryIndex];
+            res.locals.selectedCategory = Categories[categoryIndex];
             next();
         });
     }))();
 };
 exports.getSelectedCategory = getSelectedCategory;
-// メモ一覧の表示
+// メモ一覧ページの表示
 const renderMemoPage = (req, res) => {
-    // passportのsessionからid,user_nameを取得
+    // ログインユーザーのIDをpassportのsessionから取得
     const loginedUserId = req.user.id;
-    // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
+    // getSelectedCategoryメソッドで取得したres.localsの内容を取得
     const selectedCategoryIndex = res.locals.index;
     const selectedCategory = res.locals.selectedCategory;
-    // user_favorite_shopsDBからデータ取得
+    // DBからデータ取得
     (() => __awaiter(void 0, void 0, void 0, function* () {
         yield index_1.default.UserMemos.findAll({
             where: {
@@ -65,83 +59,83 @@ const renderMemoPage = (req, res) => {
             // データが存在する場合
             if (data.length !== 0) {
                 const errorMessage = "";
-                const allShopInfo = data;
-                // レンダリング
+                const memos = data;
                 res.render("memo", {
                     errorMessage: errorMessage,
-                    allShopInfo: allShopInfo,
-                    categoryIndex: res.locals.index,
+                    memos: memos,
+                    selectedCategory: selectedCategory,
+                    selectedCategoryIndex: selectedCategoryIndex,
                 });
-                // データが存在しない場合
             }
             else {
+                // データが存在しない場合
                 const errorMessage = "メモが登録されていません";
-                const allShopInfo = [];
-                // レンダリング
+                const memos = [];
                 res.render("memo", {
                     errorMessage: errorMessage,
-                    allShopInfo: allShopInfo,
-                    categoryIndex: selectedCategoryIndex,
+                    memos: memos,
+                    selectedCategory: selectedCategory,
+                    selectedCategoryIndex: selectedCategoryIndex,
                 });
             }
         });
     }))();
 };
 exports.renderMemoPage = renderMemoPage;
-// メモ新規登録画面の表示
+// メモ新規作成ページの表示
 const renderCreateMemoPage = (req, res) => {
-    // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
-    const categoryIndex = res.locals.index;
+    // getSelectedCategoryメソッドで取得したres.localsを取得
+    const selectedCategoryIndex = res.locals.index;
     const selectedCategory = res.locals.selectedCategory;
-    // getAPIKeyメソッドからローカル変数を取得して変数に格納
-    const API_KEY = res.locals.apiKey;
-    // getHotPepperApiKeyメソッドからローカル変数を取得して変数に格納
-    const HOT_PEPPER_API_KEY = res.locals.hotpepperApiKey;
+    // getGoogleMapsApiKeyメソッドからres.localsを取得
+    const googleMapsApiKey = res.locals.googleMapsApiKey;
     // 緯度経度情報の初期値(東京駅)
     const initLatLng = JSON.stringify({ lat: 35.6811673, lng: 139.7670516 });
     res.render("createMemo", {
-        apiKey: API_KEY,
-        hotpepperApiKey: HOT_PEPPER_API_KEY,
-        categoryIndex: categoryIndex,
+        googleMapsApiKey: googleMapsApiKey,
+        selectedCategoryIndex: selectedCategoryIndex,
         selectedCategory: selectedCategory,
         shopName: "",
-        latlng: initLatLng,
+        shopLatLng: initLatLng,
+        hotpepperLink: "",
         shopDescription: "",
         errors: {},
     });
 };
 exports.renderCreateMemoPage = renderCreateMemoPage;
-// メモ新規登録における入力値の空チェック
+// メモ新規作成時の入力値空チェック
 const checkCreatingMemo = (req, res, next) => {
-    // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
-    const categoryIndex = res.locals.index;
+    // getSelectedCategoryメソッドからres.localsを取得
+    const selectedCategoryIndex = res.locals.index;
     const selectedCategory = res.locals.selectedCategory;
-    // getAPIKeyメソッドからローカル変数を取得して変数に格納
-    const API_KEY = res.locals.apiKey;
+    // getgoogleMapsApiKeyメソッドからres.localsを取得
+    const googleMapsApiKey = res.locals.googleMapsApiKey;
     // postされた値を変数に代入
     const postedShopName = req.body.name;
-    const postedShopLocation = req.body.latlng;
+    const postedShopLatLng = req.body.latlng;
+    const postedHotpepperLink = req.body.hotpepper;
     const postedShopDescription = req.body.description;
-    console.log(req.body);
     // error文格納用の配列
     const errors = {};
     // errorチェック
     if (postedShopName === "") {
         errors["shopName"] = "入力してください";
     }
-    if (postedShopLocation === "") {
+    if (postedShopLatLng === "") {
         errors["shopLocation"] = "入力してください";
     }
     if (postedShopDescription === "") {
         errors["shopDescription"] = "入力してください";
     }
     if (Object.keys(errors).length > 0) {
+        // 1つでもエラーがある場合
         res.render("createMemo", {
-            apiKey: API_KEY,
-            categoryIndex: categoryIndex,
+            googleMapsApiKey: googleMapsApiKey,
+            selectedCategoryIndex: selectedCategoryIndex,
             selectedCategory: selectedCategory,
             shopName: postedShopName,
-            latlng: postedShopLocation,
+            shopLatLng: postedShopLatLng,
+            hotpepperLink: postedHotpepperLink,
             shopDescription: postedShopDescription,
             errors: errors,
         });
@@ -151,16 +145,17 @@ const checkCreatingMemo = (req, res, next) => {
     }
 };
 exports.checkCreatingMemo = checkCreatingMemo;
-// メモ更新における入力値の空チェックミドルウェア
+// メモ更新時の入力値空チェック
 const checkUpdatingMemo = (req, res, next) => {
-    // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
-    const categoryIndex = res.locals.index;
+    // getSelectedCategoryメソッドで取得したres.localsの内容を取得
+    const selectedCategoryIndex = res.locals.index;
     const selectedCategory = res.locals.selectedCategory;
-    // ルートパラメータから選択したlistIDを取得
-    const selectedShopId = req.params.id;
+    // 選択したメモのIDをルートパラメータから取得
+    const selectedMemoId = req.params.id;
     // postされた内容を変数に代入
     const postedShopName = req.body.name;
-    const postedShopLocation = req.body.latlng;
+    const postedShopLatLng = req.body.latlng;
+    const postedHotpepperLink = req.body.hotpepper;
     const postedShopDescription = req.body.description;
     // error文格納用の配列
     const errors = {};
@@ -168,7 +163,7 @@ const checkUpdatingMemo = (req, res, next) => {
     if (postedShopName === "") {
         errors["shopName"] = "入力してください";
     }
-    if (postedShopLocation === "") {
+    if (postedShopLatLng === "") {
         errors["shopLocation"] = "入力してください";
     }
     if (postedShopDescription === "") {
@@ -176,13 +171,14 @@ const checkUpdatingMemo = (req, res, next) => {
     }
     if (Object.keys(errors).length > 0) {
         res.render("editMemo", {
+            selectedCategoryIndex: selectedCategoryIndex,
             selectedCategory: selectedCategory,
-            errorMessage: "",
-            shopId: selectedShopId,
+            selectedMemoId: selectedMemoId,
             shopName: postedShopName,
-            latlng: postedShopLocation,
+            shopLatLng: postedShopLatLng,
+            hotpepperLink: postedHotpepperLink,
             shopDescription: postedShopDescription,
-            categoryIndex: categoryIndex,
+            errorMessage: "",
             errors: errors,
         });
     }
@@ -191,38 +187,34 @@ const checkUpdatingMemo = (req, res, next) => {
     }
 };
 exports.checkUpdatingMemo = checkUpdatingMemo;
-// メモの新規登録
+// メモの新規作成
 const createMemo = (req, res) => {
-    // passportのsessionからidを取得
+    // ログインユーザーのIDをpassportのsessionから取得
     const loginedUserId = req.user.id;
-    // ルートパラメータからcategoryIndexを取得して変数に代入
+    // 新規作成するメモが属するカテゴリーのインデックス番号をルートパラメータから取得
     const selectedCategoryIndex = req.params.index;
-    // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
+    // getSelectedCategoryメソッドで取得したres.localsの内容を取得
     const selectedCategory = res.locals.selectedCategory;
     // formでpostされた内容を取得
     const createdShopName = req.body.name;
-    const createdLatLng = req.body.latlng;
+    const createdShopLatLng = req.body.latlng;
     const createdHotpepperLink = req.body.hotpepper;
-    const createdDescription = req.body.description;
-    console.log(createdLatLng);
+    const createdShopDescription = req.body.description;
     // postされた内容をuser_favorite_shopsDBに格納
     (() => __awaiter(void 0, void 0, void 0, function* () {
-        // const t = await db.UserFavoriteShops.sequelize!.transaction();
         try {
             // createメソッドはbuild+saveを一度に行い、データベースにinsertまで行う
             yield index_1.default.UserMemos.create({
                 user_id: loginedUserId,
                 shop_category: selectedCategory,
                 shop_name: createdShopName,
-                shop_location: createdLatLng,
+                shop_location: createdShopLatLng,
                 shop_hotpepperlink: createdHotpepperLink,
-                shop_description: createdDescription,
+                shop_description: createdShopDescription,
             });
-            // await t?.commit;
         }
         catch (error) {
             console.log(error);
-            // await t?.rollback();
         }
         // redirect
         const redirectURL = "/memo/" + selectedCategoryIndex;
@@ -232,10 +224,11 @@ const createMemo = (req, res) => {
 exports.createMemo = createMemo;
 // メモの削除
 const deleteMemo = (req, res) => {
+    // 削除対象のメモが属するカテゴリーのインデックス番号をルートパラメータから取得
     const selectedCategoryIndex = req.params.index;
+    // DBから削除
     (() => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            // Users.createメソッドは下記のbuild+saveを一度に行い、データベースにinsertまで行う
             yield index_1.default.UserMemos.destroy({
                 where: {
                     id: req.params.id,
@@ -251,109 +244,87 @@ const deleteMemo = (req, res) => {
     }))();
 };
 exports.deleteMemo = deleteMemo;
-// 選択したメモの情報取得
-const getInfoOfSelectedMemo = (req, res, next) => {
-    // ルートパラメータから選択したリストIdを取得
-    const selectedShopId = req.params.id;
-    // 選択したリストIdの情報をuser_favorite_shopsDBから取得
+// 選択したメモの情報をDBから取得
+const getSelectedMemo = (req, res, next) => {
+    // 選択したメモのIDをルートパラメータから取得
+    const selectedMemoID = req.params.id;
+    // 選択したメモの情報をDBから取得
     (() => __awaiter(void 0, void 0, void 0, function* () {
-        // user_favorite_shopsDBからデータ取得
         yield index_1.default.UserMemos.findAll({
             where: {
-                id: selectedShopId,
+                id: selectedMemoID,
             },
         }).then((data) => {
             // データが存在する場合
             if (data.length !== 0) {
                 const errorMessage = "";
-                const shopInfo = data[0];
-                // const shopId = shopInfo.id;
-                // const shopName = shopInfo.shop_name;
-                // const shopLocation = shopInfo.shop_location;
-                // const shopDescription = shopInfo.shop_description;
+                const selectedMemo = data[0];
                 res.locals.errorMessage = errorMessage;
-                res.locals.selectedShopInfo = shopInfo;
-                // データが存在しない場合
+                res.locals.selectedMemo = selectedMemo;
             }
             else {
+                // データが存在しない場合
                 const errorMessage = "情報取得エラー";
-                // const shopId: any = "";
-                // const shopName: any = "";
-                // const shopLocation: any = "";
-                // const shopDescription: any = "";
                 res.locals.errorMessage = errorMessage;
-                res.locals.selectedShopInfo = "";
+                res.locals.selectedMemo = "";
             }
             next();
         });
     }))();
 };
-exports.getInfoOfSelectedMemo = getInfoOfSelectedMemo;
+exports.getSelectedMemo = getSelectedMemo;
 // リスト編集画面の表示
 const renderEditMemoPage = (req, res) => {
-    // getSelectedCategoryメソッドで取得したres.localsの内容を変数に代入
-    const categoryIndex = res.locals.index;
+    // getSelectedCategoryメソッドで取得したres.localsを取得
+    const selectedCategoryIndex = res.locals.index;
     const selectedCategory = res.locals.selectedCategory;
-    // ルートパラメータから選択したリストIdを取得
-    const selectedShopId = req.params.id;
-    // 選択したリストIdの情報をuser_favorite_shopsDBから取得
+    // 選択したメモのIDをルートパラメータから取得
+    const selectedMemoId = req.params.id;
+    // getGoogleMapsApiKeyメソッドで取得したres.localsを取得
+    const googleMapsApiKey = res.locals.googleMapsApiKey;
+    // 選択したメモの情報をDBから取得
     (() => __awaiter(void 0, void 0, void 0, function* () {
-        // user_favorite_shopsDBからデータ取得
         yield index_1.default.UserMemos.findAll({
             where: {
-                id: selectedShopId,
+                id: selectedMemoId,
             },
         }).then((data) => {
-            // データが存在する場合
             if (data.length !== 0) {
+                // データが存在する場合
                 const errorMessage = "";
-                const shopInfo = data[0];
-                const shopId = shopInfo.id;
-                const shopName = shopInfo.shop_name;
-                const shopLatLng = shopInfo.shop_location;
-                const hotpepperLink = shopInfo.shop_hotpepperlink;
-                const shopDescription = shopInfo.shop_description;
+                const selectedMemo = data[0];
+                const shopName = selectedMemo.shop_name;
+                const shopLatLng = selectedMemo.shop_location;
+                const hotpepperLink = selectedMemo.shop_hotpepperlink;
+                const shopDescription = selectedMemo.shop_description;
                 // レンダリング
                 res.render("editMemo", {
+                    googleMapsApiKey: googleMapsApiKey,
+                    selectedCategoryIndex: selectedCategoryIndex,
                     selectedCategory: selectedCategory,
-                    errorMessage: errorMessage,
-                    shopId: shopId,
+                    selectedMemoId: selectedMemoId,
                     shopName: shopName,
-                    latlng: shopLatLng,
+                    shopLatLng: shopLatLng,
                     hotpepperLink: hotpepperLink,
                     shopDescription: shopDescription,
-                    categoryIndex: categoryIndex,
                     errors: "",
+                    errorMessage: errorMessage,
                 });
                 // データが存在しない場合
             }
             else {
-                const errorMessage = "情報取得エラー";
-                const shopId = "";
-                const shopName = "";
-                const shopLatLng = "";
-                const shopDescription = "";
-                // レンダリング
-                res.render("editMemo", {
-                    selectedCategory: selectedCategory,
-                    errorMessage: errorMessage,
-                    shopId: shopId,
-                    shopName: shopName,
-                    latlng: shopLatLng,
-                    shopDescription: shopDescription,
-                    categoryIndex: categoryIndex,
-                    errors: "",
-                });
+                throw new Error("DBにデータがありません");
             }
         });
     }))();
 };
 exports.renderEditMemoPage = renderEditMemoPage;
 const updateMemo = (req, res) => {
-    // post先URLのルートパラメータを変数に代入
+    // 更新するメモが属するカテゴリーのインデックス番号をルートパラメータから取得
     const selectedCategoryIndex = req.params.index;
-    const selectedShopId = req.params.id;
-    // user_favorite_shopsDBの選択したリストIdの情報を更新
+    // 更新するメモのIDをルートパラメータから取得
+    const selectedMemoId = req.params.id;
+    // DBを更新
     (() => __awaiter(void 0, void 0, void 0, function* () {
         try {
             yield index_1.default.UserMemos.update({
@@ -361,7 +332,7 @@ const updateMemo = (req, res) => {
                 shop_location: req.body.latlng,
                 shop_hotpepperlink: req.body.hotpepper,
                 shop_description: req.body.description,
-            }, { where: { id: selectedShopId } });
+            }, { where: { id: selectedMemoId } });
         }
         catch (error) {
             console.log(error);

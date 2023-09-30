@@ -7,19 +7,14 @@ import {
   createCategory,
   renderDeleteCategoryPage,
   deleteCategory,
-  getInfoOfCategories,
+  getAllCategories,
 } from "../handlers/category";
 
 const router = express.Router();
 
-router.get("/", checkAuthenticated, getInfoOfCategories, renderCategoryPage);
+router.get("/", checkAuthenticated, getAllCategories, renderCategoryPage);
 router.get("/create", renderCreateCategoryPage);
-router.post(
-  "/create",
-  getInfoOfCategories,
-  checkCreatingCategory,
-  createCategory
-);
+router.post("/create", getAllCategories, checkCreatingCategory, createCategory);
 router.get("/delete", renderDeleteCategoryPage);
 router.post("/delete", deleteCategory);
 
