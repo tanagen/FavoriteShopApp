@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-// サインイン状態を判断するミドルウェア
+// サインイン状態を判断
 export const checkAuthenticated = (
   req: Request,
   res: Response,
