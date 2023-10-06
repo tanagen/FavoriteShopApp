@@ -45,8 +45,6 @@ export const signUp = (req: Request, res: Response) => {
         email: postedEmail,
         errors: errors,
       });
-
-      // await t?.rollback();
     }
 
     // redirect

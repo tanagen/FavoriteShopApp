@@ -50,7 +50,6 @@ const signUp = (req, res) => {
                 email: postedEmail,
                 errors: errors,
             });
-            // await t?.rollback();
         }
         // redirect
         res.redirect("/login");
