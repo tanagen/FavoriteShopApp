@@ -13,16 +13,19 @@ Udemyで新たに学習したTypeScript、Git、Dockerのアウトプットと�
 
 ## 重視した点
 
-- 外部連携 API（Google Map, HotPepper）の利用
-- GitHub でブランチを切り、プルリクエストでコードレビューを依頼し、承認を得た後に本番環境へマージ
-- 認証系の実装(できるだけ自力で)
+- 外部連携API（Google Maps, HotPepper）の利用
+- 認証系の実装
 - DB操作に対してORMを使用
 - Dockerによる仮想環境の利用
+- ブラウザのLocal strageの利用
+- 環境変数の設定、参照 (dotenv)
+- ユーザーパスワードのハッシュ化 (bcrypt)
+- GitHubでブランチを切り、プルリクエストでコードレビューを依頼し、承認を得た後に本番環境へマージ
 
 ## 技術内容
 
-- 言語: HTML/CSS/TypeScript(JavaScript)
-- バックエンド: Node.js v18.6.0
+- フロントサイド: HTML/CSS/JavaScript
+- サーバーサイド: TypeScript Node.js v18.6.0
 - フレームワーク: Express v4.16.1
 - DB: MySQL v8.0.32
 - ORM: Sequelize v6.32.1
