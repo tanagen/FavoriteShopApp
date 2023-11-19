@@ -1,6 +1,6 @@
 # FavoriteShopMemo
 
-Udemyで新たに学習したTypeScript、Git、Dockerのアウトプットとして、ポートフォリオ2作品目を作成
+Udemyで新たに学習したTypeScript、Git、Dockerのアウトプットとして、ポートフォリオ2作品目を作成  
 [FavoriteShopMemoApp](http://favorite-shop-memo.com) (公開停止中)
 
 ## コンセプト
